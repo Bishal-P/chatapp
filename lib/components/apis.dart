@@ -11,8 +11,6 @@ class api {
   static FirebaseAuth auth = FirebaseAuth.instance;
   static User user = auth.currentUser!;
 
-
-
   //checking userExist or not
   static Future<bool> userExist() async {
     bool result =
@@ -24,7 +22,7 @@ class api {
   static Future<void> createUser() async {
     final ChatUser chatUser = ChatUser(
       image: user.photoURL ?? "",
-      name: user.displayName ?? "",
+      name: user.displayName ?? "NewUser",
       about: "Hey there! I am using ChatApp",
       createdAt: DateTime.now().toString(),
       lastActive: DateTime.now().toString(),
