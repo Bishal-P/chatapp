@@ -23,8 +23,8 @@ class _HomePageState extends State<HomePage> {
     //       else
     //         {print('Document does not exist on the database')}
     //     });
-    bool result = api.userExist() as bool;
-    if (result) {
+    Future<bool> result = api.userExist();
+    if (Future.value(result) == true){
       print("User Exist");
     } else {
       print("User does not Exist");
