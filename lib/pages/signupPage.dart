@@ -42,11 +42,14 @@ class _SignupPageState extends State<SignupPage> {
               context, "Alert", "The password provided is too weak.");
         } else if (e.code == 'email-already-in-use') {
           print("The account already exists for that email.");
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("The account already exists for that email."),
-            backgroundColor: Colors.redAccent,
-            elevation: 10, //shadow
-          ));
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("The account already exists for that email."),
+              backgroundColor: Colors.redAccent,
+              elevation: 10, //shadow
+            ));
+          }
+
           uiHelper.CustomAlertBox(
               context, "Info", "The account already exists for that email.");
         }
