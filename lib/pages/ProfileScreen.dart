@@ -15,8 +15,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()));
+              Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_left, color: Colors.black)),
         title: Text("Profile", style: Theme.of(context).textTheme.headline4),
