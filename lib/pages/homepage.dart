@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           leading: InkWell(
             onTap: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const ProfileScreen()));
