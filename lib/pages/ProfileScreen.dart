@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 120,
               decoration: BoxDecoration(
                 color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(500),
+                borderRadius: BorderRadius.circular(100),
               ),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(500),
