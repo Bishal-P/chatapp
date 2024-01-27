@@ -17,6 +17,11 @@ class _SignupPageState extends State<SignupPage> {
 
   signUp() async {
     if (passwordController.text != confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Password and Confirm Password does not match"),
+        backgroundColor: Color.fromARGB(255, 255, 0, 0),
+        elevation: 10, //shadow
+      ));
       uiHelper.CustomAlertBox(
           context, "Error", "Password and Confirm Password does not match");
       return;
