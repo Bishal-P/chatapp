@@ -32,17 +32,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 decoration: BoxDecoration(
                     // color: Colors.grey[300],
                     // borderRadius: BorderRadius.circular(100)
-                    
-                    
+
                     ),
-                    
                 child: Stack(
                   children: [
                     SizedBox(
                       width: 150,
                       height: 150,
                       child: ClipRRect(
-                        
                           borderRadius: BorderRadius.circular(100),
                           child: const Image(
                               image: AssetImage("assets/login.jpg"))),
@@ -55,7 +52,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 35,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          
                           color: Colors.grey[200],
                         ),
                         child: const Icon(Icons.camera_alt, size: 25),
