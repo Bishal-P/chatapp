@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/userCard.dart';
+import 'package:chatapp/pages/ProfileScreen.dart';
 import 'package:chatapp/pages/loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: const Icon(Icons.menu),
+          leading: InkWell(
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()));
+            },
+            child: const Icon(Icons.home),
+          ),
           title: const Text('Home Page'),
           centerTitle: true,
           actions: [
@@ -84,7 +93,6 @@ class _HomePageState extends State<HomePage> {
                             name: snapshot.data?.docs[index]["name"],
                             about: snapshot.data?.docs[index]["about"]);
                       }
-                      
                     });
               } else {
                 return const Center(child: CircularProgressIndicator());
