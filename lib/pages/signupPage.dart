@@ -17,66 +17,36 @@ class _SignupPageState extends State<SignupPage> {
 
   signUp() async {
     if (passwordController.text != confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Password and Confirm Password does not match"),
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-        elevation: 10, //shadow
-      ));
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Password and Confirm Password does not match"),
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-        elevation: 10, //shadow
-      ));
-      // uiHelper.CustomAlertBox(
-      //     context, "Error", "Password and Confirm Password does not match");
+      uiHelper.CustomAlertBox(
+          context, "Error", "Password and Confirm Password does not match");
+      return;
     }
     if (emialController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Email cannot be empty"),
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-        elevation: 10, //shadow
-      ));
-      // uiHelper.CustomAlertBox(context, "Error", "Email cannot be empty");
+      uiHelper.CustomAlertBox(context, "Error", "Email cannot be empty");
+      return;
     }
     UserCredential? userCredential;
     try {
       userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emialController.text, password: passwordController.text)
-          .then((value) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Account Created Successfully"),
-          backgroundColor: Color.fromARGB(255, 9, 255, 0),
-          elevation: 10, //shadow
-        ));
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => loginPage()));
-      });
+          .then((value) => Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => loginPage())));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("The password provided is too weak."),
-          backgroundColor: Color.fromARGB(255, 255, 0, 0),
-          elevation: 10, //shadow
-        ));
-        // uiHelper.CustomAlertBox(
-        //     context, "Alert", "The password provided is too weak.");
+        uiHelper.CustomAlertBox(
+            context, "Alert", "The password provided is too weak.");
       } else if (e.code == 'email-already-in-use') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("The account already exists for that email."),
-          backgroundColor: Colors.redAccent,
-          elevation: 10, //shadow
-        ));
-        // uiHelper.CustomAlertBox(
-        //     context, "Info", "The account already exists for that email.");
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Something went wrong."),
+        content: Text("Email and Password cannot be empty"),
         backgroundColor: Colors.redAccent,
         elevation: 10, //shadow
       ));
-      // uiHelper.CustomAlertBox(context, "Error", e.toString());
+        uiHelper.CustomAlertBox(
+            context, "Info", "The account already exists for that email.");
+      }
+    } catch (e) {
+      uiHelper.CustomAlertBox(context, "Error", e.toString());
     }
 
     // userCredential =await FirebaseAuth.instance
