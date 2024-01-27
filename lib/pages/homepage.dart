@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    api.firestore.collection('users').doc('id').get().then((docSnapshot) => {
+    api.firestore.collection('users').doc().get().then((docSnapshot) => {
           if (docSnapshot.exists)
             {print('Document exists on the database')}
           else
