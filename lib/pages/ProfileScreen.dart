@@ -22,7 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          width: double.infinity,
+          // width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.grey[200],
             // borderRadius: BorderRadius.circular(100),
