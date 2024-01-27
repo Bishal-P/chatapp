@@ -22,12 +22,17 @@ class _SignupPageState extends State<SignupPage> {
         backgroundColor: Color.fromARGB(255, 255, 0, 0),
         elevation: 10, //shadow
       ));
-      uiHelper.CustomAlertBox(
-          context, "Error", "Password and Confirm Password does not match");
+      // uiHelper.CustomAlertBox(
+      //     context, "Error", "Password and Confirm Password does not match");
       return;
     }
     if (emialController.text.isEmpty) {
-      uiHelper.CustomAlertBox(context, "Error", "Email cannot be empty");
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Email cannot be empty"),
+        backgroundColor: Color.fromARGB(255, 255, 0, 0),
+        elevation: 10, //shadow
+      ));
+      // uiHelper.CustomAlertBox(context, "Error", "Email cannot be empty");
       return;
     }
     UserCredential? userCredential;
