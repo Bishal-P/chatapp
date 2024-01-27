@@ -24,6 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           children: [
             Container(
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.grey[300],
                 // borderRadius: BorderRadius.circular(100)
