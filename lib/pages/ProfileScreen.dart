@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child:
-                            const Image(image: AssetImage("assets/login.png"))),
+                            const Image(image: AssetImage("assets/login.jpg"))),
                   ),
                 ],
               ),
