@@ -19,7 +19,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
 
-    
+    api.firestore.collection('users').doc('id').get()
+  .then((docSnapshot) => {
+    if (docSnapshot.exists) {
+      db.collection('users').doc('id')
+        .onSnapshot((doc) => {
+          // do stuff with the data
+        });
+    }
+  });
 
     api.createUser();
     super.initState();
