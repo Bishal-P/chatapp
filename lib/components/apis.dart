@@ -22,7 +22,7 @@ class api {
   static Future<void> createUser() async {
     final ChatUser chatUser = ChatUser(
       image: user.photoURL ?? "",
-      name: user.displayName ?? "NewUser",
+      name: user.displayName ?? "ABC",
       about: "Hey there! I am using ChatApp",
       createdAt: DateTime.now().toString(),
       lastActive: DateTime.now().toString(),
