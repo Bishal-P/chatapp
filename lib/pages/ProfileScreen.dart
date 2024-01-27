@@ -27,19 +27,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: Colors.grey[200],
             // borderRadius: BorderRadius.circular(100),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Stack(
             children: [
-              Container(
-                // width: double.infinity,
+              SizedBox(
+                width: 120,
                 height: 120,
-
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(500),
-                    child: const Image(
-                      image: AssetImage('assets/login.jpg'),
-                    )),
+                    borderRadius: BorderRadius.circular(100),
+                    child: const Image(image: AssetImage("assets/login.png"))),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.black),
+                  child:
+                      const Icon(Icons.camera, color: Colors.black, size: 20),
+                ),
               ),
             ],
           ),
