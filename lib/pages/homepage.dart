@@ -17,13 +17,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    api.firestore.collection('users').doc().get().then((docSnapshot) => {
-          if (docSnapshot.exists)
-            {print('Document exists on the database')}
-          else
-            {print('Document does not exist on the database')}
-        });
-
+    // api.firestore.collection('users').doc().get().then((docSnapshot) => {
+    //       if (docSnapshot.exists)
+    //         {print('Document exists on the database')}
+    //       else
+    //         {print('Document does not exist on the database')}
+    //     });
+    bool result = api.userExist() as bool;
+    if (result) {
+      print("User Exist");
+    } else {
+      print("User does not Exist");
+    }
     api.createUser();
     super.initState();
   }
