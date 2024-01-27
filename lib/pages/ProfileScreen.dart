@@ -20,6 +20,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: const Icon(Icons.arrow_left, color: Colors.black)),
         title: Text("Profile", style: Theme.of(context).textTheme.headline4),
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            
+          ],
+        ),
+      ),
     );
   }
 }
