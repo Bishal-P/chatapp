@@ -28,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                margin: const EdgeInsets.only(top: 50),
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                   // borderRadius: BorderRadius.circular(100)
