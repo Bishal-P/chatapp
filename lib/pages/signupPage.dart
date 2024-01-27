@@ -40,23 +40,30 @@ class _SignupPageState extends State<SignupPage> {
       userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emialController.text, password: passwordController.text)
-          .then((value) => Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => loginPage())));
+          .then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Account Created Successfully"),
+          backgroundColor: Color.fromARGB(255, 9, 255, 0),
+          elevation: 10, //shadow
+        ));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => loginPage()));
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("The password provided is too weak."),
-        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-        elevation: 10, //shadow
-      ));
+          content: Text("The password provided is too weak."),
+          backgroundColor: Color.fromARGB(255, 255, 0, 0),
+          elevation: 10, //shadow
+        ));
         // uiHelper.CustomAlertBox(
         //     context, "Alert", "The password provided is too weak.");
       } else if (e.code == 'email-already-in-use') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("The account already exists for that email."),
-        backgroundColor: Colors.redAccent,
-        elevation: 10, //shadow
-      ));
+          content: Text("The account already exists for that email."),
+          backgroundColor: Colors.redAccent,
+          elevation: 10, //shadow
+        ));
         // uiHelper.CustomAlertBox(
         //     context, "Info", "The account already exists for that email.");
       }
