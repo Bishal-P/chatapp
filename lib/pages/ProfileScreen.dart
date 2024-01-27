@@ -36,8 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Stack(
                   children: [
                     SizedBox(
-                      width: 120,
-                      height: 120,
+                      width: 150,
+                      height: 150,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: const Image(
