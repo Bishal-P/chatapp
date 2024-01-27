@@ -25,9 +25,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            Container(
               width: double.infinity,
               height: 120,
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(500),
+              ),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(500),
                   child: const Image(
