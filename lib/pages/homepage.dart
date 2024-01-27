@@ -80,11 +80,13 @@ class _HomePageState extends State<HomePage> {
                       print(
                           "The snapshot data is ${snapshot.data?.docs[index].id}");
                       if (snapshot.data?.docs[index].id != api.user.uid) {
-                        
+                        return chartUsercard(
+                            name: snapshot.data?.docs[index]["name"],
+                            about: snapshot.data?.docs[index]["about"]);
                       }
-                      return chartUsercard(
-                          name: snapshot.data?.docs[index]["name"],
-                          about: snapshot.data?.docs[index]["about"]);
+                      // return chartUsercard(
+                      //     name: snapshot.data?.docs[index]["name"],
+                      //     about: snapshot.data?.docs[index]["about"]);
                     });
               } else {
                 return const Center(child: CircularProgressIndicator());
