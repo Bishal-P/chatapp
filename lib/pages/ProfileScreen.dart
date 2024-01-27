@@ -60,8 +60,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
+              Form(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: const InputDecoration(
+                          label: Text("Asdfa"), prefixIcon: Icon(Icons.person)),
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                          label: Text("Email"), prefixIcon: Icon(Icons.email)),
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                        decoration: const InputDecoration(
+                            label: Text(
+                              "Phone",
+                            ),
+                            prefixIcon: Icon(Icons.phone))),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        label: const Text("Password"),
+                        prefixIcon: const Icon(Icons.fingerprint),
+                        suffixIcon: IconButton(
+                            icon: const Icon(Icons.remove_red_eye),
+                            onPressed: () {}),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
-      ),
+          ),
         ),
       ),
     );
