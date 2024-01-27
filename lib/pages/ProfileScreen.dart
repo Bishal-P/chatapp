@@ -23,6 +23,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            // borderRadius: BorderRadius.circular(100),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,10 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Container(
                 // width: double.infinity,
                 height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(100),
-                ),
+
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(500),
                     child: const Image(
