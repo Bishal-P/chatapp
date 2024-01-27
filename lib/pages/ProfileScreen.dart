@@ -31,8 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 margin: const EdgeInsets.only(top: 50),
                 decoration: BoxDecoration(
                     // color: Colors.grey[300],
-                    // borderRadius: BorderRadius.circular(100)
-                    ),
+                    borderRadius: BorderRadius.circular(100)),
                 child: Stack(
                   children: [
                     SizedBox(
