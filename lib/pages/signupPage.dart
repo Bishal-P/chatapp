@@ -39,6 +39,12 @@ class _SignupPageState extends State<SignupPage> {
       } else if (e.code == 'email-already-in-use') {
         if (context.mounted) {
           print("The context is mounted");
+          SnackBar snackBar = SnackBar(
+            content: Text("The account already exists for that email."),
+            backgroundColor: Colors.redAccent,
+            elevation: 10, //shadow
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
         uiHelper.CustomAlertBox(
             context, "Info", "The account already exists for that email.");
