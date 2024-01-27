@@ -15,59 +15,59 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
+  
+
   @override
   Widget build(BuildContext context) {
     uiHelper.checkUser(context);
 
-    signUp() async {
-      if (passwordController.text != confirmPasswordController.text) {
-        uiHelper.CustomAlertBox(
-            context, "Error", "Password and Confirm Password does not match");
-        return;
-      }
-      if (emialController.text.isEmpty) {
-        uiHelper.CustomAlertBox(context, "Error", "Email cannot be empty");
-        return;
-      }
-      UserCredential? userCredential;
-      try {
-        userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emialController.text, password: passwordController.text)
-            .then((value) => Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => loginPage())));
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          uiHelper.CustomAlertBox(
-              context, "Alert", "The password provided is too weak.");
-        } else if (e.code == 'email-already-in-use') {
-          SnackBar(
-            content: Text("Email and Password cannot be empty"),
-            backgroundColor: Colors.redAccent,
-            elevation: 10, //shadow
-          );
-          // uiHelper.CustomAlertBox(
-          //     context, "Info", "The account already exists for that email.");
-        }
-      } catch (e) {
-        uiHelper.CustomAlertBox(context, "Error", e.toString());
-      }
 
-      // userCredential =await FirebaseAuth.instance
-      //     .createUserWithEmailAndPassword(
-      //         email: emialController.text, password: passwordController.text)
-      //     .then((signedUser) {
-      //   // FirebaseFire.instance.collection('users').doc(signedUser.user.uid).set({
-      //   //   'email': signedUser.user.email,
-      //   //   'uid': signedUser.user.uid,
-      //   });
-
-      //   Navigator.pushReplacement(
-      //       context, MaterialPageRoute(builder: (context) => loginPage()));
-      // }).catchError((e) {
-      //   uiHelper.CustomAlertBox(context, "Error", e.message);
-      // });
+signUp() async {
+    if (passwordController.text != confirmPasswordController.text) {
+      uiHelper.CustomAlertBox(
+          context, "Error", "Password and Confirm Password does not match");
+      return;
     }
+    if (emialController.text.isEmpty) {
+      uiHelper.CustomAlertBox(context, "Error", "Email cannot be empty");
+      return;
+    }
+    UserCredential? userCredential;
+    try {
+      userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emialController.text, password: passwordController.text)
+          .then((value) => Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => loginPage())));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        uiHelper.CustomAlertBox(
+            context, "Alert", "The password provided is too weak.");
+      } else if (e.code == 'email-already-in-use') {
+        uiHelper.CustomAlertBox(
+            context, "Info", "The account already exists for that email.");
+      }
+    } catch (e) {
+      uiHelper.CustomAlertBox(context, "Error", e.toString());
+    }
+
+    // userCredential =await FirebaseAuth.instance
+    //     .createUserWithEmailAndPassword(
+    //         email: emialController.text, password: passwordController.text)
+    //     .then((signedUser) {
+    //   // FirebaseFire.instance.collection('users').doc(signedUser.user.uid).set({
+    //   //   'email': signedUser.user.email,
+    //   //   'uid': signedUser.user.uid,
+    //   });
+
+    //   Navigator.pushReplacement(
+    //       context, MaterialPageRoute(builder: (context) => loginPage()));
+    // }).catchError((e) {
+    //   uiHelper.CustomAlertBox(context, "Error", e.message);
+    // });
+  }
+
+
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
