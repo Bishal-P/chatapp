@@ -37,15 +37,6 @@ class _SignupPageState extends State<SignupPage> {
         uiHelper.CustomAlertBox(
             context, "Alert", "The password provided is too weak.");
       } else if (e.code == 'email-already-in-use') {
-        if (context.mounted) {
-          print("The context is mounted");
-          SnackBar snackBar = SnackBar(
-            content: Text("The account already exists for that email."),
-            backgroundColor: Colors.redAccent,
-            elevation: 10, //shadow
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
         uiHelper.CustomAlertBox(
             context, "Info", "The account already exists for that email.");
       }
@@ -165,13 +156,6 @@ class _SignupPageState extends State<SignupPage> {
                       padding: const EdgeInsets.only(top: 3, left: 3),
                       child: ElevatedButton(
                         onPressed: () {
-                          SnackBar snackBar = SnackBar(
-                            content: Text(
-                                "The account already exists for that email."),
-                            backgroundColor: Colors.redAccent,
-                            elevation: 10, //shadow
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           signUp();
                         },
                         child: const Text(
