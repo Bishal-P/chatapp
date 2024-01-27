@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
         print("User Exist");
       } else {
         print("User does not Exist");
-      }
+      }  
       print("The user id is ${api.user.uid}");
       print("The result is ${value}");
     });
