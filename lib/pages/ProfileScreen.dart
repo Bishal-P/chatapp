@@ -21,31 +21,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text("Profile", style: Theme.of(context).textTheme.headline4),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          child: Stack(
-            children: [
-              SizedBox(
-                width: 120,
-                height: 120,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: const Image(image: AssetImage("assets/login.png"))),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                // borderRadius: BorderRadius.circular(100)
               ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Container(
-                  width: 35,
-                  height: 35,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Colors.black),
-                  child:
-                      const Icon(Icons.camera, color: Colors.black, size: 20),
-                ),
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child:
+                            const Image(image: AssetImage("assets/login.png"))),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.black),
+                      child: const Icon(Icons.camera,
+                          color: Colors.black, size: 20),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
