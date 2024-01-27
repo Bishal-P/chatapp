@@ -1,4 +1,3 @@
-import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/functions.dart';
 import 'package:chatapp/pages/loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,16 +30,8 @@ class _SignupPageState extends State<SignupPage> {
       userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emialController.text, password: passwordController.text)
-          .then((value){
-            api.createUser();
-          }
-          
-          
-          
-          // => Navigator.pushReplacement(
-          //     context, MaterialPageRoute(builder: (context) => loginPage()))
-              
-              );
+          .then((value) => Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => loginPage())));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         uiHelper.CustomAlertBox(
