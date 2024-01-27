@@ -51,8 +51,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 35,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
+                          color: Colors.grey[200],
                         ),
-                        child: const Icon(Icons.camera_alt, size: 30),
+                        child: const Icon(Icons.camera_alt, size: 25),
                       ),
                     ),
                   ],
