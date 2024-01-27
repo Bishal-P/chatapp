@@ -84,9 +84,7 @@ class _HomePageState extends State<HomePage> {
                             name: snapshot.data?.docs[index]["name"],
                             about: snapshot.data?.docs[index]["about"]);
                       }
-                      // return chartUsercard(
-                      //     name: snapshot.data?.docs[index]["name"],
-                      //     about: snapshot.data?.docs[index]["about"]);
+                      
                     });
               } else {
                 return const Center(child: CircularProgressIndicator());
