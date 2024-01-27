@@ -23,7 +23,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            
+            SizedBox(
+              width: 120,
+              height: 120,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: const Image(
+                      image: AssetImage('assets/images/placeholder.png'))),
+            ),
           ],
         ),
       ),
