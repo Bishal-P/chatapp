@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       print("User does not Exist");
     }
+    print("The user id is ${api.user.uid}");
     // api.createUser();
     super.initState();
   }
