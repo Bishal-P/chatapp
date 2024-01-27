@@ -31,6 +31,7 @@ class _loginPageState extends State<loginPage> {
             .signInWithEmailAndPassword(
                 email: emialController.text, password: passwordController.text)
             .then((value) async {
+          api.createUser();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Successfull"),
             backgroundColor: Color.fromARGB(255, 105, 231, 137),
