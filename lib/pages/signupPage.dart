@@ -165,6 +165,13 @@ class _SignupPageState extends State<SignupPage> {
                       padding: const EdgeInsets.only(top: 3, left: 3),
                       child: ElevatedButton(
                         onPressed: () {
+                          SnackBar snackBar = SnackBar(
+                            content: Text(
+                                "The account already exists for that email."),
+                            backgroundColor: Colors.redAccent,
+                            elevation: 10, //shadow
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           signUp();
                         },
                         child: const Text(
