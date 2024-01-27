@@ -31,6 +31,10 @@ class api {
       pushToken: "",
       email: user.email ?? "",
     );
-    await firestore.collection("users").doc(user.uid).set(chatUser.toJson());
+    await firestore
+        .collection("users")
+        .doc(user.uid)
+        .set(chatUser.toJson())
+        .then((value) => print("User Created successfully"));
   }
 }
