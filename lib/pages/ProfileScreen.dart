@@ -21,24 +21,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text("Profile", style: Theme.of(context).textTheme.headline4),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: double.infinity,
-              height: 120,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(100),
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                // width: double.infinity,
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(500),
+                    child: const Image(
+                      image: AssetImage('assets/login.jpg'),
+                    )),
               ),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(500),
-                  child: const Image(
-                    image: AssetImage('assets/login.jpg'),
-                  )),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
