@@ -29,7 +29,6 @@ class _SignupPageState extends State<SignupPage> {
       ));
       // uiHelper.CustomAlertBox(
       //     context, "Error", "Password and Confirm Password does not match");
-      return;
     }
     if (emialController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -38,7 +37,6 @@ class _SignupPageState extends State<SignupPage> {
         elevation: 10, //shadow
       ));
       // uiHelper.CustomAlertBox(context, "Error", "Email cannot be empty");
-      return;
     }
     UserCredential? userCredential;
     try {
