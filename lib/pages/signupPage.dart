@@ -30,7 +30,11 @@ class _SignupPageState extends State<SignupPage> {
       userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emialController.text, password: passwordController.text)
-          .then((value) => Navigator.pushReplacement(
+          .then((value) 
+          
+          
+          
+          => Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => loginPage())));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
