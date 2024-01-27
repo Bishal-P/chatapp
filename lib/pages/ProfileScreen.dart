@@ -31,7 +31,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 margin: const EdgeInsets.only(top: 50),
                 decoration: BoxDecoration(
                     // color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(100)),
+                    // borderRadius: BorderRadius.circular(100)
+                    ),
                 child: Stack(
                   children: [
                     SizedBox(
@@ -50,6 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 35,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
+                          
                           color: Colors.grey[200],
                         ),
                         child: const Icon(Icons.camera_alt, size: 25),
