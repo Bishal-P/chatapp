@@ -44,8 +44,13 @@ class _SignupPageState extends State<SignupPage> {
               context, MaterialPageRoute(builder: (context) => loginPage())));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        uiHelper.CustomAlertBox(
-            context, "Alert", "The password provided is too weak.");
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("The password provided is too weak."),
+        backgroundColor: Color.fromARGB(255, 255, 0, 0),
+        elevation: 10, //shadow
+      ));
+        // uiHelper.CustomAlertBox(
+        //     context, "Alert", "The password provided is too weak.");
       } else if (e.code == 'email-already-in-use') {
         uiHelper.CustomAlertBox(
             context, "Info", "The account already exists for that email.");
