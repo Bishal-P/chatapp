@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                 return ListView.builder(
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
-                      print("The snapshot data is ${snapshot.data}");
+                      print("The snapshot data is ${snapshot}");
                       return chartUsercard(
                           name: snapshot.data?.docs[index]["name"],
                           about: snapshot.data?.docs[index]["about"]);
