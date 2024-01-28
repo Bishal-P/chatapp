@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
                       print(
-                          "The snapshot data is ${snapshot.data?.docs[index].id}");
+                          "The snapshot data is ${snapshot.data?.docs[index]}");
                       if (snapshot.data?.docs[index].id != api.user.uid) {
                         return chartUsercard(
                             doc: snapshot.data?.docs[index]);

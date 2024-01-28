@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  String? doc;
+  DocumentSnapshot? doc;
   ChatScreen({super.key, this.doc});
 
   @override
@@ -34,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
               //   subtitle: Text("Last seen at 12:00"),
               // )
               Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image(
@@ -46,6 +46,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
               ),
+              Column(
+                children: [
+                  Text(widget.doc['name'].toString(),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              )
             ],
           ),
           // leading:
