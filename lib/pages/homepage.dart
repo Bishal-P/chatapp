@@ -76,13 +76,6 @@ class _HomePageState extends State<HomePage> {
             builder: (context, snapshot) {
               // print(snapshot.data?.docs);
               if (snapshot.hasData) {
-                // print(snapshot.data?.docs);
-                // final data = snapshot.data?.docs;
-                // for (var i in data!) {
-                //   log("data : ${jsonEncode(i.data())}}");
-                //   print("data");
-                //   print(i.data() as Map<String, dynamic>);
-                // }
                 return ListView.builder(
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
