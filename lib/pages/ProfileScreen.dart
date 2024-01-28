@@ -18,6 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print("The user value is ${value.data()}");
       data = value["name"];
     });
+    setState(() {});
     super.initState();
   }
 
