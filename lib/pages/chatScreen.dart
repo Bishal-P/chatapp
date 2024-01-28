@@ -46,13 +46,20 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  Text(widget.doc!['name'].toString(),
-                      style: const TextStyle(
-                        fontSize: 20,
-                      )),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text(widget.doc!['name'].toString(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                        )),
+                    Text("Last seen at 12:00",
+                        style: const TextStyle(
+                          fontSize: 10,
+                        ))
+                  ],
+                ),
               )
             ],
           ),
