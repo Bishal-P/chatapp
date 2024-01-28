@@ -17,7 +17,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.whi,
+          backgroundColor: Colors.white10,
           automaticallyImplyLeading: false,
           flexibleSpace: Row(
             children: [
