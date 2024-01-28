@@ -33,9 +33,6 @@ class _ChatScreenState extends State<ChatScreen> {
               //   title: Text(widget.doc!),
               //   subtitle: Text("Last seen at 12:00"),
               // )
-              ListTile(
-                leading: Text("Hello"),
-              )
             ],
           ),
           // leading:
