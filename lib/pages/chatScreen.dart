@@ -1,8 +1,9 @@
+import 'package:chatapp/components/apis.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  DocumentSnapshot? doc;
+  String? doc;
   ChatScreen({super.key, this.doc});
 
   @override
@@ -12,7 +13,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
-    print("The doc id is ${widget.doc!.id}");
+    print("The doc id is ${widget.doc!}");
     return Scaffold(
       appBar: AppBar(
           leading: InkWell(
