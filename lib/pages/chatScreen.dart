@@ -63,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: Text("This is the chat screen",
                       style: const TextStyle(fontSize: 20))),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 decoration: BoxDecoration(
                     color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(20)),
