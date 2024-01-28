@@ -84,11 +84,16 @@ class _HomePageState extends State<HomePage> {
                           "The snapshot data is ${snapshot.data?.docs[index].id}");
                       if (snapshot.data?.docs[index].id != api.user.uid) {
                         return InkWell(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChatScreen(
-                                      doc: snapshot.data?.docs[index].id))),
+                          onTap: () {
+                            print(
+                                "The doc id is ${snapshot.data?.docs[index].id}");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatScreen(
+                                          doc: snapshot.data?.docs[index].id,
+                                        )));
+                          },
                           child: chartUsercard(
                               name: snapshot.data?.docs[index]["name"],
                               about: snapshot.data?.docs[index]["about"]),
