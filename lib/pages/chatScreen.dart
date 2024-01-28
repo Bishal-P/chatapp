@@ -66,7 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                     color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(100)),
+                    borderRadius: BorderRadius.circular(20)),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     maxHeight: 150,
