@@ -34,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
               //   subtitle: Text("Last seen at 12:00"),
               // )
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image(
