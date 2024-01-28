@@ -81,6 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   children: [
                     TextFormField(
+                      initialValue: data.toString(),
                       decoration: const InputDecoration(
                           border: const OutlineInputBorder(
                               borderRadius:
