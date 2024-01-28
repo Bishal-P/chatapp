@@ -48,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         )),
                     Text(widget.doc!['is_online'].toString(),
                         style: const TextStyle(
-                          fontSize: 10,
+                          fontSize: 15,
                         ))
                   ],
                 ),
