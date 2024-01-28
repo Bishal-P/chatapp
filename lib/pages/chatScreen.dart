@@ -77,7 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
-                          keyboardType: TextInputType.multiline,
+                          enableSuggestions: true,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "Type a message"),
