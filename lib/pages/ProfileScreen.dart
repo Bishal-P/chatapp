@@ -16,7 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     api.firestore.collection('users').doc(api.user.uid).get().then((value) {
       print("The user value is ${value.data()}");
-
+      data = value;
     });
     super.initState();
   }
