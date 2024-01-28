@@ -22,7 +22,7 @@ class _chartUsercardState extends State<chartUsercard> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ChatScreen(doc: widget.doc!.id)));
+                  builder: (context) => ChatScreen(doc: widget.doc!)));
         },
         child: ListTile(
           leading: CircleAvatar(
