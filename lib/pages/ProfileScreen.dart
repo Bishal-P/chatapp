@@ -1,3 +1,5 @@
+import 'package:chatapp/components/apis.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -8,6 +10,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late DocumentSnapshot data;
+
+  @override
+  void initState() async {
+    data = await api.firestore.collection('users').doc(api.user.uid).get();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      initialValue: "Hey there! I am using ChatApp",
+                        initialValue: data['about'],
                         // keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                             border: const OutlineInputBorder(
