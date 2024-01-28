@@ -72,6 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     maxHeight: 150,
                   ),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       IconButton(
                           onPressed: () {},
