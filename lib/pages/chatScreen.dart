@@ -20,13 +20,18 @@ class _ChatScreenState extends State<ChatScreen> {
           automaticallyImplyLeading: false,
           flexibleSpace: Row(
             children: [
-              ListTile(
-                leading: CircleAvatar(
-                  child: Icon(Icons.person),
-                ),
-                title: Text(widget.doc!),
-                subtitle: Text("Last seen at 12:00"),
-              )
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back)),
+              // ListTile(
+              //   leading: CircleAvatar(
+              //     child: Icon(Icons.person),
+              //   ),
+              //   title: Text(widget.doc!),
+              //   subtitle: Text("Last seen at 12:00"),
+              // )
             ],
           ),
           // leading:
