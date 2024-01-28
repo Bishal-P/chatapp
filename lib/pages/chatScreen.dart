@@ -33,11 +33,17 @@ class _ChatScreenState extends State<ChatScreen> {
               //   title: Text(widget.doc!),
               //   subtitle: Text("Last seen at 12:00"),
               // )
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image(
-                  image: AssetImage("assets/login.jpg"),
-                  fit: BoxFit.cover,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image(
+                    height: 50,
+                    image: AssetImage(
+                      "assets/login.jpg",
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ],
