@@ -50,7 +50,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: [
                   Text(widget.doc!['name'].toString(),
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
+                        fontSize: 20,
+                      )),
                 ],
               )
             ],
