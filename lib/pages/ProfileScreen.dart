@@ -85,7 +85,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
+                        border: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
                         label: const Text("Password"),
                         prefixIcon: const Icon(Icons.fingerprint),
                         suffixIcon: IconButton(
