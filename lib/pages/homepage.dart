@@ -83,9 +83,12 @@ class _HomePageState extends State<HomePage> {
                 //   print("data");
                 //   print(i.data() as Map<String, dynamic>);
                 // }
-                int leng=snapshot.data?.docs.length ?? 0;
+                int leng = snapshot.data?.docs.length ?? 0;
+                if (leng > 0) {
+                  leng = leng - 1;
+                }
                 return ListView.builder(
-                    itemCount: snapshot.data?.docs.length ,
+                    itemCount: leng,
                     itemBuilder: (context, index) {
                       // print(
                       // "The snapshot data is ${snapshot.data?.docs[index].id}");
