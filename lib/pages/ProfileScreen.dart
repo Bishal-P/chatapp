@@ -21,6 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("The user value is ${data['name']}");
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
