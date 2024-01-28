@@ -83,7 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: TextField(
                             enableSuggestions: true,
                             maxLines: null,
-                            expands: true,
+                            // expands: true,
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
