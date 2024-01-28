@@ -88,7 +88,8 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatScreen()));
+                                    builder: (context) => ChatScreen(
+                                        doc: snapshot.data?.docs[index])));
                           },
                           child: chartUsercard(
                               name: snapshot.data?.docs[index]["name"],
