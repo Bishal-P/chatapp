@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/userCard.dart';
 import 'package:chatapp/pages/ProfileScreen.dart';
+import 'package:chatapp/pages/chatScreen.dart';
 import 'package:chatapp/pages/loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,10 @@ class _HomePageState extends State<HomePage> {
                       if (snapshot.data?.docs[index].id != api.user.uid) {
                         return InkWell(
                           onTap: () {
-                            
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatScreen()));
                           },
                           child: chartUsercard(
                               name: snapshot.data?.docs[index]["name"],

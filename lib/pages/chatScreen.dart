@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  DocumentSnapshot? doc;
+  ChatScreen({super.key, this.doc});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -10,6 +12,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
+    print("The doc id is ${widget.doc!.id}");
     return Scaffold(
       appBar: AppBar(
           leading: InkWell(
