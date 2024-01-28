@@ -60,6 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 20),
+              Text("User Name", style: Theme.of(context).textTheme.headline4),
               Form(
                 child: Column(
                   children: [
