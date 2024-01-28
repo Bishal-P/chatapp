@@ -67,34 +67,39 @@ class _ChatScreenState extends State<ChatScreen> {
                 decoration: BoxDecoration(
                     color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(100)),
-                child: Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.emoji_emotions_outlined,
-                            color: Colors.black)),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: TextField(
-                          enableSuggestions: true,
-                          maxLines: null,
-                          expands: true,
-                          keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Type a message"),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 150,
+                  ),
+                  child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.emoji_emotions_outlined,
+                              color: Colors.black)),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
+                            enableSuggestions: true,
+                            maxLines: null,
+                            expands: true,
+                            keyboardType: TextInputType.multiline,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Type a message"),
+                          ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon:
-                            const Icon(Icons.attach_file, color: Colors.black)),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.send, color: Colors.black)),
-                  ],
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.attach_file,
+                              color: Colors.black)),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.send, color: Colors.black)),
+                    ],
+                  ),
                 ),
               )
             ],
