@@ -1,4 +1,3 @@
-import 'package:chatapp/components/apis.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -86,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                        initialValue: api.user.displayName,
+                      initialValue: "Hey there! I am using ChatApp",
                         // keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                             border: const OutlineInputBorder(
