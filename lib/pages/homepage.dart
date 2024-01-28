@@ -84,6 +84,7 @@ class _HomePageState extends State<HomePage> {
                 //   print(i.data() as Map<String, dynamic>);
                 // }
                 int leng = snapshot.data?.docs.length ?? 0;
+                print("The length is ${leng}");
                 if (leng > 0) {
                   leng = leng - 1;
                 }
