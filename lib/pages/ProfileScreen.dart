@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                        initialValue: "Hey there! I am using ChatApp",
+                        initialValue: data.toString(),
                         // keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                             border: const OutlineInputBorder(
