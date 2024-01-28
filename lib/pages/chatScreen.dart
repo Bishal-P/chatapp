@@ -69,7 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     borderRadius: BorderRadius.circular(100)),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxHeight: 50,
+                    maxHeight: 90,
                   ),
                   child: Row(
                     children: [
