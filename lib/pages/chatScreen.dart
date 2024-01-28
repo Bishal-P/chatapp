@@ -23,7 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
             title: Text(widget.doc!),
             subtitle: Text("Last seen at 12:00"),
           ),
-          centerTitle: true,
+          // centerTitle: true,
           actions: [
             IconButton(
                 onPressed: () {},
