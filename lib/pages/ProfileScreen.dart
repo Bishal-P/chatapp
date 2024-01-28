@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           border: const OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
-                          label: Text("Asdfa"),
+                          label: Text("Name"),
                           prefixIcon: Icon(Icons.person)),
                     ),
                     const SizedBox(height: 20),
