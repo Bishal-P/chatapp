@@ -26,9 +26,9 @@ class _ChatScreenState extends State<ChatScreen> {
               title: Text(widget.doc!),
               subtitle: Text("Last seen at 12:00"),
             ),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.more_vert, color: Colors.black))
+            // IconButton(
+            //     onPressed: () {},
+            //     icon: const Icon(Icons.more_vert, color: Colors.black))
           ]),
     );
   }
