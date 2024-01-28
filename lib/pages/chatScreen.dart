@@ -16,13 +16,13 @@ class _ChatScreenState extends State<ChatScreen> {
     print("The doc id is ${widget.doc!}");
     return Scaffold(
       appBar: AppBar(
-          leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_left, color: Colors.black),
+          leading: ListTile(
+            leading: CircleAvatar(
+              child: Icon(Icons.person),
+            ),
+            title: Text(widget.doc!),
+            subtitle: Text("Last seen at 12:00"),
           ),
-          title: const Text('Chat Screen'),
           centerTitle: true,
           actions: [
             IconButton(
