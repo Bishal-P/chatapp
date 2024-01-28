@@ -67,16 +67,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     TextFormField(
                       decoration: const InputDecoration(
-                          label: Text("Asdfa"), prefixIcon: Icon(Icons.person)),
+                          border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          label: Text("Asdfa"),
+                          prefixIcon: Icon(Icons.person)),
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
                       decoration: const InputDecoration(
-                          label: Text("Email"), prefixIcon: Icon(Icons.email)),
+                          border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          label: Text("Email"),
+                          prefixIcon: Icon(Icons.email)),
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
                         decoration: const InputDecoration(
+                            border: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
                             label: Text(
                               "Phone",
                             ),
