@@ -83,28 +83,17 @@ class _HomePageState extends State<HomePage> {
                 //   print("data");
                 //   print(i.data() as Map<String, dynamic>);
                 // }
-                int leng = snapshot.data?.docs.length ?? 0;
-                print("The length is ${leng}");
-                // if (leng > 0) {
-                //   leng = leng - 1;
-                // }
                 return ListView.builder(
-                    itemCount: leng,
+                    itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
-                      // print(
-                      // "The snapshot data is ${snapshot.data?.docs[index].id}");
-                      if (snapshot.data?.docs[index].id == api.user.uid) {
-                        print(
-                            "the value is true   ${snapshot.data?.docs[index].id}");
-                        // }
-                        return const SizedBox();
-                      } else {
-                        print(
-                            "The snapshot data is ${snapshot.data?.docs[index].id}");
+                      print(
+                          "The snapshot data is ${snapshot.data?.docs[index].id}");
+                      if (snapshot.data?.docs[index].id != api.user.uid) {
                         return chartUsercard(
                             name: snapshot.data?.docs[index]["name"],
                             about: snapshot.data?.docs[index]["about"]);
                       }
+                      return const SizedBox();
                     });
               } else {
                 return const Center(child: CircularProgressIndicator());
