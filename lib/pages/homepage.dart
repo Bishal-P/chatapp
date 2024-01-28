@@ -91,7 +91,8 @@ class _HomePageState extends State<HomePage> {
                       // if (snapshot.data?.docs[index].id == api.user.uid) {
                       //   print("the value is true");
                       // } else {
-                      print("The snapshot data is ${snapshot.data?.docs}");
+                      print(
+                          "The snapshot data is ${snapshot.data?.docs[index].id}");
                       return chartUsercard(
                           name: snapshot.data?.docs[index]["name"],
                           about: snapshot.data?.docs[index]["about"]);
