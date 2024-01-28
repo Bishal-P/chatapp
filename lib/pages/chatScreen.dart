@@ -60,19 +60,8 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Column(
             children: [
               Expanded(
-                  child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      child: Icon(Icons.person),
-                    ),
-                    title: Text("Name"),
-                    subtitle: Text("Message"),
-                    trailing: const Icon(Icons.message),
-                  );
-                },
-              )),
+                  child: Text("This is the chat screen",
+                      style: const TextStyle(fontSize: 20))),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
