@@ -17,27 +17,15 @@ class _ChatScreenState extends State<ChatScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white10,
+          backgroundColor: Color.fromARGB(71, 68, 67, 67),
           automaticallyImplyLeading: false,
           flexibleSpace: Row(
             children: [
-              // IconButton(
-              //     onPressed: () {
-              //       Navigator.pop(context);
-              //     },
-              //     icon: const Icon(Icons.arrow_back)),
-              // ListTile(
-              //   leading: CircleAvatar(
-              //     child: Icon(Icons.person),
-              //   ),
-              //   title: Text(widget.doc!),
-              //   subtitle: Text("Last seen at 12:00"),
-              // )
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image(
+                  child: const Image(
                     height: 50,
                     image: AssetImage(
                       "assets/login.jpg",
@@ -67,8 +55,49 @@ class _ChatScreenState extends State<ChatScreen> {
               )
             ],
           ),
-          // leading:
-          // centerTitle: true,
+        ),
+        body: Expanded(
+          child: Column(
+            children: [
+              Expanded(
+                  child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      child: Icon(Icons.person),
+                    ),
+                    title: Text("Name"),
+                    subtitle: Text("Message"),
+                    trailing: const Icon(Icons.message),
+                  );
+                },
+              )),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(100)),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Type a message"),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.send, color: Colors.black))
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
