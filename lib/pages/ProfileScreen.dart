@@ -16,7 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     api.firestore.collection('users').doc(api.user.uid).get().then((value) {
       print("The user value is ${value.data()}");
-      data = value;
+      data = value["name"];
     });
     super.initState();
   }
@@ -81,7 +81,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-                      initialValue: data?["name"],
                       decoration: const InputDecoration(
                           border: const OutlineInputBorder(
                               borderRadius:
