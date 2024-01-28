@@ -89,7 +89,8 @@ class _HomePageState extends State<HomePage> {
                       // print(
                       // "The snapshot data is ${snapshot.data?.docs[index].id}");
                       if (snapshot.data?.docs[index].id == api.user.uid) {
-                        print("the value is true");
+                        print(
+                            "the value is true   ${snapshot.data?.docs[index].id}");
                       }
                       // } else {
                       print(
