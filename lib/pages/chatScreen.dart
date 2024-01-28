@@ -17,6 +17,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.red,
           automaticallyImplyLeading: false,
           flexibleSpace: Row(
             children: [
@@ -32,6 +33,9 @@ class _ChatScreenState extends State<ChatScreen> {
               //   title: Text(widget.doc!),
               //   subtitle: Text("Last seen at 12:00"),
               // )
+              ListTile(
+                leading: Text("Hello"),
+              )
             ],
           ),
           // leading:
