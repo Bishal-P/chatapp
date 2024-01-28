@@ -85,7 +85,11 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     IconButton(
                         onPressed: () {},
-                        icon: const Icon(Icons.send, color: Colors.black))
+                        icon:
+                            const Icon(Icons.attach_file, color: Colors.black)),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.send, color: Colors.black)),
                   ],
                 ),
               )
