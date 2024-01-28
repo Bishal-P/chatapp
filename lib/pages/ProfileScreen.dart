@@ -62,52 +62,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: 20),
               // Text("User Name", style: Theme.of(context).textTheme.headline4),
-              Form(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          label: Text("Asdfa"),
-                          prefixIcon: Icon(Icons.person)),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          border: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          label: Text("Email"),
-                          prefixIcon: Icon(Icons.email)),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                            border: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            label: Text(
-                              "Phone",
-                            ),
-                            prefixIcon: Icon(Icons.phone))),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
+              Column(
+                children: [
+                  TextFormField(
+                    decoration: const InputDecoration(
                         border: const OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20))),
-                        label: const Text("Password"),
-                        prefixIcon: const Icon(Icons.fingerprint),
-                        suffixIcon: IconButton(
-                            icon: const Icon(Icons.remove_red_eye),
-                            onPressed: () {}),
-                      ),
+                        label: Text("Asdfa"),
+                        prefixIcon: Icon(Icons.person)),
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        border: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        label: Text("Email"),
+                        prefixIcon: Icon(Icons.email)),
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      decoration: const InputDecoration(
+                          border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          label: Text(
+                            "Phone",
+                          ),
+                          prefixIcon: Icon(Icons.phone))),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      label: const Text("Password"),
+                      prefixIcon: const Icon(Icons.fingerprint),
+                      suffixIcon: IconButton(
+                          icon: const Icon(Icons.remove_red_eye),
+                          onPressed: () {}),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
