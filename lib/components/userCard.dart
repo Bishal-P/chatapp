@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class chartUsercard extends StatefulWidget {
   // var name;
   // var about;
-  DocumentSnapshot? doc;
+  DocumentSnapshot<Object>? doc;
   chartUsercard({super.key, this.doc});
 
   @override

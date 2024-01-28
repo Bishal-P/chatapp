@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  String? doc;
+  DocumentSnapshot<Object>? doc;
   ChatScreen({super.key, this.doc});
 
   @override
@@ -48,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               Column(
                 children: [
-                  Text(widget.doc!.toString(),
+                  Text(widget.doc!['name'].toString(),
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold)),
                 ],
