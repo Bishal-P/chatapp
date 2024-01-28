@@ -85,15 +85,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                        keyboardType: TextInputType.phone,
+                        // keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                             border: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
                             label: Text(
-                              "Phone",
+                              "About",
                             ),
-                            prefixIcon: Icon(Icons.phone))),
+                            prefixIcon: Icon(Icons.abc))),
                     const SizedBox(height: 20),
                     TextFormField(
                       obscureText: true,
