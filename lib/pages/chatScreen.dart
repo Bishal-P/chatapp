@@ -47,7 +47,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                 child: Column(
                   children: [
                     Text(widget.doc!['name'].toString(),
