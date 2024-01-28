@@ -73,21 +73,19 @@ class _ChatScreenState extends State<ChatScreen> {
                         onPressed: () {},
                         icon: const Icon(Icons.emoji_emotions_outlined,
                             color: Colors.black)),
-                    Expanded(
-                      child: ConstrainedBox(
-                        constraints:
-                            const BoxConstraints(maxHeight: 100, minHeight: 20),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TextField(
-                            enableSuggestions: true,
-                            maxLines: null,
-                            expands: true,
-                            keyboardType: TextInputType.multiline,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Type a message"),
-                          ),
+                    ConstrainedBox(
+                      constraints:
+                          const BoxConstraints(maxHeight: 100, minHeight: 20),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextField(
+                          enableSuggestions: true,
+                          maxLines: null,
+                          expands: true,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Type a message"),
                         ),
                       ),
                     ),
