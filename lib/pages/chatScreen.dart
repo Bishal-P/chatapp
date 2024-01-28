@@ -62,42 +62,39 @@ class _ChatScreenState extends State<ChatScreen> {
               Expanded(
                   child: Text("This is the chat screen",
                       style: const TextStyle(fontSize: 20))),
-              Expanded(
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(100)),
-                  child: Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.emoji_emotions_outlined,
-                              color: Colors.black)),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: TextField(
-                            enableSuggestions: true,
-                            maxLines: null,
-                            expands: true,
-                            keyboardType: TextInputType.multiline,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Type a message"),
-                          ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(100)),
+                child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.emoji_emotions_outlined,
+                            color: Colors.black)),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextField(
+                          enableSuggestions: true,
+                          maxLines: null,
+                          expands: true,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Type a message"),
                         ),
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.attach_file,
-                              color: Colors.black)),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.send, color: Colors.black)),
-                    ],
-                  ),
+                    ),
+                    IconButton(
+                        onPressed: () {},
+                        icon:
+                            const Icon(Icons.attach_file, color: Colors.black)),
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.send, color: Colors.black)),
+                  ],
                 ),
               )
             ],
