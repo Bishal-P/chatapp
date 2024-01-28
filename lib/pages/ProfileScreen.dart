@@ -10,7 +10,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  DocumentSnapshot? data;
+  DocumentSnapshot? data1;
+  var data;
 
   @override
   void initState() {
