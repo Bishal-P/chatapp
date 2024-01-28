@@ -69,6 +69,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     borderRadius: BorderRadius.circular(100)),
                 child: Row(
                   children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.emoji_emotions_outlined,
+                            color: Colors.black)),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
