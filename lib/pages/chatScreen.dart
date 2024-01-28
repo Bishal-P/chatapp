@@ -14,22 +14,24 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     print("The doc id is ${widget.doc!}");
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        flexibleSpace: Row(
-          children: [
-            ListTile(
-              leading: CircleAvatar(
-                child: Icon(Icons.person),
-              ),
-              title: Text(widget.doc!),
-              subtitle: Text("Last seen at 12:00"),
-            )
-          ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          flexibleSpace: Row(
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  child: Icon(Icons.person),
+                ),
+                title: Text(widget.doc!),
+                subtitle: Text("Last seen at 12:00"),
+              )
+            ],
+          ),
+          // leading:
+          // centerTitle: true,
         ),
-        // leading:
-        // centerTitle: true,
       ),
     );
   }
