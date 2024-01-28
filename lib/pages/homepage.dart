@@ -88,14 +88,14 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       // print(
                       // "The snapshot data is ${snapshot.data?.docs[index].id}");
-                      if (snapshot.data?.docs[index].id == api.user.uid) {
-                        print("the value is true");
-                      } else {
-                        print("The snapshot data is ${snapshot.data?.docs}");
-                        return chartUsercard(
-                            name: snapshot.data?.docs[index]["name"],
-                            about: snapshot.data?.docs[index]["about"]);
-                      }
+                      // if (snapshot.data?.docs[index].id == api.user.uid) {
+                      //   print("the value is true");
+                      // } else {
+                      print("The snapshot data is ${snapshot.data?.docs}");
+                      return chartUsercard(
+                          name: snapshot.data?.docs[index]["name"],
+                          about: snapshot.data?.docs[index]["about"]);
+                      // }
                     });
               } else {
                 return const Center(child: CircularProgressIndicator());
