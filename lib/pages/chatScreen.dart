@@ -16,20 +16,21 @@ class _ChatScreenState extends State<ChatScreen> {
     print("The doc id is ${widget.doc!}");
     return Scaffold(
       appBar: AppBar(
-          // leading:
-          // centerTitle: true,
-          actions: [
+        automaticallyImplyLeading: false,
+        flexibleSpace: Row(
+          children: [
             ListTile(
               leading: CircleAvatar(
                 child: Icon(Icons.person),
               ),
               title: Text(widget.doc!),
               subtitle: Text("Last seen at 12:00"),
-            ),
-            // IconButton(
-            //     onPressed: () {},
-            //     icon: const Icon(Icons.more_vert, color: Colors.black))
-          ]),
+            )
+          ],
+        ),
+        // leading:
+        // centerTitle: true,
+      ),
     );
   }
 }
