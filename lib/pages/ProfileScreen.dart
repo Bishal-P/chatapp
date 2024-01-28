@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  DocumentSnapshot<Object>? doc;
+
+  ProfileScreen({super.key, this.doc});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -85,6 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      initialValue: widget.doc!['about'].toString(),
                         // keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                             border: const OutlineInputBorder(
