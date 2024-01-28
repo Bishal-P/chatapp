@@ -10,15 +10,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late Future<DocumentSnapshot> data;
+  DocumentSnapshot? data;
 
   @override
   void initState() {
-    data = api.firestore.collection('users').doc(api.user.uid).get();
-    // TODO: implement initState
-    data.then((value) {
+    api.firestore.collection('users').doc(api.user.uid).get().then((value) {
       print("The user value is ${value.data()}");
-      
+
     });
     super.initState();
   }
