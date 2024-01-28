@@ -78,6 +78,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           enableSuggestions: true,
+                          maxLines: null,
+                          expands: true,
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
                               border: InputBorder.none,
