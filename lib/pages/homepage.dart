@@ -85,9 +85,9 @@ class _HomePageState extends State<HomePage> {
                 // }
                 int leng = snapshot.data?.docs.length ?? 0;
                 print("The length is ${leng}");
-                if (leng > 0) {
-                  leng = leng - 1;
-                }
+                // if (leng > 0) {
+                //   leng = leng - 1;
+                // }
                 return ListView.builder(
                     itemCount: leng,
                     itemBuilder: (context, index) {
@@ -97,6 +97,7 @@ class _HomePageState extends State<HomePage> {
                         print(
                             "the value is true   ${snapshot.data?.docs[index].id}");
                         // }
+                        return const SizedBox();
                       } else {
                         print(
                             "The snapshot data is ${snapshot.data?.docs[index].id}");
