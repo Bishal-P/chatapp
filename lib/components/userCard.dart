@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/pages/chatScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +26,19 @@ class _chartUsercardState extends State<chartUsercard> {
                   builder: (context) => ChatScreen(doc: widget.doc!)));
         },
         child: ListTile(
-          leading: CircleAvatar(
-            child: Icon(Icons.person),
+          leading: CachedNetworkImage(
+            width: 50,
+            height: 50,
+            imageUrl: widget.doc!['image'],
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(
+              Icons.person,
+              size: 30,
+            ),
           ),
+          //  CircleAvatar(
+          //   child: Icon(Icons.person),
+          // ),
           title: Text(widget.doc!['name']),
           subtitle: Text(widget.doc!['about']),
           trailing: const Icon(Icons.message),

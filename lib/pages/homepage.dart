@@ -1,9 +1,11 @@
 import 'dart:convert';
+// import 'dart:html';
 
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/userCard.dart';
 import 'package:chatapp/pages/ProfileScreen.dart';
 import 'package:chatapp/pages/loginPage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
@@ -16,8 +18,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  DocumentSnapshot? doc;
+
   @override
   void initState() {
+    api.firestore.collection("users").doc(api.user.uid).update({
+      "is_online": true,
+    }).then((value) => print("Updated successfully"));
+    // api.firestore.collection("users").doc(api.user.uid).get().then(
+    //   (value) {
+    //     doc = value;
+    //     print("The doc is ${doc?['name']}");
+    //     print("The type of doc is ${value!.runtimeType}");
+    //   },
+    // );
+    // print("The doc is ${doc}");
     // api.firestore.collection('users').doc().get().then((docSnapshot) => {
     //       if (docSnapshot.exists)
     //         {print('Document exists on the database')}
@@ -40,15 +55,36 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    api.firestore.collection("users").doc(api.user.uid).update({
+      "is_online": false,
+    }).then((value) => print("Updated successfully"));
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           leading: InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProfileScreen()));
+            onTap: () async {
+              await api.firestore
+                  .collection("users")
+                  .doc(api.user.uid)
+                  .get()
+                  .then(
+                (value) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileScreen(
+                                doc: value,
+                              )));
+                  doc = value;
+                  print("The doc is ${doc?['name']}");
+                  print("The type of doc is ${value!.runtimeType}");
+                },
+              );
             },
             child: const Icon(Icons.home),
           ),
@@ -82,8 +118,7 @@ class _HomePageState extends State<HomePage> {
                       print(
                           "The snapshot data is ${snapshot.data?.docs[index]}");
                       if (snapshot.data?.docs[index].id != api.user.uid) {
-                        return chartUsercard(
-                            doc: snapshot.data?.docs[index]);
+                        return chartUsercard(doc: snapshot.data?.docs[index]);
                       }
                       return const SizedBox();
                     });
