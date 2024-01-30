@@ -37,8 +37,6 @@ class api {
     return true;
   }
 
-  static String? imageFile;
-
   //create user
   static Future<void> createUser() async {
     final ChatUser chatUser = ChatUser(

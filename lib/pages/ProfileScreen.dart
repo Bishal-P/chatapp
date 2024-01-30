@@ -125,21 +125,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           onTap: () async {
                                             final XFile? image =
                                                 await picker.pickImage(
-                                                    source:
-                                                        ImageSource.gallery);
+                                                    source: ImageSource.gallery,
+                                                    imageQuality: 80);
                                             if (image != null) {
                                               api
                                                   .updateProfilePicture(
                                                       File(image.path))
                                                   .then((value) {
                                                 print("The value is $value");
-                                                Duration(seconds: 4);
-                                                setState(() {
-                                                  print(
-                                                      "The proflie picture updated successfully" +
-                                                          DateTime.now()
-                                                              .toString());
-                                                });
+                                                setState(() {});
+                                                // Duration(seconds: 4);
+                                                // setState(() {
+                                                //   print(
+                                                //       "The proflie picture updated successfully" +
+                                                //           DateTime.now()
+                                                //               .toString());
+                                                // });
                                               });
                                               Navigator.pop(context);
                                               print(
