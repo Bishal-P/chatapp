@@ -1,5 +1,6 @@
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/functions.dart';
+import 'package:chatapp/pages/HomePage.dart';
 import 'package:chatapp/pages/homepage.dart';
 import 'package:chatapp/pages/signupPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +32,8 @@ class _loginPageState extends State<loginPage> {
             .signInWithEmailAndPassword(
                 email: emialController.text, password: passwordController.text)
             .then((value) async {
-          api.createUser();
+          api.user = FirebaseAuth.instance.currentUser!;
+          // api.createUser();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Successfull"),
             backgroundColor: Color.fromARGB(255, 105, 231, 137),
@@ -163,6 +165,7 @@ class _loginPageState extends State<loginPage> {
                             ),
                             onPressed: () {
                               login();
+                              print("The current user is ${api.user.uid}");
                               FocusScope.of(context).unfocus();
                               // Implement login logic
                             },

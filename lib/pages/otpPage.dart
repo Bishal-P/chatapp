@@ -85,7 +85,7 @@ class _otpPageState extends State<otpPage> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                                builder: (context) => HomePage1()));
                       });
                     } catch (e) {
                       uiHelper.CustomAlertBox(context, "Error", e.toString());

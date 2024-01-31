@@ -1,4 +1,5 @@
 import 'package:chatapp/components/functions.dart';
+import 'package:chatapp/pages/HomePage.dart';
 import 'package:chatapp/pages/PhoneLogin.dart';
 import 'package:chatapp/pages/homepage.dart';
 import 'package:chatapp/pages/loginPage.dart';

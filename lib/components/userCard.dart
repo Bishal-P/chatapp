@@ -26,14 +26,17 @@ class _chartUsercardState extends State<chartUsercard> {
                   builder: (context) => ChatScreen(doc: widget.doc!)));
         },
         child: ListTile(
-          leading: CachedNetworkImage(
-            width: 50,
-            height: 50,
-            imageUrl: widget.doc!['image'],
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(
-              Icons.person,
-              size: 30,
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: CachedNetworkImage(
+              width: 50,
+              height: 50,
+              imageUrl: widget.doc!['image'],
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(
+                Icons.person,
+                size: 30,
+              ),
             ),
           ),
           //  CircleAvatar(

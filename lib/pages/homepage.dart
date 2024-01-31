@@ -10,21 +10,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePage1 extends StatefulWidget {
+  const HomePage1({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage1> createState() => _HomePage1State();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePage1State extends State<HomePage1> {
   DocumentSnapshot? doc;
 
   @override
   void initState() {
-    api.firestore.collection("users").doc(api.user.uid).update({
-      "is_online": true,
-    }).then((value) => print("Updated successfully"));
     // api.firestore.collection("users").doc(api.user.uid).get().then(
     //   (value) {
     //     doc = value;
@@ -48,6 +45,10 @@ class _HomePageState extends State<HomePage> {
       }
       print("The user id is ${api.user.uid}");
       print("The result is ${value}");
+
+      api.firestore.collection("users").doc(api.user.uid).update({
+        "is_online": true,
+      }).then((value) => print("Updated successfully"));
     });
 
     // api.createUser();
