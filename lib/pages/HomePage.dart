@@ -4,12 +4,20 @@
 // import 'dart:html';
 
 import 'package:chatapp/components/apis.dart';
+import 'package:chatapp/components/appController.dart';
 import 'package:chatapp/widgests/CategorySelector.dart';
 import 'package:chatapp/widgests/favouriteContacts.dart';
+import 'package:chatapp/widgests/groupsTab.dart';
+import 'package:chatapp/widgests/messagesTab.dart';
+import 'package:chatapp/widgests/onlineTab.dart';
 import 'package:chatapp/widgests/popUpMenu.dart';
 import 'package:chatapp/widgests/recenChats.dart';
+import 'package:chatapp/widgests/requestTab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,9 +28,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   DocumentSnapshot? doc;
+  final appController controller = Get.put(appController());
   // List users = ["user1", "user2", "user3", "user4", "user5", "user6"];
   // List favUsers = ["user1", "user2", "user3", "user4", "user5", "user6"];
-
+  List<Widget> tabs = [
+    messagesTab(),
+    const onlineTab(),
+    const groupTab(),
+    const requestTab()
+  ];
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -91,12 +105,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       body: Column(
         children: [
           CategorySelector(),
-          Expanded(
-              child: Container(
-            child: Column(
-              children: [FavourtieContacts(), RecentChats()],
-            ),
-          ))
+          Obx(() => tabs[controller.index]),
         ],
       ),
     );

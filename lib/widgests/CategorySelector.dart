@@ -1,4 +1,8 @@
+import 'package:chatapp/components/appController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/utils.dart';
 
 class CategorySelector extends StatefulWidget {
   CategorySelector({super.key});
@@ -8,7 +12,8 @@ class CategorySelector extends StatefulWidget {
 }
 
 class _CategorySelectorState extends State<CategorySelector> {
-  int selectedIndex = 0;
+  final appController controller = Get.put(appController());
+  int currentIndex = 0;
 
   List categories = ["Messages", "Online", "Groups", "Requests"];
 
@@ -24,24 +29,28 @@ class _CategorySelectorState extends State<CategorySelector> {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                selectedIndex = index;
-                setState(() {});
+                controller.changeIndex(index);
+                currentIndex = index;
+                // setState(() {});
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20.0,
                   vertical: 30.0,
                 ),
-                child: Text(
-                  categories[index],
-                  style: TextStyle(
-                    color:
-                        index == selectedIndex ? Colors.white : Colors.white60,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.2,
-                  ),
-                ),
+                child: Obx(() {
+                  return Text(
+                    categories[index],
+                    style: TextStyle(
+                      color: index == controller.index
+                          ? Colors.white
+                          : Colors.white60,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                    ),
+                  );
+                }),
               ),
             );
           },
