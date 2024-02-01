@@ -37,7 +37,7 @@ class _contactCardState extends State<contactCard> {
                         child: Text(
                             widget.snapshot.data?.docs[widget.index]["name"][0]
                                 .toUpperCase(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black)))
@@ -50,21 +50,21 @@ class _contactCardState extends State<contactCard> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                SizedBox(width: 10.0),
+                const SizedBox(width: 10.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
                       widget.snapshot.data?.docs[widget.index]['name'],
                       // chat.sender.name,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 44, 44, 44),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(height: 5.0),
-                    Container(
+                    const SizedBox(height: 5.0),
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.45,
                       child: const Text(
                         "Hello how are you doing today",
@@ -83,7 +83,7 @@ class _contactCardState extends State<contactCard> {
             ),
             Column(
               children: <Widget>[
-                Text(
+                const Text(
                   "4:00 PM",
                   style: TextStyle(
                     color: Colors.grey,
@@ -91,7 +91,7 @@ class _contactCardState extends State<contactCard> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 5.0),
+                const SizedBox(height: 5.0),
                 // chat.unread
                 true
                     ? Container(
@@ -102,7 +102,7 @@ class _contactCardState extends State<contactCard> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         alignment: Alignment.center,
-                        child: Text(
+                        child: const Text(
                           'NEW',
                           style: TextStyle(
                             color: Colors.white,
