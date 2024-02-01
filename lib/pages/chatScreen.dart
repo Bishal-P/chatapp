@@ -23,43 +23,6 @@ class _ChatScreenState extends State<ChatScreen> {
   List<Message> _list = [];
   List<String> image_list = [];
   List<Message> messages = [];
-  List msg = [
-    "Hii",
-    "hello",
-    "how are you ?",
-    "I am fine",
-    "what about you ?dfgdgasfsdfjkahsdfjhasjdfhjashdfjafmbasjdfhjash sdgsdfgadfg hello how are you ?",
-    "I am also fine",
-    "ok",
-    "bye",
-    "Hii",
-    "hello",
-    "how are you ?",
-    "I am fine",
-    "what about you ?",
-    "I am also fine",
-    "ok",
-    "bye",
-  ];
-
-  List isMe = [
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-  ];
 
   String getConversationID(String id) => api.user.uid.hashCode <= id.hashCode
       ? '${api.user.uid}_$id'
@@ -79,54 +42,48 @@ class _ChatScreenState extends State<ChatScreen> {
           toolbarHeight: 70,
           backgroundColor: Theme.of(context).primaryColor,
           automaticallyImplyLeading: false,
-          flexibleSpace: Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 0, bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+          title: Row(
+            children: [
+              IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  )),
+              widget.doc?["image"] != ""
+                  ? CircleAvatar(
+                      radius: 25,
+                      backgroundImage:
+                          CachedNetworkImageProvider(widget.doc!["image"]),
+                    )
+                  : CircleAvatar(
+                      radius: 25,
+                      child: Text(widget.doc!["name"][0].toUpperCase(),
+                          style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black))),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
-                        Icons.arrow_left,
-                        color: Colors.white,
-                      )),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: CachedNetworkImage(
-                      width: 50,
-                      height: 50,
-                      imageUrl: widget.doc!['image'],
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => const Icon(
-                        Icons.person,
-                        size: 30,
-                      ),
-                    ),
+                  Text(
+                    widget.doc!["name"],
+                    style: const TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.doc!['name'].toString(),
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.white)),
-                        Text(widget.doc!['is_online'].toString(),
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ))
-                      ],
-                    ),
-                  )
+                  const SizedBox(height: 3),
+                  Text(
+                    widget.doc!["is_online"] == true ? "Online" : "Offline",
+                    style:const TextStyle(
+                        fontSize: 15,
+                        color: Color.fromARGB(204, 255, 255, 255)),
+                  ),
                 ],
               ),
-            ),
+            ],
           ),
         ),
         body: Container(
@@ -197,6 +154,11 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: TextField(
+                              onChanged: (String value) {
+                                msgController.text =
+                                    value.replaceFirst(RegExp(r'^\s+'), '');
+                                print("The value is ${msgController.text}");
+                              },
                               controller: msgController,
                               enableSuggestions: true,
                               maxLines: null,
@@ -221,8 +183,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                 color: Colors.black)),
                         IconButton(
                             onPressed: () {
-                              api.sendMessage(widget.doc?["id"],
-                                  msgController.text, Type.text);
+                              String checkSpaces = msgController.text.trim();
+                              if (checkSpaces.isEmpty || checkSpaces == "") {
+                                return;
+                              }
+                              api.sendMessage(
+                                  widget.doc?["id"], checkSpaces, Type.text);
                               msgController.clear();
                               print("The message is ${msgController.text}");
                               print(

@@ -47,11 +47,18 @@ class messageWidget extends StatelessWidget {
                           : const Radius.circular(15),
                     ),
                   ),
-                  child: Text(
-                    message.msg,
-                    style: TextStyle(
-                      color: isMe ? Colors.white : Colors.black,
-                      fontSize: 16,
+                  child: TextSelectionTheme(
+                    data: TextSelectionThemeData(
+                      cursorColor: Colors.white,
+                      selectionColor: Colors.white,
+                      selectionHandleColor: Colors.white,
+                    ),
+                    child: SelectableText(
+                      message.msg,
+                      style: TextStyle(
+                        color: isMe ? Colors.white : Colors.black,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 )

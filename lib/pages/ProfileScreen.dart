@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
+import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -82,20 +84,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             )
                             // color: Colors.grey[300],
                             ),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              width: 50,
-                              height: 50,
-                              imageUrl: widget.doc!['image'],
-                              placeholder: (context, url) => const Icon(
-                                Icons.person,
-                                size: 30,
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            )),
+                        child: InkWell(
+                          onTap: () {
+                            Get.to(() => image_viewer(
+                                imageList: [widget.doc!["image"]], index: 1));
+                          },
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                width: 50,
+                                height: 50,
+                                imageUrl: widget.doc!['image'],
+                                placeholder: (context, url) => const Icon(
+                                  Icons.person,
+                                  size: 30,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              )),
+                        ),
                       ),
                       Positioned(
                         bottom: 0,
@@ -168,10 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                ).animate().slideY(duration: 1000.ms, begin: -3, end: 0).fadeIn(
-                      duration: 2.seconds,
-                      // delay: 5.seconds,
-                    ),
+                ),
                 const SizedBox(height: 30),
                 // Text("User Name", style: Theme.of(context).textTheme.headline4),
                 Padding(
@@ -193,8 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       BorderRadius.all(Radius.circular(20))),
                               label: Text("Name"),
                               prefixIcon: Icon(Icons.person)),
-                        ).animate().slideX(
-                            duration: 700.milliseconds, delay: 0.seconds),
+                        ),
                         const SizedBox(height: 20),
                         TextFormField(
                           onSaved: (newValue) => email = newValue,
@@ -207,27 +211,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       BorderRadius.all(Radius.circular(20))),
                               label: Text("Email"),
                               prefixIcon: Icon(Icons.email)),
-                        ).animate().slideY(
-                            duration: 700.milliseconds, delay: 0.seconds),
+                        ),
                         const SizedBox(height: 20),
                         TextFormField(
-                                onSaved: (newValue) => about = newValue,
-                                validator: (value) => value!.isEmpty
-                                    ? "Please enter about"
-                                    : null,
-                                initialValue: widget.doc!['about'].toString(),
-                                // keyboardType: TextInputType.phone,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                    label: Text(
-                                      "About",
-                                    ),
-                                    prefixIcon: Icon(Icons.abc)))
-                            .animate()
-                            .slideX(
-                                duration: 700.milliseconds, delay: 0.seconds),
+                            onSaved: (newValue) => about = newValue,
+                            validator: (value) =>
+                                value!.isEmpty ? "Please enter about" : null,
+                            initialValue: widget.doc!['about'].toString(),
+                            // keyboardType: TextInputType.phone,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                label: Text(
+                                  "About",
+                                ),
+                                prefixIcon: Icon(Icons.abc))),
                         const SizedBox(height: 20),
                         TextFormField(
                           obscureText: true,
@@ -241,8 +240,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 icon: const Icon(Icons.remove_red_eye),
                                 onPressed: () {}),
                           ),
-                        ).animate().slideY(
-                            duration: 700.milliseconds, delay: 0.seconds),
+                        ),
                         const SizedBox(height: 50),
                         InkWell(
                           onTap: () {
@@ -278,11 +276,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                           ),
-                        ).animate().slideX(
-                            duration: 1.seconds,
-                            // delay: 8.seconds,
-                            begin: -2,
-                            end: 0),
+                        )
                       ],
                     ),
                   ),
