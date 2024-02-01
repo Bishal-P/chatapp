@@ -74,10 +74,10 @@ class _ChatScreenState extends State<ChatScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 105, 105),
+        backgroundColor: Theme.of(context).primaryColor,
         appBar: AppBar(
           toolbarHeight: 70,
-          backgroundColor: Color.fromARGB(255, 255, 105, 105),
+          backgroundColor: Theme.of(context).primaryColor,
           automaticallyImplyLeading: false,
           flexibleSpace: Container(
             width: double.infinity,
@@ -89,7 +89,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: [
                   IconButton(
                       onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.arrow_left)),
+                      icon: const Icon(
+                        Icons.arrow_left,
+                        color: Colors.white,
+                      )),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: CachedNetworkImage(
@@ -112,11 +115,11 @@ class _ChatScreenState extends State<ChatScreen> {
                       children: [
                         Text(widget.doc!['name'].toString(),
                             style: const TextStyle(
-                              fontSize: 20,
-                            )),
+                                fontSize: 20, color: Colors.white)),
                         Text(widget.doc!['is_online'].toString(),
                             style: const TextStyle(
                               fontSize: 15,
+                              color: Colors.white,
                             ))
                       ],
                     ),
@@ -126,55 +129,6 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
         ),
-        // appBar: AppBar(
-        //   toolbarHeight: 70,
-        //   backgroundColor: Color.fromARGB(70, 17, 17, 17),
-        //   automaticallyImplyLeading: false,
-        //   flexibleSpace: Row(
-        //     children: [
-        //       IconButton(
-        //           onPressed: () {
-        //             Navigator.pop(context);
-        //           },
-        //           icon: const Icon(Icons.arrow_left)),
-        //       Padding(
-        //         padding: const EdgeInsets.only(left: 0, top: 5, bottom: 5),
-        //         child: ClipRRect(
-        //           borderRadius: BorderRadius.circular(100),
-        //           child: CachedNetworkImage(
-        //             width: 50,
-        //             height: 50,
-        //             imageUrl: widget.doc!['image'],
-        //             placeholder: (context, url) =>
-        //                 const CircularProgressIndicator(),
-        //             errorWidget: (context, url, error) => const Icon(
-        //               Icons.person,
-        //               size: 30,
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //       Padding(
-        //         padding:
-        //             const EdgeInsets.symmetric(horizontal: 20, vertical: 1),
-        //         child: Column(
-        //           crossAxisAlignment: CrossAxisAlignment.start,
-        //           mainAxisAlignment: MainAxisAlignment.center,
-        //           children: [
-        //             Text(widget.doc!['name'].toString(),
-        //                 style: const TextStyle(
-        //                   fontSize: 20,
-        //                 )),
-        //             Text(widget.doc!['is_online'].toString(),
-        //                 style: const TextStyle(
-        //                   fontSize: 15,
-        //                 ))
-        //           ],
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // ),
         body: Container(
           height: double.infinity,
           decoration: const BoxDecoration(
@@ -189,34 +143,34 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: StreamBuilder(
                     stream: api.getMessages(widget.doc!["id"]),
                     builder: (context, snapshot) {
-                      _list = snapshot.data as List<Message>;
+                      var data = snapshot.data;
+                      data != null ? _list = data as List<Message> : _list = [];
+                      // _list = snapshot.data as List<Message>;
                       // print("The list is $_list");
                       // print("THe first values is: ${_list[0].msg}");
-                      if (_list.isNotEmpty) {
-                        return ListView.builder(
-                          reverse: true,
-                          itemCount: _list.length,
-                          itemBuilder: (context, index) {
-                            if (_list[index].type == Type.image &&
-                                image_list.contains(_list[index].msg) ==
-                                    false) {
-                              image_list.add(_list[index].msg);
-                            }
-                            return messageWidget(
-                              message: _list[index],
-                              image_list: image_list,
-                              index: index,
+                      return _list.isNotEmpty
+                          ? ListView.builder(
+                              reverse: true,
+                              itemCount: _list.length,
+                              itemBuilder: (context, index) {
+                                if (_list[index].type == Type.image &&
+                                    image_list.contains(_list[index].msg) ==
+                                        false) {
+                                  image_list.add(_list[index].msg);
+                                }
+                                return messageWidget(
+                                  message: _list[index],
+                                  image_list: image_list,
+                                  index: index,
+                                );
+                              },
+                            )
+                          : const Center(
+                              child: Text(
+                                "Say Hii 👋",
+                                style: TextStyle(fontSize: 25),
+                              ),
                             );
-                          },
-                        );
-                      } else {
-                        return const Center(
-                          child: Text(
-                            "Say Hii 👋",
-                            style: TextStyle(fontSize: 25),
-                          ),
-                        );
-                      }
                     },
                   ),
                 ),

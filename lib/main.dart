@@ -1,7 +1,4 @@
-import 'package:chatapp/components/functions.dart';
 import 'package:chatapp/pages/HomePage.dart';
-import 'package:chatapp/pages/PhoneLogin.dart';
-import 'package:chatapp/pages/homepage.dart';
 import 'package:chatapp/pages/loginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

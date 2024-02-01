@@ -47,6 +47,8 @@ class _FavourtieContactsState extends State<FavourtieContacts> {
           Flexible(
             // height: 90,
             child: ListView.builder(
+              shrinkWrap: true,
+              physics:const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: 10,
               itemBuilder: (BuildContext context, int index) {

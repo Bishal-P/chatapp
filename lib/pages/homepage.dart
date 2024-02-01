@@ -1,4 +1,4 @@
-import 'dart:convert';
+// import 'dart:convert';
 // import 'dart:html';
 
 import 'package:chatapp/components/apis.dart';
@@ -8,7 +8,7 @@ import 'package:chatapp/pages/loginPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
+// import 'dart:developer';
 
 class HomePage1 extends StatefulWidget {
   const HomePage1({super.key});
@@ -119,7 +119,8 @@ class _HomePage1State extends State<HomePage1> {
                       print(
                           "The snapshot data is ${snapshot.data?.docs[index]}");
                       if (snapshot.data?.docs[index].id != api.user.uid) {
-                        return chartUsercard(doc: snapshot.data?.docs[index]);
+                        return chartUsercard(
+                            doc: snapshot.data!.docs[index] as AsyncSnapshot);
                       }
                       return const SizedBox();
                     });

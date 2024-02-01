@@ -168,13 +168,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                )
-                    .animate()
-                    .slideY(
-                        duration: 5000.ms, delay: 5.seconds, begin: -3, end: 0)
-                    .fadeIn(
-                      duration: 5.seconds,
-                      delay: 5.seconds,
+                ).animate().slideY(duration: 1000.ms, begin: -3, end: 0).fadeIn(
+                      duration: 2.seconds,
+                      // delay: 5.seconds,
                     ),
                 const SizedBox(height: 30),
                 // Text("User Name", style: Theme.of(context).textTheme.headline4),
@@ -283,8 +279,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ).animate().slideX(
-                            duration: 5.seconds,
-                            delay: 8.seconds,
+                            duration: 1.seconds,
+                            // delay: 8.seconds,
                             begin: -2,
                             end: 0),
                       ],

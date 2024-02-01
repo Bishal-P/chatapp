@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 class chartUsercard extends StatefulWidget {
   // var name;
   // var about;
-  DocumentSnapshot<Object>? doc;
-  chartUsercard({super.key, this.doc});
+  AsyncSnapshot doc;
+  chartUsercard({super.key, required this.doc});
 
   @override
   State<chartUsercard> createState() => _chartUsercardState();
@@ -23,7 +23,7 @@ class _chartUsercardState extends State<chartUsercard> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ChatScreen(doc: widget.doc!)));
+                  builder: (context) => ChatScreen(doc: widget.doc.data())));
         },
         child: ListTile(
           leading: ClipRRect(
@@ -31,7 +31,7 @@ class _chartUsercardState extends State<chartUsercard> {
             child: CachedNetworkImage(
               width: 50,
               height: 50,
-              imageUrl: widget.doc!['image'],
+              imageUrl: widget.doc.data()['image'],
               placeholder: (context, url) => const CircularProgressIndicator(),
               errorWidget: (context, url, error) => const Icon(
                 Icons.person,
@@ -42,8 +42,8 @@ class _chartUsercardState extends State<chartUsercard> {
           //  CircleAvatar(
           //   child: Icon(Icons.person),
           // ),
-          title: Text(widget.doc!['name']),
-          subtitle: Text(widget.doc!['about']),
+          title: Text(widget.doc.data()['name']),
+          subtitle: Text(widget.doc.data()['about']),
           trailing: const Icon(Icons.message),
         ),
       ),
