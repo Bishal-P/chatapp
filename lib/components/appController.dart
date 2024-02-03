@@ -12,14 +12,22 @@ class appController extends GetxController {
 
   int get index => selectedIndex.value;
 
-
-
-
-// here to change the focus of the selected text of the chatscreen
-
-  FocusNode focusNode = FocusNode();
-
-  void unFocus() {
-    focusNode.unfocus();
+// String messageTime
+  String messageTime(String time2) {
+    final now = DateTime.now();
+    final DateTime time = DateTime.parse(time2);
+    final difference = now.difference(time);
+    if (difference.inDays > 1) {
+      return "${time.day}/${time.month}/${time.year}";
+    } else if (difference.inDays == 1) {
+      return "Yesterday";
+    } else if (difference.inHours >= 1) {
+      return "${difference.inHours} hours ago";
+    } else if (difference.inMinutes >= 1) {
+      return "${difference.inMinutes} minutes ago";
+    } else {
+      return "Just now";
+    }
   }
+  
 }

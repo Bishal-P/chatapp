@@ -1,25 +1,31 @@
 // import 'dart:js';
 
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/models/messageModel.dart';
+import 'package:chatapp/newPages/message_model.dart';
 import 'package:chatapp/pages/imageViewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class messageWidget extends StatelessWidget {
-  final Message message;
+  final Message2 message;
   int index;
   List<String> image_list;
+  Map<int, int> imageIndex;
   messageWidget(
       {super.key,
       required this.message,
       required this.image_list,
-      required this.index});
+      required this.index,
+      required this.imageIndex});
 
   @override
   Widget build(BuildContext context) {
     final bool isMe = message.fromId == api.user.uid;
+    print("The message vale is ${api.messageTime(message.sent)}");
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
@@ -35,7 +41,9 @@ class messageWidget extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                   decoration: BoxDecoration(
-                    color: isMe ? Colors.deepPurple : Colors.grey[300],
+                    color: isMe
+                        ? Color.fromARGB(255, 44, 110, 253)
+                        : Color.fromARGB(255, 227, 255, 101),
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(15),
                       topRight: const Radius.circular(15),
@@ -49,15 +57,20 @@ class messageWidget extends StatelessWidget {
                   ),
                   child: TextSelectionTheme(
                     data: TextSelectionThemeData(
-                      cursorColor: Colors.white,
-                      selectionColor: Colors.white,
-                      selectionHandleColor: Colors.white,
+                      // cursorColor: Colors.blue,
+                      selectionColor: isMe
+                          ? Color.fromARGB(255, 250, 167, 90)
+                          : Color.fromARGB(255, 255, 175, 121),
+                      selectionHandleColor: Colors.blue,
                     ),
-                    child: SelectableText(
-                      message.msg,
-                      style: TextStyle(
-                        color: isMe ? Colors.white : Colors.black,
-                        fontSize: 16,
+                    child: SelectableText.rich(
+                      TextSpan(
+                        onExit: (event) => Void,
+                        text: message.msg,
+                        style: TextStyle(
+                          color: isMe ? Colors.white : Colors.black,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
@@ -68,7 +81,7 @@ class messageWidget extends StatelessWidget {
                         context: context,
                         builder: (context) => image_viewer(
                               imageList: image_list,
-                              index: index,
+                              index: imageIndex[index]!,
                             ));
                     // image_list.add(message.msg);
                     //  Navigator.push(context, MaterialPageRoute(builder: (context) => image_viewer(imageList: image_list,)));
@@ -81,7 +94,9 @@ class messageWidget extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 5),
                       decoration: BoxDecoration(
-                        color: isMe ? Colors.deepPurple : Colors.grey[300],
+                        color: isMe
+                            ? Color.fromARGB(255, 44, 110, 253)
+                            : Color.fromARGB(255, 227, 255, 101),
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(15),
                           topRight: const Radius.circular(15),
@@ -111,9 +126,9 @@ class messageWidget extends StatelessWidget {
             mainAxisAlignment:
                 isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
-              const Text(
-                "12:00",
-                style: TextStyle(
+              Text(
+                api.messageTime(message.sent),
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 12,
                 ),

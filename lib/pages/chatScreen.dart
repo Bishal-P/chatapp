@@ -5,7 +5,9 @@ import 'package:chatapp/components/apis.dart';
 // import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/messageWidget.dart';
 import 'package:chatapp/models/messageModel.dart';
+import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'package:flutter_animate/flutter_animate.dart';
@@ -20,9 +22,15 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController msgController = TextEditingController();
-  List<Message> _list = [];
+  List<Message2> _list = [];
   List<String> image_list = [];
-  List<Message> messages = [];
+  Map<int, int> image_index = {};
+  List<Message2> messages = [];
+  int currentImageIndex = 0;
+
+  Message2? message;
+  int? index;
+  // List<String> image_list;
 
   String getConversationID(String id) => api.user.uid.hashCode <= id.hashCode
       ? '${api.user.uid}_$id'
@@ -35,14 +43,14 @@ class _ChatScreenState extends State<ChatScreen> {
     print("The hashcode is ${api.user.uid.hashCode}");
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
       child: Scaffold(
-        // backgroundimage: "assets/chat_bg.jpg",
         extendBodyBehindAppBar: true,
-        // backgroundColor: Colors.black26,
         appBar: AppBar(
           toolbarHeight: 70,
-          backgroundColor: Color.fromARGB(125, 32, 32, 32),
+          backgroundColor: const Color.fromARGB(125, 32, 32, 32),
           automaticallyImplyLeading: false,
           title: Row(
             children: [
@@ -105,7 +113,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     stream: api.getMessages(widget.doc!["id"]),
                     builder: (context, snapshot) {
                       var data = snapshot.data;
-                      data != null ? _list = data as List<Message> : _list = [];
+                      data != null
+                          ? _list = data as List<Message2>
+                          : _list = [];
                       return _list.isNotEmpty
                           ? ListView.builder(
                               reverse: true,
@@ -114,12 +124,172 @@ class _ChatScreenState extends State<ChatScreen> {
                                 if (_list[index].type == Type.image &&
                                     image_list.contains(_list[index].msg) ==
                                         false) {
+                                  image_index[index] = currentImageIndex;
+                                  currentImageIndex++;
                                   image_list.add(_list[index].msg);
                                 }
+                                bool isMe = _list[index].fromId == api.user.uid;
+                                // return Container(
+                                //   margin: EdgeInsets.symmetric(
+                                //       vertical: 2, horizontal: 10),
+                                //   child: Column(
+                                //     crossAxisAlignment: isMe
+                                //         ? CrossAxisAlignment.end
+                                //         : CrossAxisAlignment.start,
+                                //     children: [
+                                //       _list[index].type == Type.text
+                                //           ? Container(
+                                //               constraints: BoxConstraints(
+                                //                 maxWidth: MediaQuery.of(context)
+                                //                         .size
+                                //                         .width *
+                                //                     0.73,
+                                //               ),
+                                //               padding:
+                                //                   const EdgeInsets.symmetric(
+                                //                       vertical: 8,
+                                //                       horizontal: 10),
+                                //               decoration: BoxDecoration(
+                                //                 color: isMe
+                                //                     ? Color.fromARGB(
+                                //                         255, 44, 110, 253)
+                                //                     : Color.fromARGB(
+                                //                         255, 227, 255, 101),
+                                //                 borderRadius: BorderRadius.only(
+                                //                   topLeft:
+                                //                       const Radius.circular(15),
+                                //                   topRight:
+                                //                       const Radius.circular(15),
+                                //                   bottomLeft: isMe
+                                //                       ? const Radius.circular(
+                                //                           15)
+                                //                       : const Radius.circular(
+                                //                           0),
+                                //                   bottomRight: isMe
+                                //                       ? const Radius.circular(0)
+                                //                       : const Radius.circular(
+                                //                           15),
+                                //                 ),
+                                //               ),
+                                //               child: SelectableText.rich(
+                                //                 TextSpan(
+                                //                   onExit: (event) => null,
+                                //                   text: _list[index].msg,
+                                //                   style: TextStyle(
+                                //                     color: isMe
+                                //                         ? Colors.white
+                                //                         : Colors.black,
+                                //                     fontSize: 16,
+                                //                   ),
+                                //                 ),
+                                //               ))
+                                //           : InkWell(
+                                //               onTap: () {
+                                //                 showCupertinoModalPopup(
+                                //                     context: context,
+                                //                     builder: (context) =>
+                                //                         image_viewer(
+                                //                           imageList: image_list,
+                                //                           index: image_index[
+                                //                               index]!,
+                                //                         ));
+                                //                 // image_list.add(message.msg);
+                                //                 //  Navigator.push(context, MaterialPageRoute(builder: (context) => image_viewer(imageList: image_list,)));
+                                //                 // Navigator.pushNamed(context
+                                //               },
+                                //               child: Container(
+                                //                   constraints: BoxConstraints(
+                                //                     maxWidth:
+                                //                         MediaQuery.of(context)
+                                //                                 .size
+                                //                                 .width *
+                                //                             0.8,
+                                //                   ),
+                                //                   padding: const EdgeInsets
+                                //                       .symmetric(
+                                //                       vertical: 5,
+                                //                       horizontal: 5),
+                                //                   decoration: BoxDecoration(
+                                //                     color: isMe
+                                //                         ? Color.fromARGB(
+                                //                             255, 44, 110, 253)
+                                //                         : Color.fromARGB(
+                                //                             255, 227, 255, 101),
+                                //                     borderRadius:
+                                //                         BorderRadius.only(
+                                //                       topLeft:
+                                //                           const Radius.circular(
+                                //                               15),
+                                //                       topRight:
+                                //                           const Radius.circular(
+                                //                               15),
+                                //                       bottomLeft: isMe
+                                //                           ? const Radius
+                                //                               .circular(15)
+                                //                           : const Radius
+                                //                               .circular(0),
+                                //                       bottomRight: isMe
+                                //                           ? const Radius
+                                //                               .circular(0)
+                                //                           : const Radius
+                                //                               .circular(15),
+                                //                     ),
+                                //                   ),
+                                //                   child: ClipRRect(
+                                //                       borderRadius:
+                                //                           BorderRadius.circular(
+                                //                               20),
+                                //                       child: CachedNetworkImage(
+                                //                         filterQuality:
+                                //                             FilterQuality.low,
+                                //                         imageUrl:
+                                //                             _list[index].msg,
+                                //                         placeholder: (context,
+                                //                                 url) =>
+                                //                             const Center(
+                                //                                 child:
+                                //                                     CircularProgressIndicator()),
+                                //                         errorWidget: (context,
+                                //                                 url, error) =>
+                                //                             const Icon(
+                                //                                 Icons.error),
+                                //                         height: 200,
+                                //                         width: 200,
+                                //                         fit: BoxFit.cover,
+                                //                       ))),
+                                //             ),
+                                //       Row(
+                                //         mainAxisAlignment: isMe
+                                //             ? MainAxisAlignment.end
+                                //             : MainAxisAlignment.start,
+                                //         children: [
+                                //           Text(
+                                //             api.messageTime(_list[index].sent),
+                                //             style: const TextStyle(
+                                //               color: Colors.grey,
+                                //               fontSize: 12,
+                                //             ),
+                                //           ),
+                                //           const SizedBox(width: 5),
+                                //           isMe
+                                //               ? Icon(
+                                //                   Icons.done_all,
+                                //                   color: isMe
+                                //                       ? Colors.blue
+                                //                       : Colors.grey,
+                                //                   size: 20,
+                                //                 )
+                                //               : const SizedBox(width: 0),
+                                //         ],
+                                //       )
+                                //     ],
+                                //   ),
+                                // );
                                 return messageWidget(
                                   message: _list[index],
                                   image_list: image_list,
                                   index: index,
+                                  imageIndex: image_index,
                                 );
                               },
                             )
@@ -132,84 +302,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     },
                   ),
                 ),
-                // Container(
-                //   // height: 52,
-                //   alignment: Alignment.center,
-                //   margin:
-                //       const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                //   decoration: BoxDecoration(
-                //       color: Colors.grey[300],
-                //       borderRadius: BorderRadius.circular(15)),
-                //   child: ConstrainedBox(
-                //     constraints: const BoxConstraints(
-                //       maxHeight: 150,
-                //     ),
-                //     child: Container(
-                //       decoration: BoxDecoration(
-                //           color: Color.fromARGB(255, 53, 49, 49),
-                //           borderRadius: BorderRadius.circular(15)),
-                //       child: Row(
-                //         crossAxisAlignment: CrossAxisAlignment.end,
-                //         children: [
-                // IconButton(
-                //     onPressed: () {},
-                //     icon: const Icon(Icons.emoji_emotions_outlined,
-                //         color: Color.fromARGB(255, 255, 255, 255))),
-                // Expanded(
-                //   child: Padding(
-                //     padding:
-                //         const EdgeInsets.symmetric(horizontal: 10),
-                //     child: TextField(
-                //       onChanged: (String value) {
-                //         msgController.text =
-                //             value.replaceFirst(RegExp(r'^\s+'), '');
-                //         print("The value is ${msgController.text}");
-                //       },
-                //       controller: msgController,
-                //       enableSuggestions: true,
-                //       maxLines: null,
-                //       // expands: true,
-                //       keyboardType: TextInputType.multiline,
-                //       decoration: const InputDecoration(
-                //           border: InputBorder.none,
-                //           hintStyle: TextStyle(
-                //               color:
-                //                   Color.fromARGB(204, 255, 255, 255)),
-                //           hintText: "Type a message"),
-                //     ),
-                //   ),
-                // ),
-                // IconButton(
-                //     onPressed: () {
-                //       ImagePicker().pickMedia().then((value) {
-                //         if (value != null) {
-                //           api.sendImage(
-                //               widget.doc!["id"], File(value!.path));
-                //         }
-                //       });
-                //     },
-                //     icon: const Icon(Icons.attach_file,
-                //         color: Color.fromARGB(255, 231, 231, 231))),
-                // IconButton(
-                //     onPressed: () {
-                //       String checkSpaces = msgController.text.trim();
-                //       if (checkSpaces.isEmpty || checkSpaces == "") {
-                //         return;
-                //       }
-                //       api.sendMessage(
-                //           widget.doc?["id"], checkSpaces, Type.text);
-                //       msgController.clear();
-                //       print("The message is ${msgController.text}");
-                //       print(
-                //           "the getmessages are :${api.getMessages(widget.doc!["id"])}");
-                //     },
-                //     icon: const Icon(Icons.send,
-                //         color: Color.fromARGB(255, 235, 235, 235))),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // )
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(

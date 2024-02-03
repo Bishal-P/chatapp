@@ -5,6 +5,7 @@ import 'package:chatapp/models/usermodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 
 class api {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -70,7 +71,7 @@ class api {
 
 // sending message
   static sendMessage(String receiverId, String text, Type type) async {
-    final Message message = Message(
+    final Message2 message = Message2(
       toId: receiverId,
       msg: text,
       read: "false",
@@ -86,18 +87,16 @@ class api {
         .set(message.toJson());
   }
 
-
 // send image
   static sendImage(String receiverId, File file) async {
     final extension = file.path.split('.').last;
-    final Reference ref = storage
-        .ref()
-        .child("messages/${getConversationID(receiverId)}/${getTime()}.$extension");
+    final Reference ref = storage.ref().child(
+        "messages/${getConversationID(receiverId)}/${getTime()}.$extension");
     await ref
         .putFile(file, SettableMetadata(contentType: "image/$extension"))
         .whenComplete(() async {
       final url = await ref.getDownloadURL();
-      final Message message = Message(
+      final Message2 message = Message2(
         toId: receiverId,
         msg: url,
         read: "false",
@@ -115,7 +114,7 @@ class api {
   }
 
 // getting messages
-  static Stream<List<Message>> getMessages(String id) {
+  static Stream<List<Message2>> getMessages(String id) {
     return firestore
         .collection("users_chats")
         .doc(getConversationID(id))
@@ -123,6 +122,14 @@ class api {
         .orderBy("sent", descending: true)
         .snapshots()
         .map((event) =>
-            event.docs.map((e) => Message.fromJson(e.data())).toList());
+            event.docs.map((e) => Message2.fromJson(e.data())).toList());
+  }
+
+  // to convert time from milliseconds to 12:00 AM/PM
+  static String messageTime(String time) {
+    final DateTime dateTime = DateTime.parse(time);
+    // final String formattedTime = DateFormat.jm().format(dateTime);
+    final String formattedTime = DateFormat('hh:mm a').format(dateTime);
+    return formattedTime;
   }
 }
