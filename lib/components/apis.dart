@@ -1,14 +1,20 @@
 import 'dart:io';
 
+import 'package:chatapp/components/appController.dart';
 import 'package:chatapp/models/messageModel.dart';
 import 'package:chatapp/models/usermodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:get/instance_manager.dart';
 import 'package:intl/intl.dart';
 
 class api {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // static appController controller = Get.put(appController());
+
+  ////updating the message previous date
+  static String previousDate = messageDate(DateTime.now().toString());
 
 //user id
 // api.user
@@ -77,7 +83,9 @@ class api {
       read: "false",
       type: type,
       fromId: api.user.uid,
-      sent: DateTime.now().toString(),
+      sentTime: DateTime.now().toString(),
+      isSent: true,
+      sendingTime: DateTime.now().toString(),
     );
     await firestore
         .collection("users_chats")
@@ -85,31 +93,76 @@ class api {
         .collection("messages")
         .doc(getTime())
         .set(message.toJson());
+    print("The message is sent");
   }
 
 // send image
   static sendImage(String receiverId, File file) async {
+    // controller.setUploading(true);
+    final String docId = getTime();
+    final Message2 message = Message2(
+      toId: receiverId,
+      msg: "0",
+      read: "false",
+      type: Type.image,
+      fromId: api.user.uid,
+      sendingTime: DateTime.now().toString(),
+      sentTime: "",
+      isSent: false,
+    );
+    firestore
+        .collection("users_chats")
+        .doc(getConversationID(message.toId))
+        .collection("messages")
+        .doc(docId)
+        .set(message.toJson());
+    print("The image message is sent");
+    UploadTask? uploadTask;
     final extension = file.path.split('.').last;
     final Reference ref = storage.ref().child(
         "messages/${getConversationID(receiverId)}/${getTime()}.$extension");
-    await ref
-        .putFile(file, SettableMetadata(contentType: "image/$extension"))
-        .whenComplete(() async {
+    uploadTask =
+        ref.putFile(file, SettableMetadata(contentType: "image/$extension"));
+    uploadTask.snapshotEvents.listen(
+      (TaskSnapshot snapshot) {
+        double progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        print('Upload is $progress% done');
+        firestore
+            .collection("users_chats")
+            .doc(getConversationID(receiverId))
+            .collection("messages")
+            .doc(docId)
+            .update({
+          "msg": progress.toInt().toString(),
+        });
+        appController().setUploadProgress(progress.toInt());
+      },
+      onError: (Object error) {
+        print('Error: $error');
+      },
+      onDone: () {
+        print('Upload Complete');
+        // Close the stream when done
+      },
+      cancelOnError: true,
+    );
+    uploadTask.whenComplete(() async {
+      print('Upload Complete (onCompletion)');
       final url = await ref.getDownloadURL();
-      final Message2 message = Message2(
-        toId: receiverId,
-        msg: url,
-        read: "false",
-        type: Type.image,
-        fromId: api.user.uid,
-        sent: DateTime.now().toString(),
-      );
-      await firestore
+      firestore
           .collection("users_chats")
-          .doc(getConversationID(message.toId))
+          .doc(getConversationID(receiverId))
           .collection("messages")
-          .doc(getTime())
-          .set(message.toJson());
+          .doc(docId)
+          .update({
+        "msg": url,
+        "isSent": true,
+        "sentTime": DateTime.now().toString()
+      }).then((value) {
+        // controller.setUploading(false);
+        // controller.uploadProgress(0);
+      });
     });
   }
 
@@ -119,17 +172,30 @@ class api {
         .collection("users_chats")
         .doc(getConversationID(id))
         .collection("messages")
-        .orderBy("sent", descending: true)
+        .orderBy("sendingTime", descending: true)
         .snapshots()
         .map((event) =>
             event.docs.map((e) => Message2.fromJson(e.data())).toList());
   }
 
-  // to convert time from milliseconds to 12:00 AM/PM
+// to conver time from milliseconds to 12:00 AM/PM
   static String messageTime(String time) {
     final DateTime dateTime = DateTime.parse(time);
-    // final String formattedTime = DateFormat.jm().format(dateTime);
     final String formattedTime = DateFormat('hh:mm a').format(dateTime);
     return formattedTime;
+  }
+
+  // to get the date from milliseconds to date format
+  static String messageDate(String time) {
+    final DateTime todayDate = DateTime.now();
+    final DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
+    final DateTime date = DateTime.parse(time);
+    String formattedDate = DateFormat('dd:MM:yy').format(date);
+    if (formattedDate == DateFormat('dd:MM:yy').format(todayDate)) {
+      return "Today";
+    } else if (yesterday == formattedDate) {
+      return "Yesterday";
+    }
+    return formattedDate;
   }
 }

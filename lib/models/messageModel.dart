@@ -5,15 +5,19 @@ class Message2 {
     required this.read,
     required this.type,
     required this.fromId,
-    required this.sent,
+    required this.sentTime,
+    required this.isSent,
+    required this.sendingTime,
   });
 
   late final String toId;
   late final String msg;
   late final String read;
   late final String fromId;
-  late final String sent;
+  late final String sentTime;
   late final Type type;
+  late final bool isSent;
+  late final String sendingTime;
 
   Message2.fromJson(Map<String, dynamic> json) {
     toId = json['toId'].toString();
@@ -21,7 +25,10 @@ class Message2 {
     read = json['read'].toString();
     type = json['type'].toString() == Type.image.name ? Type.image : Type.text;
     fromId = json['fromId'].toString();
-    sent = json['sent'].toString();
+    sentTime = json['sentTime'].toString();
+    isSent = json['isSent'];
+    sendingTime = json['sendingTime'].toString();
+    
   }
 
   Map<String, dynamic> toJson() {
@@ -31,7 +38,9 @@ class Message2 {
     data['read'] = read;
     data['type'] = type.name;
     data['fromId'] = fromId;
-    data['sent'] = sent;
+    data['sentTime'] = sentTime;
+    data['isSent'] = isSent;
+    data['sendingTime'] = sendingTime;
     return data;
   }
 }

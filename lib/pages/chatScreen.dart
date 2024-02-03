@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
+import 'package:chatapp/components/appController.dart';
 // import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/messageWidget.dart';
 import 'package:chatapp/models/messageModel.dart';
@@ -9,6 +10,7 @@ import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'package:flutter_animate/flutter_animate.dart';
 
@@ -38,6 +40,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appController controller = Get.put(appController());
     print("The doc id is ${widget.doc!}");
     print("the conver id is : ${getConversationID(widget.doc!.id)}");
     print("The hashcode is ${api.user.uid.hashCode}");
@@ -130,18 +133,38 @@ class _ChatScreenState extends State<ChatScreen> {
                                 }
                                 bool isMe = _list[index].fromId == api.user.uid;
 
-                                return messageWidget(
-                                  message: _list[index],
-                                  image_list: image_list,
-                                  index: index,
-                                  imageIndex: image_index,
-                                );
+                                return api.messageDate(
+                                            _list[index].sendingTime) !=
+                                        api.previousDate
+                                    ? Column(
+                                        children: [
+                                          Text(
+                                            api.messageDate(
+                                                _list[index].sendingTime),
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          messageWidget(
+                                            message: _list[index],
+                                            image_list: image_list,
+                                            index: index,
+                                            imageIndex: image_index,
+                                          ),
+                                        ],
+                                      )
+                                    : messageWidget(
+                                        message: _list[index],
+                                        image_list: image_list,
+                                        index: index,
+                                        imageIndex: image_index,
+                                      );
                               },
                             )
                           : const Center(
                               child: Text(
                                 "Say Hii 👋",
-                                style: TextStyle(fontSize: 25),
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.white),
                               ),
                             );
                     },

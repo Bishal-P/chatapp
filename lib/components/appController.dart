@@ -29,5 +29,18 @@ class appController extends GetxController {
       return "Just now";
     }
   }
+
+
+  // listening the upload status
+  RxBool isUploading = false.obs;
+  RxInt uploadProgress = 0.obs;
+  int get progress => uploadProgress.value;
+  bool get uploading => isUploading.value;
+  void setUploading(bool value) {
+    isUploading.value = value;
+  }
+  void setUploadProgress(int value) {
+    uploadProgress.value = value;
+  }
   
 }
