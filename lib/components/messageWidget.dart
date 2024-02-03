@@ -25,9 +25,7 @@ class messageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMe = message.fromId == api.user.uid;
-    api.previousDate = api.messageDate(message.sendingTime);
-    print("The message vale is ${api.messageTime(message.sendingTime)}");
-    print("The message date is ${api.messageDate(message.sendingTime)} ");
+    // print("The message vale is ${api.messageTime(message.sentTime)}");
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
@@ -44,8 +42,8 @@ class messageWidget extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                   decoration: BoxDecoration(
                     color: isMe
-                        ? Color.fromARGB(255, 44, 110, 253)
-                        : Color.fromARGB(255, 227, 255, 101),
+                        ? const Color.fromARGB(255, 44, 110, 253)
+                        : const Color.fromARGB(255, 227, 255, 101),
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(15),
                       topRight: const Radius.circular(15),
@@ -61,8 +59,8 @@ class messageWidget extends StatelessWidget {
                     data: TextSelectionThemeData(
                       // cursorColor: Colors.blue,
                       selectionColor: isMe
-                          ? Color.fromARGB(255, 250, 167, 90)
-                          : Color.fromARGB(255, 255, 175, 121),
+                          ? const Color.fromARGB(255, 250, 167, 90)
+                          : const Color.fromARGB(255, 255, 175, 121),
                       selectionHandleColor: Colors.blue,
                     ),
                     child: SelectableText.rich(
@@ -77,18 +75,18 @@ class messageWidget extends StatelessWidget {
                     ),
                   ),
                 )
-              : message.isSent == false
+              : message.isSent == false && message.fromId == api.user.uid
                   ? Container(
                       width: 200,
                       height: 70,
                       decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 44, 110, 253),
+                          color: const Color.fromARGB(255, 44, 110, 253),
                           borderRadius: BorderRadius.circular(10)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, top: 5),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10, top: 5),
                             child: Text(
                               "Sending File...",
                               style: TextStyle(
@@ -97,7 +95,7 @@ class messageWidget extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Center(
+                          const Center(
                             child: LinearProgressIndicator(
                               color: Colors.lightBlueAccent,
                             ),
@@ -105,8 +103,8 @@ class messageWidget extends StatelessWidget {
                           Expanded(
                               child: Center(
                                   child: Text(
-                            "Uploaded... ${message.msg}%",
-                            style: TextStyle(
+                            "uploading...${message.msg} %",
+                            style: const TextStyle(
                                 color: Colors.white54,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold),
@@ -114,76 +112,82 @@ class messageWidget extends StatelessWidget {
                         ],
                       ),
                     )
-                  : InkWell(
-                      onTap: () {
-                        showCupertinoModalPopup(
-                            context: context,
-                            builder: (context) => image_viewer(
-                                  imageList: image_list,
-                                  index:
-                                      imageIndex != {} ? imageIndex[index]! : 0,
-                                ));
-                        // image_list.add(message.msg);
-                        //  Navigator.push(context, MaterialPageRoute(builder: (context) => image_viewer(imageList: image_list,)));
-                        // Navigator.pushNamed(context
-                      },
-                      child: Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.8,
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 5),
-                          decoration: BoxDecoration(
-                            color: isMe
-                                ? Color.fromARGB(255, 44, 110, 253)
-                                : Color.fromARGB(255, 227, 255, 101),
-                            borderRadius: BorderRadius.only(
-                              topLeft: const Radius.circular(15),
-                              topRight: const Radius.circular(15),
-                              bottomLeft: isMe
-                                  ? const Radius.circular(15)
-                                  : const Radius.circular(0),
-                              bottomRight: isMe
-                                  ? const Radius.circular(0)
-                                  : const Radius.circular(15),
-                            ),
-                          ),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: CachedNetworkImage(
-                                filterQuality: FilterQuality.low,
-                                imageUrl: message.msg,
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                                height: 200,
-                                width: 200,
-                                fit: BoxFit.cover,
-                              ))),
+                  : message.isSent == true
+                      ? InkWell(
+                          onTap: () {
+                            showCupertinoModalPopup(
+                                context: context,
+                                builder: (context) => image_viewer(
+                                      imageList: image_list,
+                                      index: imageIndex != {}
+                                          ? imageIndex[index]!
+                                          : 0,
+                                    ));
+                            // image_list.add(message.msg);
+                            //  Navigator.push(context, MaterialPageRoute(builder: (context) => image_viewer(imageList: image_list,)));
+                            // Navigator.pushNamed(context
+                          },
+                          child: Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.8,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 5),
+                              decoration: BoxDecoration(
+                                color: isMe
+                                    ? Color.fromARGB(255, 44, 110, 253)
+                                    : Color.fromARGB(255, 227, 255, 101),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(15),
+                                  topRight: const Radius.circular(15),
+                                  bottomLeft: isMe
+                                      ? const Radius.circular(15)
+                                      : const Radius.circular(0),
+                                  bottomRight: isMe
+                                      ? const Radius.circular(0)
+                                      : const Radius.circular(15),
+                                ),
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: CachedNetworkImage(
+                                    filterQuality: FilterQuality.low,
+                                    imageUrl: message.msg,
+                                    placeholder: (context, url) => const Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                    height: 200,
+                                    width: 200,
+                                    fit: BoxFit.cover,
+                                  ))),
+                        )
+                      : SizedBox(),
+          message.isSent == true
+              ? Row(
+                  mainAxisAlignment:
+                      isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "12:00 PM",
+                      // api.messageTime(message.sentTime),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
                     ),
-          Row(
-            mainAxisAlignment:
-                isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-            children: [
-              Text(
-                api.messageTime(message.sendingTime),
-                // api.messageTime(message.sentTime),
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                ),
-              ),
-              const SizedBox(width: 5),
-              isMe
-                  ? Icon(
-                      Icons.done_all,
-                      color: isMe ? Colors.blue : Colors.grey,
-                      size: 20,
-                    )
-                  : const SizedBox(width: 0),
-            ],
-          )
+                    const SizedBox(width: 5),
+                    isMe
+                        ? Icon(
+                            Icons.done_all,
+                            color: isMe ? Colors.blue : Colors.grey,
+                            size: 20,
+                          )
+                        : const SizedBox(width: 0),
+                  ],
+                )
+              : SizedBox()
         ],
       ),
     );

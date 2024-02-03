@@ -14,7 +14,7 @@ class api {
   // static appController controller = Get.put(appController());
 
   ////updating the message previous date
-  static String previousDate = messageDate(DateTime.now().toString());
+  static String previousDate = "";
 
 //user id
 // api.user
@@ -136,7 +136,7 @@ class api {
             .update({
           "msg": progress.toInt().toString(),
         });
-        appController().setUploadProgress(progress.toInt());
+        // appController().setUploadProgress(progress.toInt());
       },
       onError: (Object error) {
         print('Error: $error');

@@ -8,6 +8,8 @@ import 'package:chatapp/components/messageWidget.dart';
 import 'package:chatapp/models/messageModel.dart';
 import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,6 +42,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final String userId = widget.doc?['id']; // Replace with the actual user ID
+    final CollectionReference _usersCollection =
+        FirebaseFirestore.instance.collection('users');
+
+    // print("The doc reference is ${_documentReference}");
+
     final appController controller = Get.put(appController());
     print("The doc id is ${widget.doc!}");
     print("the conver id is : ${getConversationID(widget.doc!.id)}");
@@ -88,11 +96,21 @@ class _ChatScreenState extends State<ChatScreen> {
                         color: Colors.white),
                   ),
                   const SizedBox(height: 3),
-                  Text(
-                    widget.doc!["is_online"] == true ? "Online" : "Offline",
-                    style: const TextStyle(
-                        fontSize: 15,
-                        color: Color.fromARGB(204, 255, 255, 255)),
+                  StreamBuilder<DocumentSnapshot>(
+                    stream: _usersCollection.doc(userId).snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Text('Loading...');
+                      }
+                      return Text(
+                        snapshot.data!['is_online'] == true
+                            ? "Online"
+                            : "Offline",
+                        style: const TextStyle(
+                            fontSize: 15,
+                            color: Color.fromARGB(204, 255, 255, 255)),
+                      );
+                    },
                   ),
                 ],
               ),

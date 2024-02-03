@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       case AppLifecycleState.resumed:
         api.firestore.collection("users").doc(api.user.uid).update({
           "is_online": true,
-        }).then((value) => print("Updated successfully"));
+        }).then((value) => print("online is true Updated successfully"));
         //Execute the code here when user come back the app.
         //In my case, I needed to show if user active or not,
 
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         //Execute the code the when user leave the app
         api.firestore.collection("users").doc(api.user.uid).update({
           "is_online": false,
-        }).then((value) => print("Updated successfully"));
+        }).then((value) => print("online is false Updated successfully"));
         break;
       default:
         break;

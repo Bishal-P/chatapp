@@ -1,6 +1,8 @@
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/pages/ProfileScreen.dart';
+import 'package:chatapp/pages/loginPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class popUpMenu extends StatelessWidget {
@@ -17,6 +19,16 @@ class popUpMenu extends StatelessWidget {
           value: 1,
         ),
         PopupMenuItem(
+          onTap: () async {
+            await FirebaseAuth.instance.signOut().then((value) {
+              print("The logout value is true");
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const loginPage()));
+            });
+            // return Future.delayed(Duration.zero, () {
+            //   return Center(child: CircularProgressIndicator());
+            // });
+          },
           child: Text("Sign Out"),
           value: 2,
         ),
