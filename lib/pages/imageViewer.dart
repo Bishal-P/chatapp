@@ -6,9 +6,9 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class image_viewer extends StatefulWidget {
-  List<String> imageList;
-  int index;
-  image_viewer({super.key, required this.imageList, required this.index});
+  final List<String> imageList;
+  final int index;
+ image_viewer({super.key, required this.imageList, required this.index});
   @override
   _image_viewerState createState() => _image_viewerState();
 }

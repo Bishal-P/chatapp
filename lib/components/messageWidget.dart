@@ -81,7 +81,7 @@ class messageWidget extends StatelessWidget {
                         context: context,
                         builder: (context) => image_viewer(
                               imageList: image_list,
-                              index: imageIndex[index]!,
+                              index: imageIndex != {} ? imageIndex[index]! : 0,
                             ));
                     // image_list.add(message.msg);
                     //  Navigator.push(context, MaterialPageRoute(builder: (context) => image_viewer(imageList: image_list,)));
