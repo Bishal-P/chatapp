@@ -97,6 +97,17 @@ class api {
     print("The message is sent");
   }
 
+  static Future<void> updateReadStatus(Message2 message) async {
+    await api.firestore
+        .collection("users_chats")
+        .doc(api.getConversationID(message.toId))
+        .collection("messages")
+        .doc(message.sendingTime)
+        .update({
+      "read": true,
+    });
+  }
+
 // send image
   static sendImage(String receiverId, File file) async {
     // controller.setUploading(true);
@@ -226,14 +237,53 @@ class api {
   static String messageDate(String time) {
     final DateTime todayDate = DateTime.now();
     int time2 = int.parse(time);
-    final DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
-    final DateTime date = DateTime.fromMillisecondsSinceEpoch(time2);
-    String formattedDate = DateFormat('dd:MM:yy').format(date);
-    if (formattedDate == DateFormat('dd:MM:yy').format(todayDate)) {
+    // DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
+    // final DateTime date = DateTime.fromMillisecondsSinceEpoch(time2);
+    // String formattedDate = DateFormat('dd:MM:yy').format(date);
+    // String yester = DateFormat('dd:MM:yy').format(yesterday);
+    // String today = DateFormat('dd:MM:yy').format(todayDate);
+    // if (formattedDate == today) {
+    //   print("The formatted date is $formattedDate");
+    //   print("The today date is $today");
+    //   return "Today";
+    // }
+    // if (yester == formattedDate) {
+    //   return "Yesterday";
+    // }
+    // return formattedDate;
+    if (todayDate.day == DateTime.fromMillisecondsSinceEpoch(time2).day) {
       return "Today";
-    } else if (yesterday == formattedDate) {
+    }
+    if (todayDate.day - 1 == DateTime.fromMillisecondsSinceEpoch(time2).day) {
       return "Yesterday";
     }
-    return formattedDate;
+    return DateFormat('dd:MM:yy')
+        .format(DateTime.fromMillisecondsSinceEpoch(time2));
   }
+
+  static Future<void> changeReadStatus(Message2 message) async {
+    print("The sender id is ${message.fromId}");
+    print("The receiver id is ${message.toId}");
+    print("The message sending time is ${message.sendingTime}");
+    print("The convo id is ${api.getConversationID(message.fromId)}");
+    // await api.firestore
+    //     .collection("users_chats")
+    //     .doc(api.getConversationID(message.fromId))
+    //     .collection("messages")
+    //     .doc(message.sendingTime)
+    //     .get()
+    //     .then((value) {
+    //   print("The value is => ${value.data()?["read"]}");
+    // });
+    await api.firestore
+        .collection("users_chats")
+        .doc(api.getConversationID(message.fromId))
+        .collection("messages")
+        .doc(message.sendingTime)
+        .update({
+      "read": true,
+    });
+  }
+
+  
 }

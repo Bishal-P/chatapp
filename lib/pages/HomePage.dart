@@ -54,19 +54,19 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     WidgetsBinding.instance.removeObserver(this);
-    api.firestore.collection("users").doc(api.user.uid).update({
+    await api.firestore.collection("users").doc(api.user.uid).update({
       "is_online": false,
     }).then((value) => print("Updated successfully"));
     super.dispose();
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     switch (state) {
       case AppLifecycleState.resumed:
-        api.firestore.collection("users").doc(api.user.uid).update({
+        await api.firestore.collection("users").doc(api.user.uid).update({
           "is_online": true,
         }).then((value) => print("online is true Updated successfully"));
         //Execute the code here when user come back the app.
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.paused:
         //Execute the code the when user leave the app
-        api.firestore.collection("users").doc(api.user.uid).update({
+        await api.firestore.collection("users").doc(api.user.uid).update({
           "is_online": false,
         }).then((value) => print("online is false Updated successfully"));
         break;

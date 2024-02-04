@@ -8,35 +8,50 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Widget receiverSms(message, image_list, imageIndex, index, context) {
-  Future<void> updateReadStatus(String id) async {
-    await api.firestore
-        .collection("users_chats")
-        .doc(api.getConversationID(id))
-        .collection("messages")
-        .doc(message.sendingTime)
-        .update({
-      "read": true,
-    });
-    //     .doc(api.getConversationID(id))
-    //     .collection("messages")
-    //     .where("toId", isEqualTo: id)
-    //     // .where("read", isEqualTo: false)
-    //     .get()
-    //     .then((value) {
-    //   print("The value is => ${value.docs[0].data()["read"]}");
-    //   value.docs.forEach((element) {
-    //     print("The  => ${element.data()["read"]}");
-    //     element.reference.update({
-    //       "read": true,
-    //     });
-    //   });
-    // });
-    print("The read status is updated");
-  }
+  // done(String id) async {
+  //   await api.firestore
+  //       .collection("users_chats")
+  //       .doc(api.getConversationID(id))
+  //       .collection("messages")
+  //       .doc(message.sendingTime)
+  //       .get()
+  //       .then((value) {
+  //     print("The value is => ${value.data()?["read"]}");
+  //   });
+  // }
+  // Future<void> updateReadStatus(String id) async {
+  // await api.firestore
+  //     .collection("users_chats")
+  //     .doc(api.getConversationID(id))
+  //     .collection("messages")
+  //     .doc(message.sendingTime)
+  //     .update({
+  //   "read": true,
+  // });
+  //     .doc(api.getConversationID(id))
+  //     .collection("messages")
+  //     .where("toId", isEqualTo: id)
+  //     // .where("read", isEqualTo: false)
+  //     .get()
+  //     .then((value) {
+  //   print("The value is => ${value.docs[0].data()["read"]}");
+  //   value.docs.forEach((element) {
+  //     print("The  => ${element.data()["read"]}");
+  //     element.reference.update({
+  //       "read": true,
+  //     });
+  //   });
+  // });
+  //   print("The read status is updated");
+  // }
 
-  updateReadStatus(message.toId);
+  message.read == false && message.isSent
+      ? api.changeReadStatus(message)
+      : null;
 
-  print("The read status of the mesage is ${message.toId}");
+  // api.updateReadStatus(message);
+
+  // print("The read status of the mesage is ${message.toId}");
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,20 +137,22 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
 
       // message.isSent == true
       // ?
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            // "12:00 PM",
-            api.messageTime(message.sendingTime),
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 12,
-            ),
-          ),
-          const SizedBox(width: 5),
-        ],
-      )
+      message.isSent == true
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  // "12:00 PM",
+                  api.messageTime(message.sendingTime),
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(width: 5),
+              ],
+            )
+          : SizedBox(),
     ],
   );
   // : SizedBox() ;

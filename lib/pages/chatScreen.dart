@@ -151,10 +151,24 @@ class _ChatScreenState extends State<ChatScreen> {
                                   image_list.add(_list[index].msg);
                                 }
                                 bool isMe = _list[index].fromId == api.user.uid;
+                                bool showDate = index == 0 ||
+                                    api.messageDate(
+                                            _list[index - 1].sendingTime) !=
+                                        api.messageDate(
+                                            _list[index].sendingTime);
 
-                                return api.messageDate(
-                                            _list[index].sendingTime) !=
-                                        api.previousDate
+                                // return api.messageDate(
+                                //             _list[index].sendingTime) !=
+                                //         api.previousDate
+                                if (api.messageDate(_list[index].sendingTime) ==
+                                        "Today" &&
+                                    api.previousDate == "") {
+                                  showDate = true;
+                                  api.previousDate = "Today";
+                                }
+                                print("THe index is $index");
+                                print("THe list length is ${_list.length}");
+                                return showDate
                                     ? Column(
                                         children: [
                                           Text(
