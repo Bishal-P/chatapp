@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/appController.dart';
-// import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/messageWidget.dart';
+// import 'package:chatapp/components/apis.dart';
+// import '../../assets/messageWidget.dart';
 import 'package:chatapp/models/messageModel.dart';
 import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,7 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // print("The doc reference is ${_documentReference}");
 
     final appController controller = Get.put(appController());
-    print("The doc id is ${widget.doc!}");
+    print("The doc id is ${widget.doc!.id}");
     print("the conver id is : ${getConversationID(widget.doc!.id)}");
     print("The hashcode is ${api.user.uid.hashCode}");
 

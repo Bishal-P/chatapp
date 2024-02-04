@@ -8,7 +8,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 class image_viewer extends StatefulWidget {
   final List<String> imageList;
   final int index;
- image_viewer({super.key, required this.imageList, required this.index});
+  image_viewer({super.key, required this.imageList, required this.index});
   @override
   _image_viewerState createState() => _image_viewerState();
 }
@@ -20,6 +20,7 @@ class _image_viewerState extends State<image_viewer> {
   @override
   Widget build(BuildContext context) {
     _controller = PageController(initialPage: widget.index);
+    print("Entered the image viewer");
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -32,6 +33,7 @@ class _image_viewerState extends State<image_viewer> {
           ),
         ),
       ),
+      // !?
       // add this body tag with container and photoview widget
       body: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -44,7 +46,8 @@ class _image_viewerState extends State<image_viewer> {
             itemCount: widget.imageList.length,
             builder: (context, index) {
               return PhotoViewGalleryPageOptions(
-                imageProvider: NetworkImage(widget.imageList[index]),
+                imageProvider:
+                    NetworkImage(widget.imageList[index], scale: 1.0),
                 minScale: PhotoViewComputedScale.contained * 0.8,
                 maxScale: PhotoViewComputedScale.covered * 2,
               );

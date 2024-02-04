@@ -12,7 +12,7 @@ class Message2 {
 
   late final String toId;
   late final String msg;
-  late final String read;
+  late final bool read;
   late final String fromId;
   late final String sentTime;
   late final Type type;
@@ -22,7 +22,7 @@ class Message2 {
   Message2.fromJson(Map<String, dynamic> json) {
     toId = json['toId'].toString();
     msg = json['msg'].toString();
-    read = json['read'].toString();
+    read = json['read'];
     type = json['type'].toString() == Type.image.name ? Type.image : Type.text;
     fromId = json['fromId'].toString();
     sentTime = json['sentTime'].toString();

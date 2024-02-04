@@ -1,166 +1,380 @@
-// import 'package:flutter_chat_ui/models/user_model.dart';
+// // import 'dart:js';
 
-import 'package:chatapp/newPages/user_model.dart';
+// import 'dart:ffi';
 
-class Message {
-  final User sender;
-  final String
-      time; // Would usually be type DateTime or Firebase Timestamp in production apps
-  final String text;
-  final bool isLiked;
-  final bool unread;
+// import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:chatapp/components/apis.dart';
+// import 'package:chatapp/models/messageModel.dart';
+// import 'package:chatapp/newPages/message_model.dart';
+// import 'package:chatapp/pages/imageViewer.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
 
-  Message({
-     required this.sender,
-   required this.time,
-   required this.text,
-   required this.isLiked,
-   required this.unread,
-  });
-}
+// class messageWidget extends StatelessWidget {
+//   final Message2 message;
+//   int index;
+//   List<String> image_list;
+//   Map<int, int> imageIndex;
+//   messageWidget(
+//       {super.key,
+//       required this.message,
+//       required this.image_list,
+//       required this.index,
+//       required this.imageIndex});
 
-// YOU - current user
-final User currentUser = User(
-  id: 0,
-  name: 'Current User',
-  imageUrl: 'assets/images/greg.jpg',
-);
+//   @override
+//   Widget build(BuildContext context) {
+//     final bool isMe = message.fromId == api.user.uid;
+//     // print("The message vale is ${api.messageTime(message.sentTime)}");
 
-// USERS
-final User greg = User(
-  id: 1,
-  name: 'Greg',
-  imageUrl: 'assets/images/greg.jpg',
-);
-final User james = User(
-  id: 2,
-  name: 'James',
-  imageUrl: 'assets/images/james.jpg',
-);
-final User john = User(
-  id: 3,
-  name: 'John',
-  imageUrl: 'assets/images/john.jpg',
-);
-final User olivia = User(
-  id: 4,
-  name: 'Olivia',
-  imageUrl: 'assets/images/olivia.jpg',
-);
-final User sam = User(
-  id: 5,
-  name: 'Sam',
-  imageUrl: 'assets/images/sam.jpg',
-);
-final User sophia = User(
-  id: 6,
-  name: 'Sophia',
-  imageUrl: 'assets/images/sophia.jpg',
-);
-final User steven = User(
-  id: 7,
-  name: 'Steven',
-  imageUrl: 'assets/images/steven.jpg',
-);
+//     return Container(
+//       margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+//       child: Column(
+//         crossAxisAlignment:
+//             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+//         children: [
+//           message.type == Type.text
+//               ? Container(
+//                   constraints: BoxConstraints(
+//                     maxWidth: MediaQuery.of(context).size.width * 0.73,
+//                   ),
+//                   padding:
+//                       const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+//                   decoration: BoxDecoration(
+//                     color: isMe
+//                         ? const Color.fromARGB(255, 44, 110, 253)
+//                         : const Color.fromARGB(255, 227, 255, 101),
+//                     borderRadius: BorderRadius.only(
+//                       topLeft: const Radius.circular(15),
+//                       topRight: const Radius.circular(15),
+//                       bottomLeft: isMe
+//                           ? const Radius.circular(15)
+//                           : const Radius.circular(0),
+//                       bottomRight: isMe
+//                           ? const Radius.circular(0)
+//                           : const Radius.circular(15),
+//                     ),
+//                   ),
+//                   child: TextSelectionTheme(
+//                     data: TextSelectionThemeData(
+//                       // cursorColor: Colors.blue,
+//                       selectionColor: isMe
+//                           ? const Color.fromARGB(255, 250, 167, 90)
+//                           : const Color.fromARGB(255, 255, 175, 121),
+//                       selectionHandleColor: Colors.blue,
+//                     ),
+//                     child: SelectableText.rich(
+//                       TextSpan(
+//                         onExit: (event) => Void,
+//                         text: message.msg,
+//                         style: TextStyle(
+//                           color: isMe ? Colors.white : Colors.black,
+//                           fontSize: 16,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 )
+//               : message.isSent == false && message.fromId == api.user.uid
+//                   ? Container(
+//                       width: 200,
+//                       height: 70,
+//                       decoration: BoxDecoration(
+//                           color: const Color.fromARGB(255, 44, 110, 253),
+//                           borderRadius: BorderRadius.circular(10)),
+//                       child: Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           const Padding(
+//                             padding: EdgeInsets.only(left: 10, top: 5),
+//                             child: Text(
+//                               "Sending File...",
+//                               style: TextStyle(
+//                                   color: Colors.white54,
+//                                   fontSize: 12,
+//                                   fontWeight: FontWeight.bold),
+//                             ),
+//                           ),
+//                           const Center(
+//                             child: LinearProgressIndicator(
+//                               color: Colors.lightBlueAccent,
+//                             ),
+//                           ),
+//                           Expanded(
+//                               child: Center(
+//                                   child: Text(
+//                             "uploading...${message.msg} %",
+//                             style: const TextStyle(
+//                                 color: Colors.white54,
+//                                 fontSize: 12,
+//                                 fontWeight: FontWeight.bold),
+//                           )))
+//                         ],
+//                       ),
+//                     )
+//                   : message.isSent == true
+//                       ? InkWell(
+//                           onTap: () {
+//                             showCupertinoModalPopup(
+//                                 context: context,
+//                                 builder: (context) => image_viewer(
+//                                       imageList: image_list,
+//                                       index: imageIndex != {}
+//                                           ? imageIndex[index]!
+//                                           : 0,
+//                                     ));
+//                             // image_list.add(message.msg);
+//                             //  Navigator.push(context, MaterialPageRoute(builder: (context) => image_viewer(imageList: image_list,)));
+//                             // Navigator.pushNamed(context
+//                           },
+//                           child: Container(
+//                               constraints: BoxConstraints(
+//                                 maxWidth:
+//                                     MediaQuery.of(context).size.width * 0.8,
+//                               ),
+//                               padding: const EdgeInsets.symmetric(
+//                                   vertical: 5, horizontal: 5),
+//                               decoration: BoxDecoration(
+//                                 color: isMe
+//                                     ? Color.fromARGB(255, 44, 110, 253)
+//                                     : Color.fromARGB(255, 227, 255, 101),
+//                                 borderRadius: BorderRadius.only(
+//                                   topLeft: const Radius.circular(15),
+//                                   topRight: const Radius.circular(15),
+//                                   bottomLeft: isMe
+//                                       ? const Radius.circular(15)
+//                                       : const Radius.circular(0),
+//                                   bottomRight: isMe
+//                                       ? const Radius.circular(0)
+//                                       : const Radius.circular(15),
+//                                 ),
+//                               ),
+//                               child: ClipRRect(
+//                                   borderRadius: BorderRadius.circular(20),
+//                                   child: CachedNetworkImage(
+//                                     filterQuality: FilterQuality.low,
+//                                     imageUrl: message.msg,
+//                                     placeholder: (context, url) => const Center(
+//                                         child: CircularProgressIndicator()),
+//                                     errorWidget: (context, url, error) =>
+//                                         const Icon(Icons.error),
+//                                     height: 200,
+//                                     width: 200,
+//                                     fit: BoxFit.cover,
+//                                   ))),
+//                         )
+//                       : SizedBox(),
+//           message.isSent == true
+//               ? Row(
+//                   mainAxisAlignment:
+//                       isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       "12:00 PM",
+//                       // api.messageTime(message.sentTime),
+//                       style: const TextStyle(
+//                         color: Colors.grey,
+//                         fontSize: 12,
+//                       ),
+//                     ),
+//                     const SizedBox(width: 5),
+//                     isMe
+//                         ? Icon(
+//                             Icons.done_all,
+//                             color: isMe ? Colors.blue : Colors.grey,
+//                             size: 20,
+//                           )
+//                         : const SizedBox(width: 0),
+//                   ],
+//                 )
+//               : SizedBox()
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-// FAVORITE CONTACTS
-List<User> favorites = [sam, steven, olivia, john, greg];
+// // Widget messageWidget(String message, bool isMe) {
+// //   return 
+// // }
 
-// EXAMPLE CHATS ON HOME SCREEN
-List<Message> chats = [
-  Message(
-    sender: james,
-    time: '5:30 PM',
-    text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
-    unread: true,
-  ),
-  Message(
-    sender: olivia,
-    time: '4:30 PM',
-    text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
-    unread: true,
-  ),
-  Message(
-    sender: john,
-    time: '3:30 PM',
-    text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
-    unread: false,
-  ),
-  Message(
-    sender: sophia,
-    time: '2:30 PM',
-    text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
-    unread: true,
-  ),
-  Message(
-    sender: steven,
-    time: '1:30 PM',
-    text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
-    unread: false,
-  ),
-  Message(
-    sender: sam,
-    time: '12:30 PM',
-    text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
-    unread: false,
-  ),
-  Message(
-    sender: greg,
-    time: '11:30 AM',
-    text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
-    unread: false,
-  ),
-];
 
-// EXAMPLE MESSAGES IN CHAT SCREEN
-List<Message> messages = [
-  Message(
-    sender: james,
-    time: '5:30 PM',
-    text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: true,
-    unread: true,
-  ),
-  Message(
-    sender: currentUser,
-    time: '4:30 PM',
-    text: 'Just walked my doge. She was super duper cute. The best pupper!!',
-    isLiked: false,
-    unread: true,
-  ),
-  Message(
-    sender: james,
-    time: '3:45 PM',
-    text: 'How\'s the doggo?',
-    isLiked: false,
-    unread: true,
-  ),
-  Message(
-    sender: james,
-    time: '3:15 PM',
-    text: 'All the food',
-    isLiked: true,
-    unread: true,
-  ),
-  Message(
-    sender: currentUser,
-    time: '2:30 PM',
-    text: 'Nice! What kind of food did you eat?',
-    isLiked: false,
-    unread: true,
-  ),
-  Message(
-    sender: james,
-    time: '2:00 PM',
-    text: 'I ate so much food today.',
-    isLiked: false,
-    unread: true,
-  ),
-];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // import 'dart:js';
+
+// import 'dart:ffi';
+
+// import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:chatapp/components/apis.dart';
+// import 'package:chatapp/models/messageModel.dart';
+// import 'package:chatapp/newPages/message_model.dart';
+// import 'package:chatapp/pages/imageViewer.dart';
+// import 'package:chatapp/widgests/messageSubWidgets.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+
+// class messageWidget extends StatelessWidget {
+//   final Message2 message;
+//   int index;
+//   List<String> image_list;
+//   Map<int, int> imageIndex;
+//   messageWidget(
+//       {super.key,
+//       required this.message,
+//       required this.image_list,
+//       required this.index,
+//       required this.imageIndex});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final bool isMe = message.fromId == api.user.uid;
+
+//     print("The read status of the mesage is ${message.read}");
+//     // print("The message vale is ${api.messageTime(message.sentTime)}");
+
+//     return Container(
+//       width: MediaQuery.of(context).size.width,
+//       margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+//       child: Column(
+//         crossAxisAlignment:
+//             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+//         children: [
+//           message.type == Type.text
+//               ? smsWidget(isMe, message, context)
+//               : message.isSent == false && message.fromId == api.user.uid
+//                   ? Container(
+//                       width: 200,
+//                       height: 70,
+//                       decoration: BoxDecoration(
+//                           color: const Color.fromARGB(255, 44, 110, 253),
+//                           borderRadius: BorderRadius.circular(10)),
+//                       child: Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           const Padding(
+//                             padding: EdgeInsets.only(left: 10, top: 5),
+//                             child: Text(
+//                               "Sending File...",
+//                               style: TextStyle(
+//                                   color: Colors.white54,
+//                                   fontSize: 12,
+//                                   fontWeight: FontWeight.bold),
+//                             ),
+//                           ),
+//                           const Center(
+//                             child: LinearProgressIndicator(
+//                               color: Colors.lightBlueAccent,
+//                             ),
+//                           ),
+//                           Expanded(
+//                               child: Center(
+//                                   child: Text(
+//                             "uploading...${message.msg} %",
+//                             style: const TextStyle(
+//                                 color: Colors.white54,
+//                                 fontSize: 12,
+//                                 fontWeight: FontWeight.bold),
+//                           )))
+//                         ],
+//                       ),
+//                     )
+//                   : message.isSent == true
+//                       ? InkWell(
+//                           onTap: () {
+//                             showCupertinoModalPopup(
+//                                 context: context,
+//                                 builder: (context) => image_viewer(
+//                                       imageList: image_list,
+//                                       index: imageIndex != {}
+//                                           ? imageIndex[index]!
+//                                           : 0,
+//                                     ));
+//                             // image_list.add(message.msg);
+//                             //  Navigator.push(context, MaterialPageRoute(builder: (context) => image_viewer(imageList: image_list,)));
+//                             // Navigator.pushNamed(context
+//                           },
+//                           child: Container(
+//                               constraints: BoxConstraints(
+//                                 maxWidth:
+//                                     MediaQuery.of(context).size.width * 0.8,
+//                               ),
+//                               padding: const EdgeInsets.symmetric(
+//                                   vertical: 5, horizontal: 5),
+//                               decoration: BoxDecoration(
+//                                 color: isMe
+//                                     ? Color.fromARGB(255, 44, 110, 253)
+//                                     : Color.fromARGB(255, 227, 255, 101),
+//                                 borderRadius: BorderRadius.only(
+//                                   topLeft: const Radius.circular(15),
+//                                   topRight: const Radius.circular(15),
+//                                   bottomLeft: isMe
+//                                       ? const Radius.circular(15)
+//                                       : const Radius.circular(0),
+//                                   bottomRight: isMe
+//                                       ? const Radius.circular(0)
+//                                       : const Radius.circular(15),
+//                                 ),
+//                               ),
+//                               child: ClipRRect(
+//                                   borderRadius: BorderRadius.circular(20),
+//                                   child: CachedNetworkImage(
+//                                     filterQuality: FilterQuality.low,
+//                                     imageUrl: message.msg,
+//                                     placeholder: (context, url) => const Center(
+//                                         child: CircularProgressIndicator()),
+//                                     errorWidget: (context, url, error) =>
+//                                         const Icon(Icons.error),
+//                                     height: 200,
+//                                     width: 200,
+//                                     fit: BoxFit.cover,
+//                                   ))),
+//                         )
+//                       : SizedBox(),
+//           // message.isSent == true
+//           // ?
+//           Row(
+//             mainAxisAlignment:
+//                 isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+//             children: [
+//               Text(
+//                 // "12:00 PM",
+//                 api.messageTime(message.sendingTime),
+//                 style: const TextStyle(
+//                   color: Colors.grey,
+//                   fontSize: 12,
+//                 ),
+//               ),
+//               const SizedBox(width: 5),
+//               isMe
+//                   ? Icon(
+//                       message.isSent ? Icons.done_all : Icons.done,
+//                       // Icons.done_all,
+//                       color: message.read == true ? Colors.blue : Colors.grey,
+//                       size: 20,
+//                     )
+//                   : const SizedBox(width: 0),
+//             ],
+//           )
+//           // : SizedBox()
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// // Widget messageWidget(String message, bool isMe) {
+// //   return 
+// // }

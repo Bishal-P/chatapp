@@ -77,21 +77,22 @@ class api {
 
 // sending message
   static sendMessage(String receiverId, String text, Type type) async {
+    final String time = getTime();
     final Message2 message = Message2(
       toId: receiverId,
       msg: text,
-      read: "false",
+      read: false,
       type: type,
       fromId: api.user.uid,
-      sentTime: DateTime.now().toString(),
+      sentTime: time,
       isSent: true,
-      sendingTime: DateTime.now().toString(),
+      sendingTime: time,
     );
     await firestore
         .collection("users_chats")
         .doc(getConversationID(message.toId))
         .collection("messages")
-        .doc(getTime())
+        .doc(time)
         .set(message.toJson());
     print("The message is sent");
   }
@@ -103,10 +104,10 @@ class api {
     final Message2 message = Message2(
       toId: receiverId,
       msg: "0",
-      read: "false",
+      read: false,
       type: Type.image,
       fromId: api.user.uid,
-      sendingTime: DateTime.now().toString(),
+      sendingTime: DateTime.now().millisecondsSinceEpoch.toString(),
       sentTime: "",
       isSent: false,
     );
@@ -158,7 +159,7 @@ class api {
           .update({
         "msg": url,
         "isSent": true,
-        "sentTime": DateTime.now().toString()
+        "sentTime": DateTime.now().millisecondsSinceEpoch.toString(),
       }).then((value) {
         // controller.setUploading(false);
         // controller.uploadProgress(0);
@@ -180,16 +181,53 @@ class api {
 
 // to conver time from milliseconds to 12:00 AM/PM
   static String messageTime(String time) {
-    final DateTime dateTime = DateTime.parse(time);
-    final String formattedTime = DateFormat('hh:mm a').format(dateTime);
+    final intTime = int.parse(time);
+    String time2 = DateTime.fromMillisecondsSinceEpoch(intTime).toString();
+    final DateTime dateTime = DateTime.parse(time2);
+    final String formattedTime =
+        DateFormat('hh:mm a').format(dateTime).toString();
     return formattedTime;
   }
+
+  //to update the message read status
+  // static Future<void> updateReadStatus(String id) async {
+  //   await firestore
+  //       .collection("users_chats")
+  //       .doc(getConversationID(id))
+  //       .collection("messages")
+  //       .where("toId", isEqualTo: id)
+  //       .where("read", isEqualTo: false)
+  //       .get()
+  //       .then((value) {
+  //     value.docs.forEach((element) {
+  //       element.reference.update({
+  //         "read": true,
+  //       });
+  //     });
+  //   });
+  //   await firestore
+  //       .collection("users_chats")
+  //       .doc(getConversationID(id))
+  //       .collection("messages")
+  //       .where("toId", isEqualTo: api.user.uid)
+  //       .where("read", isEqualTo: "false")
+  //       .get()
+  //       .then((value) {
+  //     value.docs.forEach((element) {
+  //       element.reference.update({
+  //         "read": "true",
+  //       });
+  //     });
+  //   });
+  //   // print("The read status is updated");
+  // }
 
   // to get the date from milliseconds to date format
   static String messageDate(String time) {
     final DateTime todayDate = DateTime.now();
+    int time2 = int.parse(time);
     final DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
-    final DateTime date = DateTime.parse(time);
+    final DateTime date = DateTime.fromMillisecondsSinceEpoch(time2);
     String formattedDate = DateFormat('dd:MM:yy').format(date);
     if (formattedDate == DateFormat('dd:MM:yy').format(todayDate)) {
       return "Today";
