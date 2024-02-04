@@ -7,11 +7,11 @@ import 'package:chatapp/components/messageWidget.dart';
 // import 'package:chatapp/components/apis.dart';
 // import '../../assets/messageWidget.dart';
 import 'package:chatapp/models/messageModel.dart';
-import 'package:chatapp/pages/imageViewer.dart';
+// import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -150,24 +150,21 @@ class _ChatScreenState extends State<ChatScreen> {
                                   currentImageIndex++;
                                   image_list.add(_list[index].msg);
                                 }
-                                bool isMe = _list[index].fromId == api.user.uid;
-                                bool showDate = index == 0 ||
-                                    api.messageDate(
-                                            _list[index - 1].sendingTime) !=
-                                        api.messageDate(
-                                            _list[index].sendingTime);
-
-                                // return api.messageDate(
-                                //             _list[index].sendingTime) !=
-                                //         api.previousDate
-                                if (api.messageDate(_list[index].sendingTime) ==
-                                        "Today" &&
-                                    api.previousDate == "") {
-                                  showDate = true;
-                                  api.previousDate = "Today";
-                                }
+                                // bool isMe = _list[index].fromId == api.user.uid;
+                                
+                                bool showDate = false;
                                 print("THe index is $index");
                                 print("THe list length is ${_list.length}");
+                                if (index != _list.length - 1 &&
+                                    api.messageDate(
+                                            _list[index + 1].sendingTime) !=
+                                        api.messageDate(
+                                            _list[index].sendingTime)) {
+                                  showDate = true;
+                                }
+                                if (index == _list.length - 1) {
+                                  showDate = true;
+                                }
                                 return showDate
                                     ? Column(
                                         children: [

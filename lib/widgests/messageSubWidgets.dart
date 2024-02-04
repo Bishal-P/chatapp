@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/models/messageModel.dart';
@@ -72,7 +72,7 @@ Widget smsWidget(bool isMe, Message2 message, BuildContext context) {
       ),
       child: SelectableText.rich(
         TextSpan(
-          onExit: (event) => Void,
+          onExit: (event) => null,
           text: message.msg,
           style: TextStyle(
             color: isMe ? Colors.white : Colors.black,

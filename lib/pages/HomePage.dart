@@ -6,12 +6,12 @@
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/appController.dart';
 import 'package:chatapp/widgests/CategorySelector.dart';
-import 'package:chatapp/widgests/favouriteContacts.dart';
+// import 'package:chatapp/widgests/favouriteContacts.dart';
 import 'package:chatapp/widgests/groupsTab.dart';
 import 'package:chatapp/widgests/messagesTab.dart';
 import 'package:chatapp/widgests/onlineTab.dart';
 import 'package:chatapp/widgests/popUpMenu.dart';
-import 'package:chatapp/widgests/recenChats.dart';
+// import 'package:chatapp/widgests/recenChats.dart';
 import 'package:chatapp/widgests/requestTab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -50,15 +50,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       print("The user id is ${api.user.uid}");
       print("The result is ${value}");
     });
+    api.updateOnlineStatus(true);
     super.initState();
   }
 
   @override
   void dispose() async {
     WidgetsBinding.instance.removeObserver(this);
-    await api.firestore.collection("users").doc(api.user.uid).update({
-      "is_online": false,
-    }).then((value) => print("Updated successfully"));
+    api.updateOnlineStatus(false);
+    // await api.firestore.collection("users").doc(api.user.uid).update({
+    //   "is_online": false,
+    // }).then((value) => print("Updated successfully"));
     super.dispose();
   }
 
@@ -66,18 +68,20 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     switch (state) {
       case AppLifecycleState.resumed:
-        await api.firestore.collection("users").doc(api.user.uid).update({
-          "is_online": true,
-        }).then((value) => print("online is true Updated successfully"));
+        api.updateOnlineStatus(true);
+        // await api.firestore.collection("users").doc(api.user.uid).update({
+        //   "is_online": true,
+        // }).then((value) => print("online is true Updated successfully"));
         //Execute the code here when user come back the app.
         //In my case, I needed to show if user active or not,
 
         break;
       case AppLifecycleState.paused:
+        api.updateOnlineStatus(false);
         //Execute the code the when user leave the app
-        await api.firestore.collection("users").doc(api.user.uid).update({
-          "is_online": false,
-        }).then((value) => print("online is false Updated successfully"));
+        // await api.firestore.collection("users").doc(api.user.uid).update({
+        //   "is_online": false,
+        // }).then((value) => print("online is false Updated successfully"));
         break;
       default:
         break;

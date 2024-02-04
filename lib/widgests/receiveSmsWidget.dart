@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
@@ -79,7 +79,7 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
                 ),
                 child: SelectableText.rich(
                   TextSpan(
-                    onExit: (event) => Void,
+                    onExit: (event) => null,
                     text: message.msg,
                     style: const TextStyle(
                       color: Colors.black,

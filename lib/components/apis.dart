@@ -285,5 +285,11 @@ class api {
     });
   }
 
-  
+// Update online status of the loggedin User
+
+  static Future<void> updateOnlineStatus(bool isOnline) async {
+    await firestore.collection("users").doc(user.uid).update({
+      "is_online": isOnline,
+    });
+  }
 }
