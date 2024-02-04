@@ -46,6 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final String userId = widget.doc?['id']; // Replace with the actual user ID
     final CollectionReference _usersCollection =
         FirebaseFirestore.instance.collection('users');
+    final ScrollController _scrollController = ScrollController();
 
     // print("The doc reference is ${_documentReference}");
 
@@ -151,7 +152,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   image_list.add(_list[index].msg);
                                 }
                                 // bool isMe = _list[index].fromId == api.user.uid;
-                                
+
                                 bool showDate = false;
                                 print("THe index is $index");
                                 print("THe list length is ${_list.length}");
@@ -168,12 +169,33 @@ class _ChatScreenState extends State<ChatScreen> {
                                 return showDate
                                     ? Column(
                                         children: [
-                                          Text(
-                                            api.messageDate(
-                                                _list[index].sendingTime),
-                                            style: const TextStyle(
-                                                color: Colors.white),
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[300],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Text(
+                                              // api.messageTime(
+                                              //     _list[index].sendingTime),
+                                              api.messageDate(
+                                                  _list[index].sendingTime),
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                              ),
+                                            ),
                                           ),
+                                          // Text(
+                                          // api.messageDate(
+                                          //     _list[index].sendingTime),
+                                          //   style: const TextStyle(
+                                          //       color: Colors.white),
+                                          // ),
                                           messageWidget(
                                             message: _list[index],
                                             image_list: image_list,

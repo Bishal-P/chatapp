@@ -28,7 +28,7 @@ class messageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMe = message.fromId == api.user.uid;
-    api.previousDate = "Today";
+    // api.previousDate = "Today";
 
     print("The read status of the mesage is ${message.read}");
     // print("The message vale is ${api.messageTime(message.sentTime)}");

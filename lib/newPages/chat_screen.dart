@@ -174,3 +174,26 @@
 //     );
 //   }
 // }
+
+
+
+
+
+
+
+
+// Container(
+//           margin: const EdgeInsets.only(bottom: 10),
+//           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+//           decoration: BoxDecoration(
+//             color: Colors.grey[300],
+//             borderRadius: BorderRadius.circular(10),
+//           ),
+//           child: Text(
+//             api.messageTime(message.sendingTime),
+//             style: const TextStyle(
+//               color: Colors.black,
+//               fontSize: 12,
+//             ),
+//           ),
+//         ),

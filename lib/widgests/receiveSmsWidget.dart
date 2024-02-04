@@ -44,6 +44,11 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
   // });
   //   print("The read status is updated");
   // }
+  bool showTime = false;
+  if (api.receivePreviousDate != api.messageTime(message.sendingTime)) {
+    api.receivePreviousDate = api.messageTime(message.sendingTime);
+    showTime = true;
+  }
 
   message.read == false && message.isSent
       ? api.changeReadStatus(message)
@@ -137,7 +142,7 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
 
       // message.isSent == true
       // ?
-      message.isSent == true
+      showTime
           ? Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

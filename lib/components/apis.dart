@@ -14,7 +14,8 @@ class api {
   // static appController controller = Get.put(appController());
 
   ////updating the message previous date
-  static String previousDate = "";
+  static String sendPreviousDate = "";
+  static String receivePreviousDate = "";
 
 //user id
 // api.user

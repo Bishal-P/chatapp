@@ -8,6 +8,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Widget sendSms(message, image_list, imageIndex, index, context) {
+  bool showTime = false;
+  if (api.sendPreviousDate != api.messageTime(message.sendingTime) ||
+      message.read == false) {
+    api.sendPreviousDate = api.messageTime(message.sendingTime);
+    showTime = true;
+  }
   return Column(
     crossAxisAlignment: CrossAxisAlignment.end,
     children: [
@@ -21,8 +27,8 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
                 color: Color.fromARGB(255, 44, 110, 253),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(0),
+                  topRight: Radius.circular(0),
+                  bottomLeft: Radius.circular(15),
                   bottomRight: Radius.circular(15),
                 ),
               ),
@@ -126,26 +132,28 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
                   : SizedBox(),
       // message.isSent == true
       // ?
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            // "12:00 PM",
-            api.messageTime(message.sendingTime),
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 12,
-            ),
-          ),
-          const SizedBox(width: 5),
-          Icon(
-            message.isSent ? Icons.done_all : Icons.done,
-            // Icons.done_all,
-            color: message.read == true ? Colors.blue : Colors.grey,
-            size: 20,
-          )
-        ],
-      )
+      showTime
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  // "12:00 PM",
+                  api.messageTime(message.sendingTime),
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Icon(
+                  message.isSent ? Icons.done_all : Icons.done,
+                  // Icons.done_all,
+                  color: message.read == true ? Colors.blue : Colors.grey,
+                  size: 20,
+                )
+              ],
+            )
+          : SizedBox(),
       // : SizedBox()
     ],
   );
