@@ -293,4 +293,34 @@ class api {
       "is_online": isOnline,
     });
   }
+
+  ////to get the last message of a chat
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(String id) {
+    return firestore
+        .collection("users_chats")
+        .doc(getConversationID(id))
+        .collection("messages")
+        .orderBy("sendingTime", descending: true)
+        .limit(1)
+        .snapshots();
+    // .map((event) => Message2.fromJson(event.docs[0].data()));
+    // print("The last message is ${stream.last}");
+  }
+
+
+  /////Last message time
+  static lastMessageTime(String time) {
+    final intTime = int.parse(time);
+    String time2 = DateTime.fromMillisecondsSinceEpoch(intTime).toString();
+    final DateTime dateTime = DateTime.parse(time2);
+    final String formattedTime =
+        DateFormat('hh:mm a').format(dateTime).toString();
+    if (DateTime.now().day == dateTime.day) {
+      return formattedTime;
+    }
+    if (DateTime.now().day - 1 == dateTime.day) {
+      return "Yesterday";
+    }
+    return formattedTime;
+  }
 }

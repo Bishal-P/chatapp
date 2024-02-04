@@ -55,6 +55,10 @@ class _ChatScreenState extends State<ChatScreen> {
     print("the conver id is : ${getConversationID(widget.doc!.id)}");
     print("The hashcode is ${api.user.uid.hashCode}");
 
+    //print the last message value from the getLastMessage method
+    print("The last message is ${api.getLastMessage(widget.doc!["id"])}");
+
+    print("The last message is ${api.getLastMessage(widget.doc!["id"])}");
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
