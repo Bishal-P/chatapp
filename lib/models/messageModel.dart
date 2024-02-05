@@ -45,4 +45,4 @@ class Message2 {
   }
 }
 
-enum Type { text, image }
+enum Type { text, image ,audio}

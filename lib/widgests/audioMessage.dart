@@ -1,7 +1,9 @@
+import 'package:chatapp/models/messageModel.dart';
 import 'package:flutter/material.dart';
 
 class audioMessage extends StatefulWidget {
-  const audioMessage({super.key});
+  final Message2? message;
+  const audioMessage({super.key, this.message});
 
   @override
   State<audioMessage> createState() => _audioMessageState();

@@ -57,7 +57,7 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
   // api.updateReadStatus(message);
 
   // print("The read status of the mesage is ${message.toId}");
-
+  bool onlyEmoji = api.containsOnlyEmojis(message.msg);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -67,9 +67,11 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
                 maxWidth: MediaQuery.of(context).size.width * 0.73,
               ),
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 227, 255, 101),
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: onlyEmoji
+                    ? Colors.transparent
+                    :const Color.fromARGB(255, 227, 255, 101),
+                borderRadius:const BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
                   bottomLeft: Radius.circular(0),
@@ -86,9 +88,9 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
                   TextSpan(
                     onExit: (event) => null,
                     text: message.msg,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.black,
-                      fontSize: 16,
+                      fontSize: onlyEmoji ? 29 : 16,
                     ),
                   ),
                 ),

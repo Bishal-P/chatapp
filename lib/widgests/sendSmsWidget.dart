@@ -14,10 +14,9 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
     api.sendPreviousDate = api.messageTime(message.sendingTime);
     showTime = true;
   }
+  bool onlyEmoji = api.containsOnlyEmojis(message.msg);
   return InkWell(
-    onLongPress: () {
-      
-    },
+    onLongPress: () {},
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -26,10 +25,13 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
                 constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * 0.73,
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 44, 110, 253),
-                  borderRadius: BorderRadius.only(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: onlyEmoji
+                      ? Colors.transparent
+                      :const Color.fromARGB(255, 44, 110, 253),
+                  borderRadius:const BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(0),
                     bottomLeft: Radius.circular(15),
@@ -46,9 +48,9 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
                     TextSpan(
                       onExit: (event) => null,
                       text: message.msg,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: const Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 16,
+                        fontSize: onlyEmoji ? 29 : 16,
                       ),
                     ),
                   ),
@@ -98,8 +100,9 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
                               context: context,
                               builder: (context) => image_viewer(
                                     imageList: image_list,
-                                    index:
-                                        imageIndex != {} ? imageIndex[index]! : 0,
+                                    index: imageIndex != {}
+                                        ? imageIndex[index]!
+                                        : 0,
                                   ));
                           // image_list.add(message.msg);
                           //  Navigator.push(context, MaterialPageRoute(builder: (context) => image_viewer(imageList: image_list,)));

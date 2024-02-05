@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:chatapp/components/appController.dart';
 import 'package:chatapp/models/messageModel.dart';
 import 'package:chatapp/models/usermodel.dart';
@@ -23,6 +24,13 @@ class api {
   static FirebaseAuth auth = FirebaseAuth.instance;
   static User user = auth.currentUser!;
   static FirebaseStorage storage = FirebaseStorage.instance;
+
+  ///audioplayer instance
+  static AudioPlayer audioPlayer = AudioPlayer();
+
+  Future<void> playAudio(AssetSource path) async {
+    await audioPlayer.play(path);
+  }
 
   //checking userExist or not
   static Future<bool> userExist() async {
@@ -110,7 +118,7 @@ class api {
   }
 
 // send image
-  static sendImage(String receiverId, File file) async {
+  static sendFile(String receiverId, File file) async {
     // controller.setUploading(true);
     final String docId = getTime();
     final Message2 message = Message2(
@@ -307,7 +315,6 @@ class api {
     // print("The last message is ${stream.last}");
   }
 
-
   /////Last message time
   static lastMessageTime(String time) {
     final intTime = int.parse(time);
@@ -322,5 +329,26 @@ class api {
       return "Yesterday";
     }
     return formattedTime;
+  }
+
+  ////check for only emojis in the message
+  static bool containsOnlyEmojis(String message) {
+    // Define a regular expression pattern for matching emojis
+    RegExp emojiRegex = RegExp(
+      r'^[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]+$',
+      unicode: true,
+    );
+
+    // Check if the message contains only emojis
+    return emojiRegex.hasMatch(message);
+  }
+
+  ////check for whitespaces
+  static bool isOnlyWhiteSpaces(String input) {
+    // Define a regular expression pattern for matching spaces, tabs, and newlines
+    RegExp whitespaceRegex = RegExp(r'^[ \t\n]+$');
+
+    // Check if the input contains only spaces, tabs, and newlines
+    return whitespaceRegex.hasMatch(input);
   }
 }
