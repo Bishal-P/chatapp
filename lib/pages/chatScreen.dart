@@ -7,6 +7,8 @@ import 'package:chatapp/components/messageWidget.dart';
 // import 'package:chatapp/components/apis.dart';
 // import '../../assets/messageWidget.dart';
 import 'package:chatapp/models/messageModel.dart';
+import 'package:chatapp/widgests/audioMessage.dart';
+import 'package:chatapp/widgests/testVoice.dart';
 // import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_core/firebase_core.dart';
@@ -15,6 +17,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social_media_recorder/audio_encoder_type.dart';
+import 'package:social_media_recorder/screen/social_media_recorder.dart';
 // import 'package:flutter_animate/flutter_animate.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -46,7 +50,8 @@ class _ChatScreenState extends State<ChatScreen> {
     final String userId = widget.doc?['id']; // Replace with the actual user ID
     final CollectionReference _usersCollection =
         FirebaseFirestore.instance.collection('users');
-    final ScrollController _scrollController = ScrollController();
+
+    // final ScrollController _scrollController = ScrollController();
 
     // print("The doc reference is ${_documentReference}");
 
@@ -72,7 +77,9 @@ class _ChatScreenState extends State<ChatScreen> {
           title: Row(
             children: [
               IconButton(
-                  onPressed: () => Navigator.pop(context),
+                  // onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => testVoice())),
                   icon: const Icon(
                     Icons.arrow_back_ios,
                     color: Colors.white,
@@ -133,203 +140,281 @@ class _ChatScreenState extends State<ChatScreen> {
                   topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: Padding(
             padding: const EdgeInsets.only(top: 103),
-            child: Column(
+            child: Stack(
               children: [
-                Expanded(
-                  child: StreamBuilder(
-                    stream: api.getMessages(widget.doc!["id"]),
-                    builder: (context, snapshot) {
-                      var data = snapshot.data;
-                      data != null
-                          ? _list = data as List<Message2>
-                          : _list = [];
-                      return _list.isNotEmpty
-                          ? ListView.builder(
-                              reverse: true,
-                              itemCount: _list.length,
-                              itemBuilder: (context, index) {
-                                if (_list[index].type == Type.image &&
-                                    image_list.contains(_list[index].msg) ==
-                                        false) {
-                                  image_index[index] = currentImageIndex;
-                                  currentImageIndex++;
-                                  image_list.add(_list[index].msg);
-                                }
-                                // bool isMe = _list[index].fromId == api.user.uid;
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 60),
+                    child: Expanded(
+                      child: StreamBuilder(
+                        stream: api.getMessages(widget.doc!["id"]),
+                        builder: (context, snapshot) {
+                          var data = snapshot.data;
+                          data != null
+                              ? _list = data as List<Message2>
+                              : _list = [];
+                          return _list.isNotEmpty
+                              ? ListView.builder(
+                                  reverse: true,
+                                  itemCount: _list.length,
+                                  itemBuilder: (context, index) {
+                                    if (_list[index].type == Type.image &&
+                                        image_list.contains(_list[index].msg) ==
+                                            false) {
+                                      image_index[index] = currentImageIndex;
+                                      currentImageIndex++;
+                                      image_list.add(_list[index].msg);
+                                    }
+                                    // bool isMe = _list[index].fromId == api.user.uid;
 
-                                bool showDate = false;
-                                print("THe index is $index");
-                                print("THe list length is ${_list.length}");
-                                if (index != _list.length - 1 &&
-                                    api.messageDate(
-                                            _list[index + 1].sendingTime) !=
+                                    bool showDate = false;
+                                    print("THe index is $index");
+                                    print("THe list length is ${_list.length}");
+                                    if (index != _list.length - 1 &&
                                         api.messageDate(
-                                            _list[index].sendingTime)) {
-                                  showDate = true;
-                                }
-                                if (index == _list.length - 1) {
-                                  showDate = true;
-                                }
-                                return showDate
-                                    ? Column(
+                                                _list[index + 1].sendingTime) !=
+                                            api.messageDate(
+                                                _list[index].sendingTime)) {
+                                      showDate = true;
+                                    }
+                                    if (index == _list.length - 1) {
+                                      showDate = true;
+                                    }
+                                    return audioMessage();
+                                    // return showDate
+                                    //     ? Column(
+                                    //         children: [
+                                    //           Container(
+                                    //             margin: const EdgeInsets.only(
+                                    //                 bottom: 10),
+                                    //             padding: const EdgeInsets.symmetric(
+                                    //                 vertical: 5, horizontal: 10),
+                                    //             decoration: BoxDecoration(
+                                    //               color: Colors.grey[300],
+                                    //               borderRadius:
+                                    //                   BorderRadius.circular(10),
+                                    //             ),
+                                    //             child: Text(
+                                    //               // api.messageTime(
+                                    //               //     _list[index].sendingTime),
+                                    //               api.messageDate(
+                                    //                   _list[index].sendingTime),
+                                    //               style: const TextStyle(
+                                    //                 color: Colors.black,
+                                    //                 fontSize: 12,
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //           // Text(
+                                    //           // api.messageDate(
+                                    //           //     _list[index].sendingTime),
+                                    //           //   style: const TextStyle(
+                                    //           //       color: Colors.white),
+                                    //           // ),
+                                    //           messageWidget(
+                                    //             message: _list[index],
+                                    //             image_list: image_list,
+                                    //             index: index,
+                                    //             imageIndex: image_index,
+                                    //           ),
+                                    //         ],
+                                    //       )
+                                    //     : messageWidget(
+                                    //         message: _list[index],
+                                    //         image_list: image_list,
+                                    //         index: index,
+                                    //         imageIndex: image_index,
+                                    //       );
+                                  },
+                                )
+                              : const Center(
+                                  child: Text(
+                                    "Say Hii 👋",
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.white),
+                                  ),
+                                );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                Obx(() => controller.getRecordButton
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 5),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // width: 200,
+                                      color:
+                                          const Color.fromARGB(255, 65, 65, 65),
+                                    ),
+                                    child: ConstrainedBox(
+                                      constraints:
+                                          BoxConstraints(maxHeight: 150),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         children: [
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 10),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 10),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[300],
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Text(
-                                              // api.messageTime(
-                                              //     _list[index].sendingTime),
-                                              api.messageDate(
-                                                  _list[index].sendingTime),
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12,
+                                          IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                  Icons.emoji_emotions_outlined,
+                                                  color: Color.fromARGB(
+                                                      255, 218, 216, 216))),
+                                          Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: TextField(
+                                                onChanged: (String value) {
+                                                  print("The value is $value");
+                                                  if (value.isEmpty ||
+                                                      controller.recordButton
+                                                              .value ==
+                                                          false) {
+                                                    controller
+                                                        .changeRecordButton();
+                                                  }
+                                                  msgController.text =
+                                                      value.replaceFirst(
+                                                          RegExp(r'^\s+'), '');
+                                                  print(
+                                                      "The value is ${msgController.text}");
+                                                },
+                                                controller: msgController,
+                                                enableSuggestions: true,
+                                                maxLines: null,
+                                                // expands: true,
+                                                cursorColor: Colors.white,
+                                                keyboardType:
+                                                    TextInputType.multiline,
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                                decoration:
+                                                    const InputDecoration(
+                                                        labelStyle: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                        hoverColor:
+                                                            Colors.white,
+                                                        border:
+                                                            InputBorder.none,
+                                                        focusColor:
+                                                            Colors.white,
+                                                        fillColor: Colors.white,
+                                                        hintStyle: TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    241,
+                                                                    255,
+                                                                    255,
+                                                                    255)),
+                                                        hintText:
+                                                            "Type a message"),
                                               ),
                                             ),
                                           ),
-                                          // Text(
-                                          // api.messageDate(
-                                          //     _list[index].sendingTime),
-                                          //   style: const TextStyle(
-                                          //       color: Colors.white),
-                                          // ),
-                                          messageWidget(
-                                            message: _list[index],
-                                            image_list: image_list,
-                                            index: index,
-                                            imageIndex: image_index,
-                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                ImagePicker()
+                                                    .pickMedia()
+                                                    .then((value) {
+                                                  if (value != null) {
+                                                    api.sendImage(
+                                                        widget.doc!["id"],
+                                                        File(value!.path));
+                                                  }
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                  Icons.attach_file,
+                                                  color: Color.fromARGB(
+                                                      255, 231, 231, 231))),
                                         ],
-                                      )
-                                    : messageWidget(
-                                        message: _list[index],
-                                        image_list: image_list,
-                                        index: index,
-                                        imageIndex: image_index,
-                                      );
-                              },
-                            )
-                          : const Center(
-                              child: Text(
-                                "Say Hii 👋",
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.white),
-                              ),
-                            );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 5),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              // width: 200,
-                              color: const Color.fromARGB(255, 65, 65, 65),
-                            ),
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(maxHeight: 150),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                          Icons.emoji_emotions_outlined,
-                                          color: Color.fromARGB(
-                                              255, 218, 216, 216))),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: TextField(
-                                        onChanged: (String value) {
-                                          msgController.text =
-                                              value.replaceFirst(
-                                                  RegExp(r'^\s+'), '');
-                                          print(
-                                              "The value is ${msgController.text}");
-                                        },
-                                        controller: msgController,
-                                        enableSuggestions: true,
-                                        maxLines: null,
-                                        // expands: true,
-                                        cursorColor: Colors.white,
-                                        keyboardType: TextInputType.multiline,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                        decoration: const InputDecoration(
-                                            labelStyle:
-                                                TextStyle(color: Colors.white),
-                                            hoverColor: Colors.white,
-                                            border: InputBorder.none,
-                                            focusColor: Colors.white,
-                                            fillColor: Colors.white,
-                                            hintStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    241, 255, 255, 255)),
-                                            hintText: "Type a message"),
                                       ),
                                     ),
                                   ),
-                                  IconButton(
-                                      onPressed: () {
-                                        ImagePicker().pickMedia().then((value) {
-                                          if (value != null) {
-                                            api.sendImage(widget.doc!["id"],
-                                                File(value!.path));
-                                          }
-                                        });
-                                      },
-                                      icon: const Icon(Icons.attach_file,
-                                          color: Color.fromARGB(
-                                              255, 231, 231, 231))),
-                                ],
+                                ),
                               ),
-                            ),
+                              Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: controller.getRecordButton == true
+                                          ? Color.fromARGB(255, 53, 49, 49)
+                                          : Colors.greenAccent,
+                                      borderRadius: BorderRadius.circular(25)),
+                                  child: controller.recordButton.value
+                                      ? const Icon(
+                                          Icons.send,
+                                          color: Colors.white,
+                                        )
+                                      : const Icon(
+                                          Icons.mic,
+                                          color: Colors.white,
+                                        )
+                                  // child: IconButton(
+                                  //     color: Colors.white,
+                                  //     onPressed: () {
+                                  // String checkSpaces = msgController.text.trim();
+                                  // if (checkSpaces.isEmpty || checkSpaces == "") {
+                                  //   return;
+                                  // }
+                                  // api.sendMessage(
+                                  //     widget.doc?["id"], checkSpaces, Type.text);
+                                  // msgController.clear();
+                                  // print("The message is ${msgController.text}");
+                                  // print(
+                                  // "the getmessages are :${api.getMessages(widget.doc!["id"])}");
+                                  //     },
+                                  //     icon: const Icon(Icons.send,
+                                  //         color: Color.fromARGB(255, 235, 235, 235))),
+                                  ),
+                            ],
                           ),
                         ),
-                      ),
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 53, 49, 49),
-                            borderRadius: BorderRadius.circular(25)),
-                        child: IconButton(
+                      )
+                    : Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: SocialMediaRecorder(
+                          fullRecordPackageHeight: 60.0,
+                          initRecordPackageWidth: 60.0,
+                          backGroundColor: Colors.blue,
+                          radius: BorderRadius.circular(20),
+                          // sendButtonIcon: Icon(Icons.send),
+                          recordIcon: Icon(
+                            Icons.mic,
                             color: Colors.white,
-                            onPressed: () {
-                              String checkSpaces = msgController.text.trim();
-                              if (checkSpaces.isEmpty || checkSpaces == "") {
-                                return;
-                              }
-                              api.sendMessage(
-                                  widget.doc?["id"], checkSpaces, Type.text);
-                              msgController.clear();
-                              print("The message is ${msgController.text}");
-                              print(
-                                  "the getmessages are :${api.getMessages(widget.doc!["id"])}");
-                            },
-                            icon: const Icon(Icons.send,
-                                color: Color.fromARGB(255, 235, 235, 235))),
-                      ),
-                    ],
-                  ),
-                )
+                            size: 30,
+                          ),
+                          startRecording: () {
+                            print("start recording");
+                            // function called when start recording
+                          },
+                          stopRecording: (_time) {
+                            print("the recording time is $_time");
+                            // function called when stop recording, return the recording time
+                          },
+                          sendRequestFunction: (soundFile, _time) {
+                            print("the current path is ${soundFile.path}");
+                            api.sendImage(api.user.uid, soundFile);
+                          },
+                          encode: AudioEncoderType.AAC,
+                        ),
+                      )),
               ],
             ),
           ),

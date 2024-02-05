@@ -48,6 +48,8 @@ dependencies:
   get: ^4.6.6
   intl: ^0.18.1
   firebase_app_check: ^0.2.1+12
+  record: ^4.4.4
+  social_media_recorder: ^1.0.0
 
 dev_dependencies:
   flutter_test:
