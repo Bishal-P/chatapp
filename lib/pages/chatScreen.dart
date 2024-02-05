@@ -77,9 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
           title: Row(
             children: [
               IconButton(
-                  // onPressed: () => Navigator.pop(context),
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => testVoice())),
+                  onPressed: () => Navigator.pop(context),
                   icon: const Icon(
                     Icons.arrow_back_ios,
                     color: Colors.white,
@@ -188,8 +186,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                     //           Container(
                                     //             margin: const EdgeInsets.only(
                                     //                 bottom: 10),
-                                    //             padding: const EdgeInsets.symmetric(
-                                    //                 vertical: 5, horizontal: 10),
+                                    //             padding:
+                                    //                 const EdgeInsets.symmetric(
+                                    //                     vertical: 5,
+                                    //                     horizontal: 10),
                                     //             decoration: BoxDecoration(
                                     //               color: Colors.grey[300],
                                     //               borderRadius:
@@ -240,8 +240,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                 ),
-                Obx(() => controller.getRecordButton
-                    ? Align(
+                Obx(() => Stack(children: [
+                      // !controller.getRecordButton
+                      //     ?
+                      Align(
                         alignment: Alignment.bottomCenter,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -385,36 +387,12 @@ class _ChatScreenState extends State<ChatScreen> {
                             ],
                           ),
                         ),
-                      )
-                    : Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: SocialMediaRecorder(
-                          fullRecordPackageHeight: 60.0,
-                          initRecordPackageWidth: 60.0,
-                          backGroundColor: Colors.blue,
-                          radius: BorderRadius.circular(20),
-                          // sendButtonIcon: Icon(Icons.send),
-                          recordIcon: Icon(
-                            Icons.mic,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          startRecording: () {
-                            print("start recording");
-                            // function called when start recording
-                          },
-                          stopRecording: (_time) {
-                            print("the recording time is $_time");
-                            // function called when stop recording, return the recording time
-                          },
-                          sendRequestFunction: (soundFile, _time) {
-                            print("the current path is ${soundFile.path}");
-                            api.sendImage(api.user.uid, soundFile);
-                          },
-                          encode: AudioEncoderType.AAC,
-                        ),
-                      )),
+                      ),
+                      // :
+                      !controller.getRecordButton
+                          ? recordAudio()
+                          : const SizedBox(),
+                    ])),
               ],
             ),
           ),
