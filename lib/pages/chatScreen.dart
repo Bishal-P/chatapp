@@ -648,26 +648,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                           child: TextField(
                                             onChanged: (String value) {
                                               print("The value is $value");
-                                              // if (value.isEmpty ||
-                                              //     controller
-                                              //             .recordButton.value ==
-                                              //         false) {
-                                              //   controller.changeRecordButton();
-                                              // }
-                                              // if (api
-                                              //     .isOnlyWhiteSpaces(value)) {
-                                              //   controller
-                                              //       .changeRecordButton(false);
-                                              // }
-                                              // if (!api
-                                              //     .isOnlyWhiteSpaces(value)) {
-                                              //   controller
-                                              //       .changeRecordButton(true);
-                                              // }
-                                              // if (value.isNotEmpty) {
-                                              //   controller
-                                              //       .changeRecordButton(false);
-                                              // }
+
                                               if (api.isOnlyWhiteSpaces(
                                                       value) ||
                                                   value.isEmpty) {
@@ -717,10 +698,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                                 .pickMedia()
                                                 .then((value) {
                                               if (value != null) {
-                                                api.sendFile(
-                                                    widget.doc!["id"],
-                                                    File(value.path),
-                                                    Type.image);
+                                                api.sendFile(widget.doc!["id"],
+                                                    File(value.path));
                                               }
                                             });
                                           },

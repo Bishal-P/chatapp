@@ -12,6 +12,7 @@ class audioMessage extends StatefulWidget {
 }
 
 class _audioMessageState extends State<audioMessage> {
+  bool isPlying = false;
   @override
   Widget build(BuildContext context) {
     print("The message is working${widget.message!.msg}");
@@ -33,12 +34,34 @@ class _audioMessageState extends State<audioMessage> {
               IconButton(
                 onPressed: () {
                   print("Playing audio");
-                  api.audioPlayer.play(AssetSource(
-                      "/storage/emulated/0/Android/data/com.example.chatapp/files/audio/chatApp-${widget.message!.sendingTime}.m4a"));
-                  api.downloadAndSaveFile(widget.message!.msg, "audio",
-                      widget.message!.sendingTime);
+
+                  // DeviceFileSource fileSource = DeviceFileSource(
+                  //     "/storage/emulated/0/Android/data/com.example.chatapp/files/audio/chatApp-${widget.message!.sendingTime}.m4a");
+                  if (isPlying) {
+                    api.audioPlayer.pause();
+                    setState(() {
+                      isPlying = false;
+                    });
+                  } else {
+                    api.playAudio(widget.message!.sendingTime,
+                        widget.message!.msg, "audio");
+                    api.audioPlayer.resume();
+                    setState(() {
+                      isPlying = true;
+                    });
+                  }
+
+                  // api.audioPlayer.play(
+                  //     "/storage/emulated/0/Android/data/com.example.chatapp/files/audio/chatApp-${widget.message!.sendingTime}.m4a");
+                  // api.downloadAndSaveFile(widget.message!.msg, "audio",
+                  //     widget.message!.sendingTime);
                 },
-                icon: Icon(Icons.play_arrow),
+                icon: !isPlying
+                    ? Icon(
+                        Icons.download_for_offline_outlined,
+                        size: 40,
+                      )
+                    : Icon(Icons.pause),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.32,

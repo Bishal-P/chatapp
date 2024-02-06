@@ -30,7 +30,7 @@ Widget recordAudio(String toId) {
       },
       sendRequestFunction: (soundFile, _time) {
         print("the current path is ${soundFile.path}");
-        api.sendFile(toId, soundFile, Type.audio);
+        api.sendFile(toId, soundFile);
       },
       encode: AudioEncoderType.AAC,
     ),

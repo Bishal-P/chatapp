@@ -31,8 +31,16 @@ class api {
   ///audioplayer instance
   static AudioPlayer audioPlayer = AudioPlayer();
 
-  Future<void> playAudio(AssetSource path) async {
-    await audioPlayer.play(path);
+  static Future<void> playAudio(
+      String sendingTime, String urlName, String folderName) async {
+    // bool yes= checkFileExists(sendingTime, urlName, folderName);
+    bool yesExists = await checkFileExists(sendingTime, urlName, folderName);
+    if (!yesExists) {
+      await downloadAndSaveFile(urlName, folderName, sendingTime);
+    }
+    DeviceFileSource fileSource = DeviceFileSource(
+        "/storage/emulated/0/Android/data/com.example.chatapp/files/$folderName/${createFileName(sendingTime, urlName)}");
+    await audioPlayer.play(fileSource);
   }
 
   //checking userExist or not
@@ -121,14 +129,40 @@ class api {
   }
 
 // send image
-  static sendFile(String receiverId, File file, Type fileType) async {
+  static Type getFileType(String fileName) {
+    // Get the file extension
+    String fileExtension = fileName.split('.').last.toLowerCase();
+
+    // Map file extensions to file types
+    switch (fileExtension) {
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+      case 'gif':
+        return Type.image;
+      // case 'mp4':
+      // case 'mov':
+      // case 'avi':
+      //   return Type.video;
+      case 'mp3':
+      case 'wav':
+      case 'ogg':
+      case 'm4a':
+        return Type.audio;
+      default:
+        return Type.unknown;
+    }
+  }
+
+  static sendFile(String receiverId, File file) async {
     // controller.setUploading(true);
+
     final String docId = getTime();
     final Message2 message = Message2(
       toId: receiverId,
       msg: "0",
       read: false,
-      type: fileType,
+      type: getFileType(file.path.split('/').last),
       fromId: api.user.uid,
       sendingTime: DateTime.now().millisecondsSinceEpoch.toString(),
       sentTime: "",
@@ -382,7 +416,11 @@ class api {
     Directory? externalDir = await getExternalStorageDirectory();
     File file =
         File("${externalDir?.path}/$folderName/ChatApp-$sendingTime.$urlName");
-    return file.existsSync();
+    if (file.existsSync()) {
+      return true;
+    }
+    return false;
+    // return file.existsSync();
   }
 
   /////////////save the files to the app folder
@@ -405,22 +443,34 @@ class api {
     }
   }
 
-  static Future<void> downloadAndSaveFile(
+  static Future<bool> downloadAndSaveFile(
       String fileUrl, String saveDirectory, String sendingTime) async {
     try {
       // Download the file
       final response = await http.get(Uri.parse(fileUrl));
       Directory? externalDir = await getExternalStorageDirectory();
 
-      checkAndCreateDirectory(saveDirectory);
+//new lines added
+      Directory customDir = Directory('${externalDir?.path}/$saveDirectory');
+      print(customDir.path);
+      if (!customDir.existsSync()) {
+        customDir.createSync();
+        print('folder created');
+      } else {
+        print('folder already exists');
+      }
+
+//ends here
+
+      // checkAndCreateDirectory(saveDirectory);
       checkFileExists(sendingTime, fileUrl, saveDirectory);
       if (response.statusCode == 200) {
         // Save the file to the specified path
         File file = File(
             "${externalDir?.path}/$saveDirectory/${createFileName(sendingTime, fileUrl)}");
         await file.writeAsBytes(response.bodyBytes);
-
         print('File downloaded and saved to: $saveDirectory');
+        return true;
       } else {
         print(
             'Failed to download file. HTTP Status Code: ${response.statusCode}');
@@ -428,5 +478,6 @@ class api {
     } catch (e) {
       print('Error downloading and saving file: $e');
     }
+    return false;
   }
 }

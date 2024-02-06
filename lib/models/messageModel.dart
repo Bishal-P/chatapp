@@ -23,11 +23,15 @@ class Message2 {
     toId = json['toId'].toString();
     msg = json['msg'].toString();
     read = json['read'];
-    type = json['type'].toString() == Type.image.name
-        ? Type.image
-        : json['type'].toString() == Type.audio.name
-            ? Type.audio
-            : Type.text;
+   type = json['type'].toString() == Type.image.name
+    ? Type.image
+    : json['type'].toString() == Type.audio.name
+        ? Type.audio
+        : json['type'].toString() == Type.video.name
+            ? Type.video
+            : json['type'].toString() == Type.text.name
+                ? Type.text
+                : Type.unknown;
     fromId = json['fromId'].toString();
     sentTime = json['sentTime'].toString();
     isSent = json['isSent'];
@@ -48,4 +52,10 @@ class Message2 {
   }
 }
 
-enum Type { text, image, audio }
+enum Type {
+  image,
+  audio,
+  video,
+  text,
+  unknown,
+}

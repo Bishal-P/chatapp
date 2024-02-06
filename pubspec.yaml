@@ -55,6 +55,7 @@ dependencies:
   path_provider: ^2.1.2
   permission_handler: ^11.2.0
   http: ^1.2.0
+  voice_message_package: ^2.1.4
 
 dev_dependencies:
   flutter_test:

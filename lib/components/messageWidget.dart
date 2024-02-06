@@ -33,9 +33,9 @@
 //     print("The read status of the mesage is ${message.read}");
 //     // print("The message vale is ${api.messageTime(message.sentTime)}");
 
-//     return Container(
-//       width: MediaQuery.of(context).size.width,
-//       margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+    // return Container(
+    //   width: MediaQuery.of(context).size.width,
+    //   margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
 //       child: receiverSms(message, image_list, imageIndex, index, context),
 //       // child: !isMe
 //       //     ? receiverSms(message, image_list, imageIndex, index, context)
