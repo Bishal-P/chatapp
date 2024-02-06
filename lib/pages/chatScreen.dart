@@ -3,9 +3,9 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:chatapp/components/apis.dart';
 // import 'package:chatapp/components/appController.dart';
-// import 'package:chatapp/components/messageWidget.dart';
+// import 'package:chatapp/components/messa.dart';
 // // import 'package:chatapp/components/apis.dart';
-// // import '../../assets/messageWidget.dart';
+// // import '../../assets/messa.dart';
 // import 'package:chatapp/models/messageModel.dart';
 // import 'package:chatapp/widgests/audioMessage.dart';
 // import 'package:chatapp/widgests/testVoice.dart';
@@ -212,7 +212,7 @@
 //                                     //           //   style: const TextStyle(
 //                                     //           //       color: Colors.white),
 //                                     //           // ),
-//                                     //           messageWidget(
+//                                     //           messa(
 //                                     //             message: _list[index],
 //                                     //             image_list: image_list,
 //                                     //             index: index,
@@ -220,7 +220,7 @@
 //                                     //           ),
 //                                     //         ],
 //                                     //       )
-//                                     //     : messageWidget(
+//                                     //     : messa(
 //                                     //         message: _list[index],
 //                                     //         image_list: image_list,
 //                                     //         index: index,
@@ -377,11 +377,12 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/appController.dart';
-import 'package:chatapp/components/messageWidget.dart';
+import 'package:chatapp/messageWidges/messageStatus.dart';
+// import 'package:chatapp/components/messageInOut.dart';
 // import 'package:chatapp/components/apis.dart';
-// import '../../assets/messageWidget.dart';
+// import '../../assets/messa.dart';
 import 'package:chatapp/models/messageModel.dart';
-import 'package:chatapp/widgests/testVoice.dart';
+import 'package:chatapp/widgests/recordVoice.dart';
 // import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_core/firebase_core.dart';
@@ -390,6 +391,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 // import 'package:flutter_animate/flutter_animate.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -426,6 +428,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // print("The doc reference is ${_documentReference}");
 
     final appController controller = Get.put(appController());
+    final String toReceiverId = widget.doc!.id;
     print("The doc id is ${widget.doc!.id}");
     print("the conver id is : ${getConversationID(widget.doc!.id)}");
     print("The hashcode is ${api.user.uid.hashCode}");
@@ -434,6 +437,11 @@ class _ChatScreenState extends State<ChatScreen> {
     print("The last message is ${api.getLastMessage(widget.doc!["id"])}");
 
     print("The last message is ${api.getLastMessage(widget.doc!["id"])}");
+
+    // api.saveFileToCustomFolder(
+    //     "new", "newfile.cpp", File("/home/bishal/Desktop/test.cpp"));
+    // File fileToSave = File('/home/bishal/Desktop/test.cpp');
+    // api.checkAndCreateDirectory("Naincy");
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -581,15 +589,15 @@ class _ChatScreenState extends State<ChatScreen> {
                                               //   style: const TextStyle(
                                               //       color: Colors.white),
                                               // ),
-                                              messageWidget(
+                                              messageStatus(
                                                 message: _list[index],
                                                 image_list: image_list,
                                                 index: index,
                                                 imageIndex: image_index,
-                                              ),
+                                              )
                                             ],
                                           )
-                                        : messageWidget(
+                                        : messageStatus(
                                             message: _list[index],
                                             image_list: image_list,
                                             index: index,
@@ -709,8 +717,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                                 .pickMedia()
                                                 .then((value) {
                                               if (value != null) {
-                                                api.sendFile(widget.doc!["id"],
-                                                    File(value!.path));
+                                                api.sendFile(
+                                                    widget.doc!["id"],
+                                                    File(value.path),
+                                                    Type.image);
                                               }
                                             });
                                           },
@@ -761,7 +771,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
             ),
-            Obx(() => !controller.getRecordButton ? recordAudio() : SizedBox()),
+            Obx(() => !controller.getRecordButton
+                ? recordAudio(toReceiverId)
+                : SizedBox()),
           ],
         ),
       ),

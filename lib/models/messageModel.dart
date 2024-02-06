@@ -23,12 +23,15 @@ class Message2 {
     toId = json['toId'].toString();
     msg = json['msg'].toString();
     read = json['read'];
-    type = json['type'].toString() == Type.image.name ? Type.image : Type.text;
+    type = json['type'].toString() == Type.image.name
+        ? Type.image
+        : json['type'].toString() == Type.audio.name
+            ? Type.audio
+            : Type.text;
     fromId = json['fromId'].toString();
     sentTime = json['sentTime'].toString();
     isSent = json['isSent'];
     sendingTime = json['sendingTime'].toString();
-    
   }
 
   Map<String, dynamic> toJson() {
@@ -45,4 +48,4 @@ class Message2 {
   }
 }
 
-enum Type { text, image ,audio}
+enum Type { text, image, audio }

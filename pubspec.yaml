@@ -51,6 +51,10 @@ dependencies:
   record: ^4.4.4
   social_media_recorder: ^1.0.0
   audioplayers: ^5.2.1
+  dio: ^5.4.0
+  path_provider: ^2.1.2
+  permission_handler: ^11.2.0
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:

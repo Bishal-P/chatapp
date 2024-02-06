@@ -70,8 +70,8 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
               decoration: BoxDecoration(
                 color: onlyEmoji
                     ? Colors.transparent
-                    :const Color.fromARGB(255, 227, 255, 101),
-                borderRadius:const BorderRadius.only(
+                    : const Color.fromARGB(255, 227, 255, 101),
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
                   bottomLeft: Radius.circular(0),

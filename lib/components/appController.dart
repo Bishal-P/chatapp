@@ -31,7 +31,7 @@ class appController extends GetxController {
   }
 
   //to check the record message button is active or not
-  RxBool recordButton = true.obs;
+  RxBool recordButton = false.obs;
   void changeRecordButton(bool value) {
     recordButton.value = value;
   }

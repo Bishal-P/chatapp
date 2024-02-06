@@ -9,6 +9,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:get/instance_manager.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart' as http;
 
 class api {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -118,14 +121,14 @@ class api {
   }
 
 // send image
-  static sendFile(String receiverId, File file) async {
+  static sendFile(String receiverId, File file, Type fileType) async {
     // controller.setUploading(true);
     final String docId = getTime();
     final Message2 message = Message2(
       toId: receiverId,
       msg: "0",
       read: false,
-      type: Type.image,
+      type: fileType,
       fromId: api.user.uid,
       sendingTime: DateTime.now().millisecondsSinceEpoch.toString(),
       sentTime: "",
@@ -350,5 +353,80 @@ class api {
 
     // Check if the input contains only spaces, tabs, and newlines
     return whitespaceRegex.hasMatch(input);
+  }
+
+  ///// permission handler code
+  static Future<bool> checkAndRequestPermission(Permission permission) async {
+    // Check the status of the given permission
+    PermissionStatus status = await permission.status;
+
+    if (status.isDenied) {
+      // Request the permission if it's undetermined or denied
+      status = await permission.request();
+    }
+
+    // Return true if the permission is granted, false otherwise
+    return status.isGranted;
+  }
+
+////creating of getting the file name
+  static createFileName(String sendingTime, String urlName) {
+    String fileType = urlName.split('?').first.split('.').last;
+    String fileName = "ChatApp-$sendingTime.$fileType";
+    return fileName;
+  }
+
+  //// File exists or not
+  static Future<bool> checkFileExists(
+      String sendingTime, String urlName, String folderName) async {
+    Directory? externalDir = await getExternalStorageDirectory();
+    File file =
+        File("${externalDir?.path}/$folderName/ChatApp-$sendingTime.$urlName");
+    return file.existsSync();
+  }
+
+  /////////////save the files to the app folder
+  static Future<void> checkAndCreateDirectory(String customFolder) async {
+    try {
+      // Get the external storage directory
+      Directory? externalDir = await getExternalStorageDirectory();
+
+      // Create a new folder within the external storage directory
+      Directory customDir = Directory('${externalDir?.path}/$customFolder');
+      print(customDir.path);
+      if (!customDir.existsSync()) {
+        customDir.createSync();
+        print('folder created');
+      } else {
+        print('folder already exists');
+      }
+    } catch (e) {
+      print('Error in creating folder: $e');
+    }
+  }
+
+  static Future<void> downloadAndSaveFile(
+      String fileUrl, String saveDirectory, String sendingTime) async {
+    try {
+      // Download the file
+      final response = await http.get(Uri.parse(fileUrl));
+      Directory? externalDir = await getExternalStorageDirectory();
+
+      checkAndCreateDirectory(saveDirectory);
+      checkFileExists(sendingTime, fileUrl, saveDirectory);
+      if (response.statusCode == 200) {
+        // Save the file to the specified path
+        File file = File(
+            "${externalDir?.path}/$saveDirectory/${createFileName(sendingTime, fileUrl)}");
+        await file.writeAsBytes(response.bodyBytes);
+
+        print('File downloaded and saved to: $saveDirectory');
+      } else {
+        print(
+            'Failed to download file. HTTP Status Code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error downloading and saving file: $e');
+    }
   }
 }
