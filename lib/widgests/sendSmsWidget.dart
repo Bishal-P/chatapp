@@ -58,17 +58,6 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        // message.type == Type.text
-        //     ? widgetToShow
-        //     : message.isSent == false
-        //         ? widgetToShow
-        //         : message.isSent == true
-        //             ? message.type == Type.audio
-        //                 ? widgetToShow
-        //                 : widgetToShow
-        //             : SizedBox(),
-        // // message.isSent == true
-        // // ?
         widgetToShow,
         showTime
             ? Row(

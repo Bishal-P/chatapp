@@ -242,7 +242,9 @@ class _audioMessageState extends State<audioMessage> {
     // audioPlayerController.play(
     //     "/storage/emulated/0/Android/data/com.example.chatapp/files/audio/chatApp-${widget.message!.sendingTime}.mp3");
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: widget.message?.fromId == api.user.uid
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.start,
       children: [
         Obx(() {
           // timer++;

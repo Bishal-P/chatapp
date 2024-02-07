@@ -388,6 +388,7 @@ import 'package:chatapp/models/messageModel.dart';
 import 'package:chatapp/widgests/recordVoice.dart';
 // import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:flutter/cupertino.dart';
@@ -619,22 +620,20 @@ class _ChatScreenState extends State<ChatScreen> {
                                   itemCount: _list.length,
                                   itemBuilder: (context, index) {
                                     if (_list[index].type == Type.image &&
-                                        image_list
-                                                .contains(_list[index].msg) ==
+                                        image_list.contains(_list[index].msg) ==
                                             false) {
                                       image_index[index] = currentImageIndex;
                                       currentImageIndex++;
                                       image_list.add(_list[index].msg);
                                     }
                                     // bool isMe = _list[index].fromId == api.user.uid;
-    
+
                                     bool showDate = false;
                                     print("THe index is $index");
-                                    print(
-                                        "THe list length is ${_list.length}");
+                                    print("THe list length is ${_list.length}");
                                     if (index != _list.length - 1 &&
-                                        api.messageDate(_list[index + 1]
-                                                .sendingTime) !=
+                                        api.messageDate(
+                                                _list[index + 1].sendingTime) !=
                                             api.messageDate(
                                                 _list[index].sendingTime)) {
                                       showDate = true;
@@ -648,21 +647,20 @@ class _ChatScreenState extends State<ChatScreen> {
                                               Container(
                                                 margin: const EdgeInsets.only(
                                                     bottom: 10),
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                    vertical: 5,
-                                                    horizontal: 10),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
                                                 decoration: BoxDecoration(
                                                   color: Colors.grey[300],
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          10),
+                                                      BorderRadius.circular(10),
                                                 ),
                                                 child: Text(
                                                   // api.messageTime(
                                                   //     _list[index].sendingTime),
-                                                  api.messageDate(_list[index]
-                                                      .sendingTime),
+                                                  api.messageDate(
+                                                      _list[index].sendingTime),
                                                   style: const TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 12,
@@ -714,14 +712,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   // width: 200,
-                                  color:
-                                      const Color.fromARGB(255, 65, 65, 65),
+                                  color: const Color.fromARGB(255, 65, 65, 65),
                                 ),
                                 child: ConstrainedBox(
                                   constraints: BoxConstraints(maxHeight: 150),
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       IconButton(
                                           onPressed: () {},
@@ -736,21 +732,21 @@ class _ChatScreenState extends State<ChatScreen> {
                                           child: TextField(
                                             onChanged: (String value) {
                                               print("The value is $value");
-    
+
                                               if (api.isOnlyWhiteSpaces(
                                                       value) ||
                                                   value.isEmpty) {
-                                                controller.changeRecordButton(
-                                                    false);
+                                                controller
+                                                    .changeRecordButton(false);
                                               }
-    
+
                                               if (value.isNotEmpty &&
                                                   !api.isOnlyWhiteSpaces(
                                                       value)) {
                                                 controller
                                                     .changeRecordButton(true);
                                               }
-    
+
                                               msgController.text =
                                                   value.replaceFirst(
                                                       RegExp(r'^\s+'), '');
@@ -781,16 +777,73 @@ class _ChatScreenState extends State<ChatScreen> {
                                         ),
                                       ),
                                       IconButton(
-                                          onPressed: () {
-                                            ImagePicker()
-                                                .pickMedia()
-                                                .then((value) {
-                                              if (value != null) {
-                                                api.sendFile(
-                                                    widget.doc!["id"],
-                                                    File(value.path));
-                                              }
-                                            });
+                                          onPressed: () async {
+                                            // ImagePicker()
+                                            //     .pickMultipleMedia()
+                                            //     .then((value) {
+                                            //   if (value != null &&
+                                            //       value.isNotEmpty) {
+                                            //     List<XFile> filteredMedia =
+                                            //         value.where((file) {
+                                            //       return file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.jpg') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.jpeg') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.png') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.mp3') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.wav') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.aac');
+                                            //     }).toList();
+                                            //     for (var value
+                                            //         in filteredMedia) {
+                                            //       print("The value is $value");
+                                            //       print(
+                                            //           "The value path is ${value.path}");
+                                            //       api.sendFile(
+                                            //           widget.doc!["id"],
+                                            //           File(value.path));
+                                            //     }
+                                            //   }
+                                            // });
+                                            try {
+                                              await FilePicker.platform
+                                                  .pickFiles(
+                                                type: FileType.custom,
+                                                allowedExtensions: [
+                                                  'jpg',
+                                                  'jpeg',
+                                                  'png',
+                                                  'mp3',
+                                                  'wav',
+                                                  'aac'
+                                                ],
+                                              ).then((value) {
+                                                if (value != null) {
+                                                  for (var file
+                                                      in value.files) {
+                                                    api.sendFile(
+                                                        widget.doc!["id"],
+                                                        File(file.path!));
+                                                    print(
+                                                        'Picked file: ${file.name}');
+                                                  }
+                                                } else {
+                                                  // User canceled the picker
+                                                }
+                                              });
+                                            } catch (e) {
+                                              print("The error is $e");
+                                            }
                                           },
                                           icon: const Icon(Icons.attach_file,
                                               color: Color.fromARGB(
@@ -816,23 +869,21 @@ class _ChatScreenState extends State<ChatScreen> {
                                       checkSpaces == "") {
                                     return;
                                   }
-                                  if (api.isOnlyWhiteSpaces(
-                                      msgController.text)) {
+                                  if (api
+                                      .isOnlyWhiteSpaces(msgController.text)) {
                                     return;
                                   }
                                   controller.changeRecordButton(false);
                                   api.sendMessage(widget.doc?["id"],
                                       checkSpaces, Type.text);
                                   msgController.clear();
-    
-                                  print(
-                                      "The message is ${msgController.text}");
+
+                                  print("The message is ${msgController.text}");
                                   print(
                                       "the getmessages are :${api.getMessages(widget.doc!["id"])}");
                                 },
                                 icon: const Icon(Icons.send,
-                                    color:
-                                        Color.fromARGB(255, 235, 235, 235))),
+                                    color: Color.fromARGB(255, 235, 235, 235))),
                           ),
                         ],
                       ),
