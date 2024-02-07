@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:path_provider/path_provider.dart';
 
 class appController extends GetxController {
   RxInt selectedIndex = 0.obs;
@@ -37,4 +41,13 @@ class appController extends GetxController {
   }
 
   get getRecordButton => recordButton.value;
+
+  ////audio player
+  late final Directory? externalDir;
+  get getExternalDir => externalDir;
+  @override
+  void onInit() async {
+    externalDir = await getExternalStorageDirectory();
+    super.onInit();
+  }
 }

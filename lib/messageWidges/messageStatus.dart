@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 
 class messageStatus extends StatelessWidget {
   final Message2 message;
- final int index;
- final List<String> image_list;
- final Map<int, int> imageIndex;
- const messageStatus(
+  final int index;
+  final List<String> image_list;
+  final Map<int, int> imageIndex;
+  const messageStatus(
       {super.key,
       required this.message,
       required this.image_list,

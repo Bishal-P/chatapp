@@ -28,7 +28,7 @@ class api {
   static User user = auth.currentUser!;
   static FirebaseStorage storage = FirebaseStorage.instance;
 
-  ///audioplayer instance
+  // /audioplayer instance
   static AudioPlayer audioPlayer = AudioPlayer();
 
   static Future<void> playAudio(
