@@ -97,7 +97,7 @@ import 'package:get/get.dart';
 
 class audioController extends GetxController {
   appController appControl = Get.find<appController>();
-  late final AudioPlayer audioPlayer;
+  late AudioPlayer audioPlayer;
   RxBool audioInitialized = false.obs;
 
   get getAudioInitialized => audioInitialized.value;
@@ -117,6 +117,7 @@ class audioController extends GetxController {
       // audioInitialized = true;
       setAudioInitialized = true;
       api.currentPlayingIndex = index;
+      print("The audio player is initialized");
       // setTotalDuration = await audioPlayer.getDuration();
     }
     if (getIsPlaying) {
@@ -208,7 +209,9 @@ class _audioMessageState extends State<audioMessage> {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (api.currentPlayingIndex != widget.index) {
         if (controller.getAudioInitialized) {
-          controller.audioPlayer.stop();
+          controller.audioPlayer.pause();
+          controller.audioPlayer.dispose();
+          controller.setAudioInitialized = false;
         }
         controller.setIsPlaying = false;
         controller.setCurrentPosition = Duration(seconds: 0);
