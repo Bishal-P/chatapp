@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       print("The result is ${value}");
     });
     api.updateOnlineStatus(true);
+    api.getExternalDir();
     super.initState();
   }
 

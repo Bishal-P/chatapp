@@ -32,7 +32,7 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
     case Type.audio:
       print("The switch case is working");
       if (message.isSent == true) {
-        widgetToShow = audioMessage(message: message);
+        widgetToShow = audioMessage(message: message, index: index);
       } else {
         widgetToShow = uploadingFileWidget(msg: message.msg);
       }

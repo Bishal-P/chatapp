@@ -460,10 +460,18 @@ class api {
         print('folder already exists');
       }
 
+      File file = File(
+          "$externalDir?.path}/$saveDirectory/${createFileName(sendingTime, fileUrl)}");
+      if (file.existsSync()) {
+        return true;
+      }
+
+      // return file.existsSync();
+
 //ends here
 
       // checkAndCreateDirectory(saveDirectory);
-      checkFileExists(sendingTime, fileUrl, saveDirectory);
+      // checkFileExists(sendingTime, fileUrl, saveDirectory);
       if (response.statusCode == 200) {
         // Save the file to the specified path
         File file = File(
@@ -479,5 +487,23 @@ class api {
       print('Error downloading and saving file: $e');
     }
     return false;
+  }
+
+  ////getting app storge directory
+static  Directory? externalDir = Directory('');
+static String getExternalDirPath() {
+    return externalDir!.path;
+  }
+  static Future<Directory?> getExternalDir() async {
+    externalDir = await getExternalStorageDirectory();
+    return externalDir;
+  }
+
+  static int currentPlayingIndex = -1;
+  static getCurrentPlayingIndex() {
+    return currentPlayingIndex;
+  }
+  static setCurrentPlayingIndex(int index) {
+    currentPlayingIndex = index;
   }
 }

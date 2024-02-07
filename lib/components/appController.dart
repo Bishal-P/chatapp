@@ -50,4 +50,10 @@ class appController extends GetxController {
     externalDir = await getExternalStorageDirectory();
     super.onInit();
   }
+
+  RxInt audioIndex = 0.obs;
+  set setAudioIndex(int index) {
+    audioIndex.value = index;
+  }
+  get getAudioIndex => audioIndex.value;
 }
