@@ -5,6 +5,7 @@
 
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/appController.dart';
+import 'package:chatapp/pages/searchScreen.dart';
 import 'package:chatapp/widgests/CategorySelector.dart';
 // import 'package:chatapp/widgests/favouriteContacts.dart';
 import 'package:chatapp/widgests/groupsTab.dart';
@@ -37,6 +38,82 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     const groupTab(),
     const requestTab()
   ];
+
+  // List<Map<String, dynamic>> usersList = [];
+  List<DocumentSnapshot<Object>> usersList = [];
+  Set<String> uniqueIds = {};
+
+  Future<Map<String, dynamic>> searchUsers(String substring) async {
+    if (substring == "") {
+      // controller.setSearchUsersData = [];
+      controller.clearSearchUsersData2();
+      usersList.clear();
+      uniqueIds.clear();
+    }
+    usersList.clear();
+    uniqueIds.clear();
+    try {
+      // Convert the substring to lowercase
+      substring = substring.toLowerCase();
+
+      // Preprocess data and update 'nameSubstrings' field in Firestore documents
+      await preprocessData(substring);
+
+      // Query Firestore for documents where the 'nameSubstrings' array contains the substring
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users') // Replace 'users' with your collection name
+          .where('nameSubstrings', arrayContains: substring)
+          .get();
+
+      querySnapshot.docs.forEach((doc) {
+        print("type of doc is ${doc.runtimeType}"); // QueryDocumentSnapshot
+        String docId = doc['id'];
+        print("The doc id is $docId");
+        if (!uniqueIds.contains(docId)) {
+          // controller.setSearchUsersData2 = doc as DocumentSnapshot<Object?>;
+          usersList.add(doc as DocumentSnapshot<Object>);
+          // Map<String, dynamic> data =
+          //     (doc.data() as Map<String, dynamic>?) ?? {};
+          // usersList.add(data);
+          // // docs.add(doc);
+          uniqueIds.add(docId); // Add document ID to the set
+        }
+      });
+
+      controller.setSearchUsersData2 = usersList;
+
+      // querySnapshot.docs.forEach((doc) {
+      //   data = (doc.data() as Map<String, dynamic>?) ?? {};
+
+      //   // Print or process the data as needed
+      //   print(data['name']);
+      // });
+    } catch (e) {
+      print('Error: $e');
+    }
+    return {};
+  }
+
+  Future<void> preprocessData(String substring) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('users').get();
+
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        String name = doc['name'].toLowerCase();
+        List<String> substrings = [];
+        for (int i = 0; i < name.length; i++) {
+          for (int j = i + 1; j <= name.length; j++) {
+            substrings.add(name.substring(i, j));
+          }
+        }
+        await doc.reference.update({'nameSubstrings': substrings});
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -91,28 +168,78 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    // CollectionReference messages =
+    //     FirebaseFirestore.instance.collection('users');
+
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-        title: const Text(
-          "NeoChat",
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 28, color: Colors.black87),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
+        backgroundColor: Theme.of(context).primaryColor,
+        appBar: AppBar(
+          title: Obx(
+            () {
+              return !controller.getIsSearching
+                  ? Container(
+                      height: 45,
+                      alignment: Alignment.centerLeft,
+                      child: TextField(
+                        maxLines: 1,
+                        onChanged: (value) async {
+                          searchUsers(value);
+                          // QuerySnapshot querySnapshot = await FirebaseFirestore
+                          //     .instance
+                          //     .collection(
+                          //         'users') // Replace 'users' with your collection name
+                          //     .where('name', isEqualTo: value)
+                          //     .get();
+
+                          // querySnapshot.docs.forEach((doc) {
+                          //   print(doc.data());
+                          // });
+
+                          // print("The value is $value");
+                        },
+                        textAlign: TextAlign.start,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 20),
+                          hintText: "Search",
+                          alignLabelWithHint: true,
+                          hintStyle: TextStyle(color: Colors.black),
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(40))),
+                        ),
+                      ),
+                    )
+                  : const Text(
+                      "NeoChat",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                          color: Colors.black87),
+                    );
+            },
           ),
-          const popUpMenu(),
-        ],
-      ),
-      body: Column(
-        children: [
-          CategorySelector(),
-          Obx(() => tabs[controller.index]),
-        ],
-      ),
-    );
+          actions: [
+            Obx(() => IconButton(
+                  onPressed: () {
+                    controller.setIsSearching = !controller.getIsSearching;
+                  },
+                  icon: !controller.getIsSearching
+                      ? const Icon(Icons.cancel)
+                      : const Icon(Icons.search),
+                )),
+            const popUpMenu(),
+          ],
+        ),
+        body: Obx(() {
+          return !controller.getIsSearching
+              ? searchScreen()
+              // ? SizedBox()
+              : Column(
+                  children: [
+                    CategorySelector(),
+                    tabs[controller.index],
+                  ],
+                );
+        }));
   }
 }

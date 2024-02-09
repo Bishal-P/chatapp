@@ -388,6 +388,7 @@ import 'package:chatapp/models/messageModel.dart';
 import 'package:chatapp/widgests/recordVoice.dart';
 // import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
@@ -497,6 +498,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final String userId = widget.doc?['id']; // Replace with the actual user ID
     final CollectionReference _usersCollection =
         FirebaseFirestore.instance.collection('users');
+
     // final ScrollController _scrollController = ScrollController();
     // final AudioPlayer audioPlayer = AudioPlayer();
 
@@ -525,6 +527,8 @@ class _ChatScreenState extends State<ChatScreen> {
       // audioPlayerController.audioPlayer.dispose();
       super.dispose();
     }
+
+    print("The type of the doc in chat screen is ${widget.doc.runtimeType}");
 
     return GestureDetector(
       onTap: () {
@@ -720,7 +724,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            FocusScope.of(context).unfocus();
+                                          },
                                           icon: const Icon(
                                               Icons.emoji_emotions_outlined,
                                               color: Color.fromARGB(

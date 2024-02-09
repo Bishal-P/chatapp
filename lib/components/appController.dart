@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -55,5 +56,34 @@ class appController extends GetxController {
   set setAudioIndex(int index) {
     audioIndex.value = index;
   }
+
   get getAudioIndex => audioIndex.value;
+
+//searching user
+  RxBool isSearching = true.obs;
+  get getIsSearching => isSearching.value;
+  set setIsSearching(bool value) {
+    isSearching.value = value;
+  }
+
+  // search users data
+  // RxList<Map<String, dynamic>> searchUsersData = <Map<String, dynamic>>[].obs;
+
+  // get getSearchUsersData => searchUsersData;
+  // set setSearchUsersData(List<Map<String, dynamic>> data) {
+  //   searchUsersData.clear();
+  //   searchUsersData.addAll(data);
+  // }
+
+  RxList<DocumentSnapshot<Object?>> searchUsersData2 =
+      <DocumentSnapshot<Object?>>[].obs;
+  get getSearchUsersData2 => searchUsersData2;
+  set setSearchUsersData2(List<DocumentSnapshot<Object>> data) {
+    searchUsersData2.clear();
+    searchUsersData2.addAll(data);
+  }
+
+  clearSearchUsersData2() {
+    searchUsersData2.clear();
+  }
 }
