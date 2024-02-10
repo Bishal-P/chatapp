@@ -181,6 +181,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       height: 45,
                       alignment: Alignment.centerLeft,
                       child: TextField(
+                        autofocus: true,
                         maxLines: 1,
                         onChanged: (value) async {
                           searchUsers(value);
