@@ -17,13 +17,18 @@ class _RecentChatsState extends State<RecentChats> {
   Widget build(BuildContext context) {
     return Expanded(
         child: Container(
-      color:const  Color.fromARGB(244, 99, 99, 99),
+      color: const Color.fromARGB(244, 99, 99, 99),
       child: StreamBuilder(
           stream: api.firestore.collection("users").snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(
                 child: Text("No chats"),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             }
             return ListView.builder(
@@ -36,6 +41,7 @@ class _RecentChatsState extends State<RecentChats> {
                       child: Text("Error"),
                     );
                   }
+
                   try {
                     if (snapshot.data?.docs[index].id == api.user.uid) {
                       return const SizedBox();
