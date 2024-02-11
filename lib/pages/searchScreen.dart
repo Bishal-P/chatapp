@@ -1,7 +1,10 @@
-import 'package:chatapp/components/apis.dart';
+// import 'dart:js_interop';
+
+// import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/appController.dart';
+// import 'package:chatapp/models/usermodel.dart';
 import 'package:chatapp/pages/chatScreen.dart';
-import 'package:chatapp/widgests/contactCard.dart';
+// import 'package:chatapp/widgests/contactCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,13 +28,6 @@ class searchScreen extends StatelessWidget {
                   Get.to(() => ChatScreen(
                         doc: data as DocumentSnapshot<Object>,
                       ));
-                  // var user = api.firestore
-                  //     .collection("users")
-                  //     .doc(data['id'])
-                  //     .get()
-                  //     .then((value) => Get.to(() => ChatScreen(
-                  //           doc: value,
-                  //         )));
                 },
                 child: Card(
                   elevation: 0.0,
@@ -103,6 +99,29 @@ class searchScreen extends StatelessWidget {
                           const SizedBox(
                             width: 10,
                           ),
+                          // IconButton(
+                          //     onPressed: () async {
+                          //       // Map<String, dynamic>? data1 =
+                          //       //     data as Map<String, dynamic>?;
+                          //       // await api.firestore
+                          //       //     .collection("favorites")
+                          //       //     .doc(api.auth.currentUser!.uid)
+                          //       //     .collection("favorite")
+                          //       //     .doc(data['id'])
+                          //       //     .set(data1!);
+                          //       //     .set(ChatUser.ConvertToJson(
+                          //       //         data['image'],
+                          //       //         data['name'],
+                          //       //         data['about'],
+                          //       //         // data['createdAt'],
+                          //       //         data['lastActive'],
+                          //       //         data['id'],
+                          //       //         data['isOnline'],
+                          //       //         data['pushToken'],
+                          //       //         data['email']));
+                          //       // print("The message is sent");
+                          //     },
+                          //     icon: const Icon(Icons.favorite_border)),
                         ],
                       ),
                     ),

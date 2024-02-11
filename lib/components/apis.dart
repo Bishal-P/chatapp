@@ -246,57 +246,11 @@ class api {
     return formattedTime;
   }
 
-  //to update the message read status
-  // static Future<void> updateReadStatus(String id) async {
-  //   await firestore
-  //       .collection("users_chats")
-  //       .doc(getConversationID(id))
-  //       .collection("messages")
-  //       .where("toId", isEqualTo: id)
-  //       .where("read", isEqualTo: false)
-  //       .get()
-  //       .then((value) {
-  //     value.docs.forEach((element) {
-  //       element.reference.update({
-  //         "read": true,
-  //       });
-  //     });
-  //   });
-  //   await firestore
-  //       .collection("users_chats")
-  //       .doc(getConversationID(id))
-  //       .collection("messages")
-  //       .where("toId", isEqualTo: api.user.uid)
-  //       .where("read", isEqualTo: "false")
-  //       .get()
-  //       .then((value) {
-  //     value.docs.forEach((element) {
-  //       element.reference.update({
-  //         "read": "true",
-  //       });
-  //     });
-  //   });
-  //   // print("The read status is updated");
-  // }
-
   // to get the date from milliseconds to date format
   static String messageDate(String time) {
     final DateTime todayDate = DateTime.now();
     int time2 = int.parse(time);
-    // DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
-    // final DateTime date = DateTime.fromMillisecondsSinceEpoch(time2);
-    // String formattedDate = DateFormat('dd:MM:yy').format(date);
-    // String yester = DateFormat('dd:MM:yy').format(yesterday);
-    // String today = DateFormat('dd:MM:yy').format(todayDate);
-    // if (formattedDate == today) {
-    //   print("The formatted date is $formattedDate");
-    //   print("The today date is $today");
-    //   return "Today";
-    // }
-    // if (yester == formattedDate) {
-    //   return "Yesterday";
-    // }
-    // return formattedDate;
+    
     if (todayDate.day == DateTime.fromMillisecondsSinceEpoch(time2).day) {
       return "Today";
     }
@@ -308,19 +262,7 @@ class api {
   }
 
   static Future<void> changeReadStatus(Message2 message) async {
-    print("The sender id is ${message.fromId}");
-    print("The receiver id is ${message.toId}");
-    print("The message sending time is ${message.sendingTime}");
-    print("The convo id is ${api.getConversationID(message.fromId)}");
-    // await api.firestore
-    //     .collection("users_chats")
-    //     .doc(api.getConversationID(message.fromId))
-    //     .collection("messages")
-    //     .doc(message.sendingTime)
-    //     .get()
-    //     .then((value) {
-    //   print("The value is => ${value.data()?["read"]}");
-    // });
+
     await api.firestore
         .collection("users_chats")
         .doc(api.getConversationID(message.fromId))
@@ -348,8 +290,7 @@ class api {
         .orderBy("sendingTime", descending: true)
         .limit(1)
         .snapshots();
-    // .map((event) => Message2.fromJson(event.docs[0].data()));
-    // print("The last message is ${stream.last}");
+
   }
 
   /////Last message time

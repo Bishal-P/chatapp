@@ -6,7 +6,7 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/appController.dart';
-import 'package:chatapp/components/audioplayerControls.dart';
+// import 'package:chatapp/components/audioplayerControls.dart';
 import 'package:chatapp/models/messageModel.dart';
 import 'package:chatapp/pages/chatScreen.dart';
 import 'package:flutter/material.dart';

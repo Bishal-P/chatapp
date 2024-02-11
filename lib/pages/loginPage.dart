@@ -1,7 +1,7 @@
 import 'package:chatapp/components/apis.dart';
-import 'package:chatapp/components/functions.dart';
+// import 'package:chatapp/components/functions.dart';
 import 'package:chatapp/pages/HomePage.dart';
-import 'package:chatapp/pages/homepage.dart';
+// import 'package:chatapp/pages/homepage.dart';
 import 'package:chatapp/pages/signupPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +26,9 @@ class _loginPageState extends State<loginPage> {
       // uiHelper.CustomAlertBox(
       //     context, "Error", "Email and Password cannot be empty");
     } else {
-      UserCredential? userCredential;
+
       try {
-        userCredential = await FirebaseAuth.instance
+ await FirebaseAuth.instance
             .signInWithEmailAndPassword(
                 email: emialController.text, password: passwordController.text)
             .then((value) async {

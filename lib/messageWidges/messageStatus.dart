@@ -1,7 +1,7 @@
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/models/messageModel.dart';
-import 'package:chatapp/widgests/receiveSmsWidget.dart';
-import 'package:chatapp/widgests/sendSmsWidget.dart';
+import 'package:chatapp/messageWidges/receiveSmsWidget.dart';
+import 'package:chatapp/messageWidges/sendSmsWidget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

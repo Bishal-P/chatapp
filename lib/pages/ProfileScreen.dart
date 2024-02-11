@@ -31,13 +31,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }).then((value) {
       // print("Updated successfully");
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          "Updated successfully",
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Color.fromARGB(255, 0, 255, 55),
+        content: Text("Login Successfull"),
+        backgroundColor: Color.fromARGB(255, 105, 231, 137),
         elevation: 10, //shadow
-        duration: Duration(seconds: 2),
       ));
     });
   }
@@ -75,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             boxShadow: List.generate(
                               10,
                               (index) => BoxShadow(
-                                color: Color.fromARGB(255, 149, 164, 197)
+                                color: Color.fromARGB(255, 13, 255, 13)
                                     .withOpacity(0.5),
                                 spreadRadius: 1,
                                 blurRadius: 2,
@@ -93,8 +89,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               borderRadius: BorderRadius.circular(100),
                               child: CachedNetworkImage(
                                 fit: BoxFit.cover,
-                                width: 50,
-                                height: 50,
+                                width: 150,
+                                height: 150,
                                 imageUrl: widget.doc!['image'],
                                 placeholder: (context, url) => const Icon(
                                   Icons.person,
@@ -118,16 +114,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: 200,
                                     child: Column(
                                       children: [
-                                        // ListTile(
-                                        //   leading: Icon(Icons.camera_alt),
-                                        //   title: Text("Camera"),
-                                        //   onTap: () async {
-                                        //     final XFile? image =
-                                        //         await picker.pickImage(
-                                        //             source: ImageSource.camera);
-                                        //     // Navigator.pop(context);
-                                        //   },
-                                        // ),
+                                        ListTile(
+                                          leading: Icon(Icons.camera_alt),
+                                          title: Text("Camera"),
+                                          onTap: () async {
+                                            final XFile? image =
+                                                await picker.pickImage(
+                                                    source: ImageSource.camera);
+                                            // Navigator.pop(context);
+                                          },
+                                        ),
                                         ListTile(
                                           leading: Icon(Icons.photo),
                                           title: Text("Gallery"),
@@ -228,19 +224,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 prefixIcon: Icon(Icons.abc))),
                         const SizedBox(height: 20),
-                        TextFormField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            label: const Text("Password"),
-                            prefixIcon: const Icon(Icons.fingerprint),
-                            suffixIcon: IconButton(
-                                icon: const Icon(Icons.remove_red_eye),
-                                onPressed: () {}),
-                          ),
-                        ),
+                        // TextFormField(
+                        //   obscureText: true,
+                        //   decoration: InputDecoration(
+                        //     border: const OutlineInputBorder(
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(20))),
+                        //     label: const Text("Password"),
+                        //     prefixIcon: const Icon(Icons.fingerprint),
+                        //     suffixIcon: IconButton(
+                        //         icon: const Icon(Icons.remove_red_eye),
+                        //         onPressed: () {}),
+                        //   ),
+                        // ),
                         const SizedBox(height: 50),
                         InkWell(
                           onTap: () {

@@ -13,10 +13,14 @@ class popUpMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     DocumentSnapshot? doc;
     return PopupMenuButton(
+      icon: const Icon(
+        Icons.more_vert,
+        color: Colors.white,
+      ),
       itemBuilder: (context) => [
-        PopupMenuItem(
-          child: Text("Profile"),
+        const PopupMenuItem(
           value: 1,
+          child: Text("Profile"),
         ),
         PopupMenuItem(
           onTap: () async {
@@ -29,8 +33,8 @@ class popUpMenu extends StatelessWidget {
             //   return Center(child: CircularProgressIndicator());
             // });
           },
-          child: Text("Sign Out"),
           value: 2,
+          child: const Text("Sign Out"),
         ),
       ],
       onSelected: (value) async {

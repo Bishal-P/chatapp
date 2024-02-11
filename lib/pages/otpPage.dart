@@ -1,5 +1,5 @@
 import 'package:chatapp/components/functions.dart';
-import 'package:chatapp/pages/homepage.dart';
+// import 'package:chatapp/pages/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -82,10 +82,10 @@ class _otpPageState extends State<otpPage> {
                       await FirebaseAuth.instance
                           .signInWithCredential(credential)
                           .then((value) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage1()));
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => HomePage1()));
                       });
                     } catch (e) {
                       uiHelper.CustomAlertBox(context, "Error", e.toString());

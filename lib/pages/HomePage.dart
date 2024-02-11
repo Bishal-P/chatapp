@@ -1,19 +1,9 @@
-// import 'package:chatapp/newPages/category_selector.dart';
-// import 'package:chatapp/newPages/favorite_contacts.dart';s
-// import 'package:chatapp/newPages/recent_chats.dart';
-// import 'dart:html';
 
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/appController.dart';
 import 'package:chatapp/pages/searchScreen.dart';
-import 'package:chatapp/widgests/CategorySelector.dart';
-// import 'package:chatapp/widgests/favouriteContacts.dart';
-import 'package:chatapp/widgests/groupsTab.dart';
 import 'package:chatapp/widgests/messagesTab.dart';
-import 'package:chatapp/widgests/onlineTab.dart';
 import 'package:chatapp/widgests/popUpMenu.dart';
-// import 'package:chatapp/widgests/recenChats.dart';
-import 'package:chatapp/widgests/requestTab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -30,22 +20,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   DocumentSnapshot? doc;
   final appController controller = Get.put(appController());
-  // List users = ["user1", "user2", "user3", "user4", "user5", "user6"];
-  // List favUsers = ["user1", "user2", "user3", "user4", "user5", "user6"];
-  List<Widget> tabs = [
-    messagesTab(),
-    const onlineTab(),
-    const groupTab(),
-    const requestTab()
-  ];
+  
+  // List<Widget> tabs = [
+  //   messagesTab(),
+  //   const onlineTab(),
+  //   const groupTab(),
+  //   const requestTab()
+  // ];
 
-  // List<Map<String, dynamic>> usersList = [];
   List<DocumentSnapshot<Object>> usersList = [];
   Set<String> uniqueIds = {};
 
   Future<Map<String, dynamic>> searchUsers(String substring) async {
     if (substring == "") {
-      // controller.setSearchUsersData = [];
       controller.clearSearchUsersData2();
       usersList.clear();
       uniqueIds.clear();
@@ -72,22 +59,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         if (!uniqueIds.contains(docId)) {
           // controller.setSearchUsersData2 = doc as DocumentSnapshot<Object?>;
           usersList.add(doc as DocumentSnapshot<Object>);
-          // Map<String, dynamic> data =
-          //     (doc.data() as Map<String, dynamic>?) ?? {};
-          // usersList.add(data);
-          // // docs.add(doc);
+         
           uniqueIds.add(docId); // Add document ID to the set
         }
       });
 
       controller.setSearchUsersData2 = usersList;
 
-      // querySnapshot.docs.forEach((doc) {
-      //   data = (doc.data() as Map<String, dynamic>?) ?? {};
-
-      //   // Print or process the data as needed
-      //   print(data['name']);
-      // });
     } catch (e) {
       print('Error: $e');
     }
@@ -136,9 +114,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   void dispose() async {
     WidgetsBinding.instance.removeObserver(this);
     api.updateOnlineStatus(false);
-    // await api.firestore.collection("users").doc(api.user.uid).update({
-    //   "is_online": false,
-    // }).then((value) => print("Updated successfully"));
+   
     super.dispose();
   }
 
@@ -147,19 +123,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         api.updateOnlineStatus(true);
-        // await api.firestore.collection("users").doc(api.user.uid).update({
-        //   "is_online": true,
-        // }).then((value) => print("online is true Updated successfully"));
-        //Execute the code here when user come back the app.
-        //In my case, I needed to show if user active or not,
-
+        
         break;
       case AppLifecycleState.paused:
         api.updateOnlineStatus(false);
-        //Execute the code the when user leave the app
-        // await api.firestore.collection("users").doc(api.user.uid).update({
-        //   "is_online": false,
-        // }).then((value) => print("online is false Updated successfully"));
+        
         break;
       default:
         break;
@@ -172,12 +140,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     //     FirebaseFirestore.instance.collection('users');
 
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           title: Obx(
             () {
               return !controller.getIsSearching
                   ? Container(
+                      color: Colors.transparent,
                       height: 45,
                       alignment: Alignment.centerLeft,
                       child: TextField(
@@ -185,25 +155,18 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         maxLines: 1,
                         onChanged: (value) async {
                           searchUsers(value);
-                          // QuerySnapshot querySnapshot = await FirebaseFirestore
-                          //     .instance
-                          //     .collection(
-                          //         'users') // Replace 'users' with your collection name
-                          //     .where('name', isEqualTo: value)
-                          //     .get();
-
-                          // querySnapshot.docs.forEach((doc) {
-                          //   print(doc.data());
-                          // });
-
-                          // print("The value is $value");
                         },
                         textAlign: TextAlign.start,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                         decoration: const InputDecoration(
+                          focusColor: Colors.white,
                           contentPadding: EdgeInsets.only(left: 20),
                           hintText: "Search",
                           alignLabelWithHint: true,
-                          hintStyle: TextStyle(color: Colors.black),
+                          hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255)),
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(40))),
@@ -215,7 +178,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 28,
-                          color: Colors.black87),
+                          color: Color.fromARGB(221, 255, 255, 255)),
                     );
             },
           ),
@@ -225,22 +188,46 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     controller.setIsSearching = !controller.getIsSearching;
                   },
                   icon: !controller.getIsSearching
-                      ? const Icon(Icons.cancel)
-                      : const Icon(Icons.search),
+                      ? const Icon(
+                          Icons.cancel,
+                          color: Colors.white,
+                        )
+                      : const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
                 )),
             const popUpMenu(),
           ],
         ),
-        body: Obx(() {
-          return !controller.getIsSearching
-              ? searchScreen()
-              // ? SizedBox()
-              : Column(
-                  children: [
-                    CategorySelector(),
-                    tabs[controller.index],
-                  ],
-                );
-        }));
+        body: Container(
+            decoration: const BoxDecoration(
+              color: Colors.transparent,
+              image: DecorationImage(
+                image: AssetImage("assets/2.jpeg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Obx(() {
+              return !controller.getIsSearching
+                  ?const searchScreen()
+                  // ? SizedBox()
+                  : Column(
+                      children: [
+                        Container(
+                          height: 100,
+                          decoration: const BoxDecoration(
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                              image: AssetImage("assets/2.jpeg"),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        // CategorySelector(),
+                        messagesTab(),
+                      ],
+                    );
+            })));
   }
 }
