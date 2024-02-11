@@ -53,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           title: Text("Profile", style: Theme.of(context).textTheme.headline4),
         ),
         body: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -115,8 +115,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Column(
                                       children: [
                                         ListTile(
-                                          leading: Icon(Icons.camera_alt),
-                                          title: Text("Camera"),
+                                          leading:const Icon(Icons.camera_alt),
+                                          title: const Text("Camera"),
                                           onTap: () async {
                                             final XFile? image =
                                                 await picker.pickImage(
@@ -125,8 +125,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           },
                                         ),
                                         ListTile(
-                                          leading: Icon(Icons.photo),
-                                          title: Text("Gallery"),
+                                          leading:const Icon(Icons.photo),
+                                          title:const Text("Gallery"),
                                           onTap: () async {
                                             final XFile? image =
                                                 await picker.pickImage(
@@ -139,17 +139,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   .then((value) {
                                                 print("The value is $value");
                                                 setState(() {});
-                                                // Duration(seconds: 4);
-                                                // setState(() {
-                                                //   print(
-                                                //       "The proflie picture updated successfully" +
-                                                //           DateTime.now()
-                                                //               .toString());
-                                                // });
                                               });
                                               Navigator.pop(context);
-                                              print(
-                                                  "The image is ${image.path} --mime ${image.mimeType}");
+                                              
                                             }
                                             // Navigator.pop(context);
                                           },
@@ -174,7 +166,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                // Text("User Name", style: Theme.of(context).textTheme.headline4),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Form(
@@ -224,19 +215,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 prefixIcon: Icon(Icons.abc))),
                         const SizedBox(height: 20),
-                        // TextFormField(
-                        //   obscureText: true,
-                        //   decoration: InputDecoration(
-                        //     border: const OutlineInputBorder(
-                        //         borderRadius:
-                        //             BorderRadius.all(Radius.circular(20))),
-                        //     label: const Text("Password"),
-                        //     prefixIcon: const Icon(Icons.fingerprint),
-                        //     suffixIcon: IconButton(
-                        //         icon: const Icon(Icons.remove_red_eye),
-                        //         onPressed: () {}),
-                        //   ),
-                        // ),
+                        
                         const SizedBox(height: 50),
                         InkWell(
                           onTap: () {

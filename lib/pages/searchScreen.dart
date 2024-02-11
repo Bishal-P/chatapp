@@ -99,29 +99,7 @@ class searchScreen extends StatelessWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          // IconButton(
-                          //     onPressed: () async {
-                          //       // Map<String, dynamic>? data1 =
-                          //       //     data as Map<String, dynamic>?;
-                          //       // await api.firestore
-                          //       //     .collection("favorites")
-                          //       //     .doc(api.auth.currentUser!.uid)
-                          //       //     .collection("favorite")
-                          //       //     .doc(data['id'])
-                          //       //     .set(data1!);
-                          //       //     .set(ChatUser.ConvertToJson(
-                          //       //         data['image'],
-                          //       //         data['name'],
-                          //       //         data['about'],
-                          //       //         // data['createdAt'],
-                          //       //         data['lastActive'],
-                          //       //         data['id'],
-                          //       //         data['isOnline'],
-                          //       //         data['pushToken'],
-                          //       //         data['email']));
-                          //       // print("The message is sent");
-                          //     },
-                          //     icon: const Icon(Icons.favorite_border)),
+                          
                         ],
                       ),
                     ),

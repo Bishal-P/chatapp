@@ -24,9 +24,9 @@ class _onlineContactsState extends State<onlineContacts> {
       height: 170,
       child: Column(
         children: [
-          Align(
+       const    Align(
             alignment: Alignment.centerLeft,
-            child: const Padding(
+            child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               child: Text(
                 "Online Users",
@@ -135,15 +135,7 @@ class _onlineContactsState extends State<onlineContacts> {
               ],
             ),
           )
-          // Container(
-          //   child: ListView.builder(
-          //       shrinkWrap: true,
-          //       scrollDirection: Axis.horizontal,
-          //       itemCount: 10,
-          //       itemBuilder: (BuildContext context, int index) {
-          //         return Text("Hello");
-          //       }),
-          // ),
+          
         ],
       ),
     );

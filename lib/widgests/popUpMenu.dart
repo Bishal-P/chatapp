@@ -29,9 +29,6 @@ class popUpMenu extends StatelessWidget {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const loginPage()));
             });
-            // return Future.delayed(Duration.zero, () {
-            //   return Center(child: CircularProgressIndicator());
-            // });
           },
           value: 2,
           child: const Text("Sign Out"),
@@ -48,14 +45,10 @@ class popUpMenu extends StatelessWidget {
                             doc: value,
                           )));
               doc = value;
-              print("The doc is ${doc?['name']}");
-              print("The type of doc is ${value!.runtimeType}");
             },
           );
-
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
         } else {
-          print("Delete");
+          Null;
         }
       },
     );

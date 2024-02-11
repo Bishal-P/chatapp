@@ -66,15 +66,6 @@ class appController extends GetxController {
     isSearching.value = value;
   }
 
-  // search users data
-  // RxList<Map<String, dynamic>> searchUsersData = <Map<String, dynamic>>[].obs;
-
-  // get getSearchUsersData => searchUsersData;
-  // set setSearchUsersData(List<Map<String, dynamic>> data) {
-  //   searchUsersData.clear();
-  //   searchUsersData.addAll(data);
-  // }
-
   RxList<DocumentSnapshot<Object?>> searchUsersData2 =
       <DocumentSnapshot<Object?>>[].obs;
   get getSearchUsersData2 => searchUsersData2;

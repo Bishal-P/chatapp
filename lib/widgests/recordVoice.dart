@@ -1,5 +1,4 @@
 import 'package:chatapp/components/apis.dart';
-import 'package:chatapp/models/messageModel.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_recorder/audio_encoder_type.dart';
 import 'package:social_media_recorder/screen/social_media_recorder.dart';
@@ -21,15 +20,15 @@ Widget recordAudio(String toId) {
         size: 30,
       ),
       startRecording: () {
-        print("start recording");
+        Null;
         // function called when start recording
       },
       stopRecording: (_time) {
-        print("the recording time is $_time");
+        Null;
         // function called when stop recording, return the recording time
       },
       sendRequestFunction: (soundFile, _time) {
-        print("the current path is ${soundFile.path}");
+       
         api.sendFile(toId, soundFile);
       },
       encode: AudioEncoderType.AAC,

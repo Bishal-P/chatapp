@@ -17,7 +17,7 @@ class _RecentChatsState extends State<RecentChats> {
   Widget build(BuildContext context) {
     return Expanded(
         child: Container(
-      color: Color.fromARGB(244, 99, 99, 99),
+      color:const  Color.fromARGB(244, 99, 99, 99),
       child: StreamBuilder(
           stream: api.firestore.collection("users").snapshots(),
           builder: (context, snapshot) {
@@ -42,7 +42,7 @@ class _RecentChatsState extends State<RecentChats> {
                     }
                     return contactCard(snapshot: snapshot, index: index);
                   } catch (e) {
-                    print(e);
+                    Null;
                   }
                 });
           }),

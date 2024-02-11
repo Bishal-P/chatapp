@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:chatapp/components/appController.dart';
 import 'package:chatapp/models/messageModel.dart';
 import 'package:chatapp/models/usermodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

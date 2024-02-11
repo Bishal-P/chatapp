@@ -1,18 +1,11 @@
-// import 'dart:ffi';
 
-import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/messageWidges/imageMessage.dart';
 import 'package:chatapp/messageWidges/textMessage.dart';
 import 'package:chatapp/messageWidges/uploadingFileWidget.dart';
 import 'package:chatapp/models/messageModel.dart';
-import 'package:chatapp/pages/imageViewer.dart';
 import 'package:chatapp/messageWidges/audioMessage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 Widget sendSms(message, image_list, imageIndex, index, context) {
   bool showTime = false;
@@ -50,7 +43,7 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
       }
       break;
     default:
-      return SizedBox();
+      return const SizedBox();
   }
 
   return GestureDetector(
@@ -80,7 +73,7 @@ Widget sendSms(message, image_list, imageIndex, index, context) {
                   )
                 ],
               )
-            : SizedBox(),
+            :const SizedBox(),
         // : SizedBox()
       ],
     ),

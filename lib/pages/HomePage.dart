@@ -1,4 +1,3 @@
-
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/components/appController.dart';
 import 'package:chatapp/pages/searchScreen.dart';
@@ -20,13 +19,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   DocumentSnapshot? doc;
   final appController controller = Get.put(appController());
-  
-  // List<Widget> tabs = [
-  //   messagesTab(),
-  //   const onlineTab(),
-  //   const groupTab(),
-  //   const requestTab()
-  // ];
 
   List<DocumentSnapshot<Object>> usersList = [];
   Set<String> uniqueIds = {};
@@ -59,13 +51,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         if (!uniqueIds.contains(docId)) {
           // controller.setSearchUsersData2 = doc as DocumentSnapshot<Object?>;
           usersList.add(doc as DocumentSnapshot<Object>);
-         
+
           uniqueIds.add(docId); // Add document ID to the set
         }
       });
 
       controller.setSearchUsersData2 = usersList;
-
     } catch (e) {
       print('Error: $e');
     }
@@ -114,7 +105,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   void dispose() async {
     WidgetsBinding.instance.removeObserver(this);
     api.updateOnlineStatus(false);
-   
+
     super.dispose();
   }
 
@@ -123,11 +114,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         api.updateOnlineStatus(true);
-        
+
         break;
       case AppLifecycleState.paused:
         api.updateOnlineStatus(false);
-        
+
         break;
       default:
         break;
@@ -210,7 +201,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             ),
             child: Obx(() {
               return !controller.getIsSearching
-                  ?const searchScreen()
+                  ? const searchScreen()
                   // ? SizedBox()
                   : Column(
                       children: [

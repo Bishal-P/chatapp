@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
@@ -7,7 +6,6 @@ import 'package:chatapp/messageWidges/messageStatus.dart';
 import 'package:chatapp/models/messageModel.dart';
 import 'package:chatapp/widgests/recordVoice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,32 +40,11 @@ class _ChatScreenState extends State<ChatScreen> {
     final CollectionReference _usersCollection =
         FirebaseFirestore.instance.collection('users');
 
-    // final ScrollController _scrollController = ScrollController();
-    // final AudioPlayer audioPlayer = AudioPlayer();
-
-    // print("The doc reference is ${_documentReference}");
-
     final appController controller = Get.put(appController());
     final String toReceiverId = widget.doc!.id;
-    print("The doc id is ${widget.doc!.id}");
-    print("the conver id is : ${getConversationID(widget.doc!.id)}");
-    print("The hashcode is ${api.user.uid.hashCode}");
-
-    //print the last message value from the getLastMessage method
-    print("The last message is ${api.getLastMessage(widget.doc!["id"])}");
-
-    print("The last message is ${api.getLastMessage(widget.doc!["id"])}");
-    // final AudioPlayerController audioPlayerController =
-    //     Get.put(AudioPlayerController());
-
-    // api.saveFileToCustomFolder(
-    //     "new", "newfile.cpp", File("/home/bishal/Desktop/test.cpp"));
-    // File fileToSave = File('/home/bishal/Desktop/test.cpp');
-    // api.checkAndCreateDirectory("Naincy");
-
     @override
     void dispose() {
-      // audioPlayerController.audioPlayer.dispose();
+      controller.dispose();
       super.dispose();
     }
 
@@ -214,12 +191,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                                   ),
                                                 ),
                                               ),
-                                              // Text(
-                                              // api.messageDate(
-                                              //     _list[index].sendingTime),
-                                              //   style: const TextStyle(
-                                              //       color: Colors.white),
-                                              // ),
                                               messageStatus(
                                                 message: _list[index],
                                                 image_list: image_list,
@@ -407,7 +378,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             width: 50,
                             height: 50,
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 53, 49, 49),
+                                color: const Color.fromARGB(255, 53, 49, 49),
                                 borderRadius: BorderRadius.circular(25)),
                             child: IconButton(
                                 color: Colors.white,
@@ -426,10 +397,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                   api.sendMessage(widget.doc?["id"],
                                       checkSpaces, Type.text);
                                   msgController.clear();
-
-                                  print("The message is ${msgController.text}");
-                                  print(
-                                      "the getmessages are :${api.getMessages(widget.doc!["id"])}");
                                 },
                                 icon: const Icon(Icons.send,
                                     color: Color.fromARGB(255, 235, 235, 235))),
@@ -443,7 +410,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             Obx(() => !controller.getRecordButton
                 ? recordAudio(toReceiverId)
-                : SizedBox()),
+                : const SizedBox()),
           ],
         ),
       ),

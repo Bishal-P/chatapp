@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/models/messageModel.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +28,11 @@ class _textMessageState extends State<textMessage> {
             : const Color.fromARGB(255, 44, 110, 253),
         borderRadius: BorderRadius.only(
           topRight: widget.message.toId == api.user.uid
-              ? Radius.circular(15)
-              : Radius.circular(0),
+              ?const Radius.circular(15)
+              :const Radius.circular(0),
           topLeft: widget.message.fromId == api.user.uid
-              ? Radius.circular(15)
-              : Radius.circular(0),
+              ?const Radius.circular(15)
+              :const Radius.circular(0),
           bottomLeft: Radius.circular(15),
           bottomRight: Radius.circular(15),
         ),
@@ -43,7 +45,7 @@ class _textMessageState extends State<textMessage> {
         ),
         child: SelectableText.rich(
           TextSpan(
-            onExit: (event) => null,
+            onExit: (event) => Void,
             text: widget.message.msg,
             style: TextStyle(
               color: const Color.fromARGB(255, 255, 255, 255),

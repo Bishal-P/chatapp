@@ -1,136 +1,11 @@
-// import 'dart:ffi';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/messageWidges/audioMessage.dart';
 import 'package:chatapp/messageWidges/imageMessage.dart';
 import 'package:chatapp/messageWidges/textMessage.dart';
 import 'package:chatapp/models/messageModel.dart';
-import 'package:chatapp/pages/imageViewer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// Widget receiverSms(message, image_list, imageIndex, index, context) {
-//   bool showTime = false;
-//   if (api.receivePreviousDate != api.messageTime(message.sendingTime)) {
-//     api.receivePreviousDate = api.messageTime(message.sendingTime);
-//     showTime = true;
-//   }
-
-//   message.read == false && message.isSent
-//       ? api.changeReadStatus(message)
-//       : null;
-
-//   // api.updateReadStatus(message);
-
-//   // print("The read status of the mesage is ${message.toId}");
-//   bool onlyEmoji = api.containsOnlyEmojis(message.msg);
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: [
-//       message.type == Type.text
-//           ? Container(
-//               constraints: BoxConstraints(
-//                 maxWidth: MediaQuery.of(context).size.width * 0.73,
-//               ),
-//               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-//               decoration: BoxDecoration(
-//                 color: onlyEmoji
-//                     ? Colors.transparent
-//                     : const Color.fromARGB(255, 227, 255, 101),
-//                 borderRadius: const BorderRadius.only(
-//                   topLeft: Radius.circular(15),
-//                   topRight: Radius.circular(15),
-//                   bottomLeft: Radius.circular(0),
-//                   bottomRight: Radius.circular(15),
-//                 ),
-//               ),
-//               child: TextSelectionTheme(
-//                 data: const TextSelectionThemeData(
-//                   // cursorColor: Colors.blue,
-//                   selectionColor: Color.fromARGB(255, 255, 175, 121),
-//                   selectionHandleColor: Colors.blue,
-//                 ),
-//                 child: SelectableText.rich(
-//                   TextSpan(
-//                     onExit: (event) => null,
-//                     text: message.msg,
-//                     style: TextStyle(
-//                       color: Colors.black,
-//                       fontSize: onlyEmoji ? 29 : 16,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             )
-//           : message.isSent == true
-//               ? InkWell(
-//                   onTap: () {
-//                     showCupertinoModalPopup(
-//                         context: context,
-//                         builder: (context) => image_viewer(
-//                               imageList: image_list,
-//                               index: imageIndex != null || imageIndex != {}
-//                                   ? imageIndex[index]
-//                                   : 0,
-//                             ));
-//                     // image_list.add(message.msg);
-//                     //  Navigator.push(context, MaterialPageRoute(builder: (context) => image_viewer(imageList: image_list,)));
-//                     // Navigator.pushNamed(context
-//                   },
-//                   child: Container(
-//                       constraints: BoxConstraints(
-//                         maxWidth: MediaQuery.of(context).size.width * 0.8,
-//                       ),
-//                       padding: const EdgeInsets.symmetric(
-//                           vertical: 5, horizontal: 5),
-//                       decoration: const BoxDecoration(
-//                         color: Color.fromARGB(255, 227, 255, 101),
-//                         borderRadius: BorderRadius.only(
-//                           topLeft: Radius.circular(15),
-//                           topRight: Radius.circular(15),
-//                           bottomLeft: Radius.circular(0),
-//                           bottomRight: Radius.circular(15),
-//                         ),
-//                       ),
-//                       child: ClipRRect(
-//                           borderRadius: BorderRadius.circular(20),
-//                           child: CachedNetworkImage(
-//                             filterQuality: FilterQuality.low,
-//                             imageUrl: message.msg,
-//                             placeholder: (context, url) => const Center(
-//                                 child: CircularProgressIndicator()),
-//                             errorWidget: (context, url, error) =>
-//                                 const Icon(Icons.error),
-//                             height: 200,
-//                             width: 200,
-//                             fit: BoxFit.cover,
-//                           ))),
-//                 )
-//               : SizedBox(),
-
-//       // message.isSent == true
-//       // ?
-//       showTime
-//           ? Row(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   // "12:00 PM",
-//                   api.messageTime(message.sendingTime),
-//                   style: const TextStyle(
-//                     color: Colors.grey,
-//                     fontSize: 12,
-//                   ),
-//                 ),
-//                 const SizedBox(width: 5),
-//               ],
-//             )
-//           : SizedBox(),
-//     ],
-//   );
-//   // : SizedBox() ;
-// }
 
 Widget receiverSms(message, image_list, imageIndex, index, context) {
   bool showTime = false;
@@ -143,15 +18,13 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
       ? api.changeReadStatus(message)
       : null;
   bool onlyEmoji = api.containsOnlyEmojis(message.msg);
-  print("The message is ${message.msg}");
+
   Widget widgetToShow;
   switch (message.type) {
     case Type.text:
-      print("The message is working for text ");
       widgetToShow = textMessage(message: message, onlyEmoji: onlyEmoji);
       break;
     case Type.audio:
-      print("The switch case is working");
       if (message.isSent == true) {
         widgetToShow = audioMessage(message: message, index: index);
       } else {
@@ -194,16 +67,10 @@ Widget receiverSms(message, image_list, imageIndex, index, context) {
                       fontSize: 12,
                     ),
                   ),
-                  // const SizedBox(width: 5),
-                  // Icon(
-                  //   message.isSent ? Icons.done_all : Icons.done,
-                  //   // Icons.done_all,
-                  //   color: message.read == true ? Colors.blue : Colors.grey,
-                  //   size: 20,
-                  // )
+                 
                 ],
               )
-            : SizedBox(),
+            :const SizedBox(),
         // : SizedBox()
       ],
     ),

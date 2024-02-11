@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: FirebaseAuth.instance.currentUser == null
-          ?const loginPage()
+          ? const loginPage()
           : const HomePage(),
       // PhoneLogin(),
     );
