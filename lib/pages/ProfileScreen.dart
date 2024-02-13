@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
+import 'package:chatapp/pages/imageViewer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -29,13 +31,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }).then((value) {
       // print("Updated successfully");
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          "Updated successfully",
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Color.fromARGB(255, 0, 255, 55),
+        content: Text("Login Successfull"),
+        backgroundColor: Color.fromARGB(255, 105, 231, 137),
         elevation: 10, //shadow
-        duration: Duration(seconds: 2),
       ));
     });
   }
@@ -55,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           title: Text("Profile", style: Theme.of(context).textTheme.headline4),
         ),
         body: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             boxShadow: List.generate(
                               10,
                               (index) => BoxShadow(
-                                color: Color.fromARGB(255, 149, 164, 197)
+                                color: Color.fromARGB(255, 13, 255, 13)
                                     .withOpacity(0.5),
                                 spreadRadius: 1,
                                 blurRadius: 2,
@@ -82,20 +80,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             )
                             // color: Colors.grey[300],
                             ),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              width: 50,
-                              height: 50,
-                              imageUrl: widget.doc!['image'],
-                              placeholder: (context, url) => const Icon(
-                                Icons.person,
-                                size: 30,
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            )),
+                        child: InkWell(
+                          onTap: () {
+                            Get.to(() => image_viewer(
+                                imageList: [widget.doc!["image"]], index: 1));
+                          },
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                width: 150,
+                                height: 150,
+                                imageUrl: widget.doc!['image'],
+                                placeholder: (context, url) => const Icon(
+                                  Icons.person,
+                                  size: 30,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              )),
+                        ),
                       ),
                       Positioned(
                         bottom: 0,
@@ -110,19 +114,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: 200,
                                     child: Column(
                                       children: [
-                                        // ListTile(
-                                        //   leading: Icon(Icons.camera_alt),
-                                        //   title: Text("Camera"),
-                                        //   onTap: () async {
-                                        //     final XFile? image =
-                                        //         await picker.pickImage(
-                                        //             source: ImageSource.camera);
-                                        //     // Navigator.pop(context);
-                                        //   },
-                                        // ),
                                         ListTile(
-                                          leading: Icon(Icons.photo),
-                                          title: Text("Gallery"),
+                                          leading:const Icon(Icons.camera_alt),
+                                          title: const Text("Camera"),
+                                          onTap: () async {
+                                            final XFile? image =
+                                                await picker.pickImage(
+                                                    source: ImageSource.camera);
+                                            // Navigator.pop(context);
+                                          },
+                                        ),
+                                        ListTile(
+                                          leading:const Icon(Icons.photo),
+                                          title:const Text("Gallery"),
                                           onTap: () async {
                                             final XFile? image =
                                                 await picker.pickImage(
@@ -135,17 +139,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   .then((value) {
                                                 print("The value is $value");
                                                 setState(() {});
-                                                // Duration(seconds: 4);
-                                                // setState(() {
-                                                //   print(
-                                                //       "The proflie picture updated successfully" +
-                                                //           DateTime.now()
-                                                //               .toString());
-                                                // });
                                               });
                                               Navigator.pop(context);
-                                              print(
-                                                  "The image is ${image.path} --mime ${image.mimeType}");
+                                              
                                             }
                                             // Navigator.pop(context);
                                           },
@@ -168,12 +164,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                ).animate().slideY(duration: 1000.ms, begin: -3, end: 0).fadeIn(
-                      duration: 2.seconds,
-                      // delay: 5.seconds,
-                    ),
+                ),
                 const SizedBox(height: 30),
-                // Text("User Name", style: Theme.of(context).textTheme.headline4),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Form(
@@ -193,8 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       BorderRadius.all(Radius.circular(20))),
                               label: Text("Name"),
                               prefixIcon: Icon(Icons.person)),
-                        ).animate().slideX(
-                            duration: 700.milliseconds, delay: 0.seconds),
+                        ),
                         const SizedBox(height: 20),
                         TextFormField(
                           onSaved: (newValue) => email = newValue,
@@ -207,42 +198,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       BorderRadius.all(Radius.circular(20))),
                               label: Text("Email"),
                               prefixIcon: Icon(Icons.email)),
-                        ).animate().slideY(
-                            duration: 700.milliseconds, delay: 0.seconds),
+                        ),
                         const SizedBox(height: 20),
                         TextFormField(
-                                onSaved: (newValue) => about = newValue,
-                                validator: (value) => value!.isEmpty
-                                    ? "Please enter about"
-                                    : null,
-                                initialValue: widget.doc!['about'].toString(),
-                                // keyboardType: TextInputType.phone,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                    label: Text(
-                                      "About",
-                                    ),
-                                    prefixIcon: Icon(Icons.abc)))
-                            .animate()
-                            .slideX(
-                                duration: 700.milliseconds, delay: 0.seconds),
+                            onSaved: (newValue) => about = newValue,
+                            validator: (value) =>
+                                value!.isEmpty ? "Please enter about" : null,
+                            initialValue: widget.doc!['about'].toString(),
+                            // keyboardType: TextInputType.phone,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                label: Text(
+                                  "About",
+                                ),
+                                prefixIcon: Icon(Icons.abc))),
                         const SizedBox(height: 20),
-                        TextFormField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            label: const Text("Password"),
-                            prefixIcon: const Icon(Icons.fingerprint),
-                            suffixIcon: IconButton(
-                                icon: const Icon(Icons.remove_red_eye),
-                                onPressed: () {}),
-                          ),
-                        ).animate().slideY(
-                            duration: 700.milliseconds, delay: 0.seconds),
+                        
                         const SizedBox(height: 50),
                         InkWell(
                           onTap: () {
@@ -278,11 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                           ),
-                        ).animate().slideX(
-                            duration: 1.seconds,
-                            // delay: 8.seconds,
-                            begin: -2,
-                            end: 0),
+                        )
                       ],
                     ),
                   ),

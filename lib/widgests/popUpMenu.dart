@@ -1,6 +1,8 @@
 import 'package:chatapp/components/apis.dart';
 import 'package:chatapp/pages/ProfileScreen.dart';
+import 'package:chatapp/pages/loginPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class popUpMenu extends StatelessWidget {
@@ -11,14 +13,25 @@ class popUpMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     DocumentSnapshot? doc;
     return PopupMenuButton(
+      icon: const Icon(
+        Icons.more_vert,
+        color: Colors.white,
+      ),
       itemBuilder: (context) => [
-        PopupMenuItem(
-          child: Text("Profile"),
+        const PopupMenuItem(
           value: 1,
+          child: Text("Profile"),
         ),
         PopupMenuItem(
-          child: Text("Sign Out"),
+          onTap: () async {
+            await FirebaseAuth.instance.signOut().then((value) {
+              print("The logout value is true");
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const loginPage()));
+            });
+          },
           value: 2,
+          child: const Text("Sign Out"),
         ),
       ],
       onSelected: (value) async {
@@ -32,14 +45,10 @@ class popUpMenu extends StatelessWidget {
                             doc: value,
                           )));
               doc = value;
-              print("The doc is ${doc?['name']}");
-              print("The type of doc is ${value!.runtimeType}");
             },
           );
-
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
         } else {
-          print("Delete");
+          Null;
         }
       },
     );

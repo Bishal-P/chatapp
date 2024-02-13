@@ -1,14 +1,14 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/components/apis.dart';
-// import 'package:chatapp/components/apis.dart';
-import 'package:chatapp/components/messageWidget.dart';
+import 'package:chatapp/components/appController.dart';
+import 'package:chatapp/messageWidges/messageStatus.dart';
 import 'package:chatapp/models/messageModel.dart';
+import 'package:chatapp/widgests/recordVoice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-// import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 
 class ChatScreen extends StatefulWidget {
   DocumentSnapshot<Object>? doc;
@@ -20,46 +20,15 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController msgController = TextEditingController();
-  List<Message> _list = [];
+  List<Message2> _list = [];
   List<String> image_list = [];
-  List<Message> messages = [];
-  List msg = [
-    "Hii",
-    "hello",
-    "how are you ?",
-    "I am fine",
-    "what about you ?dfgdgasfsdfjkahsdfjhasjdfhjashdfjafmbasjdfhjash sdgsdfgadfg hello how are you ?",
-    "I am also fine",
-    "ok",
-    "bye",
-    "Hii",
-    "hello",
-    "how are you ?",
-    "I am fine",
-    "what about you ?",
-    "I am also fine",
-    "ok",
-    "bye",
-  ];
+  Map<int, int> image_index = {};
+  List<Message2> messages = [];
+  int currentImageIndex = 0;
 
-  List isMe = [
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-  ];
+  Message2? message;
+  int? index;
+  // List<String> image_list;
 
   String getConversationID(String id) => api.user.uid.hashCode <= id.hashCode
       ? '${api.user.uid}_$id'
@@ -67,175 +36,382 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("The doc id is ${widget.doc!}");
-    print("the conver id is : ${getConversationID(widget.doc!.id)}");
-    print("The hashcode is ${api.user.uid.hashCode}");
+    final String userId = widget.doc?['id']; // Replace with the actual user ID
+    final CollectionReference _usersCollection =
+        FirebaseFirestore.instance.collection('users');
+
+    final appController controller = Get.put(appController());
+    final String toReceiverId = widget.doc!.id;
+    @override
+    void dispose() {
+      controller.dispose();
+      super.dispose();
+    }
+
+    print("The type of the doc in chat screen is ${widget.doc.runtimeType}");
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
       child: Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           toolbarHeight: 70,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: const Color.fromARGB(125, 32, 32, 32),
           automaticallyImplyLeading: false,
-          flexibleSpace: Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 0, bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+          title: Row(
+            children: [
+              IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  )),
+              widget.doc?["image"] != ""
+                  ? CircleAvatar(
+                      radius: 25,
+                      backgroundImage:
+                          CachedNetworkImageProvider(widget.doc!["image"]),
+                    )
+                  : CircleAvatar(
+                      radius: 25,
+                      child: Text(widget.doc!["name"][0].toUpperCase(),
+                          style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black))),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
-                        Icons.arrow_left,
-                        color: Colors.white,
-                      )),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: CachedNetworkImage(
-                      width: 50,
-                      height: 50,
-                      imageUrl: widget.doc!['image'],
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => const Icon(
-                        Icons.person,
-                        size: 30,
-                      ),
-                    ),
+                  Text(
+                    widget.doc!["name"],
+                    style: const TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.doc!['name'].toString(),
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.white)),
-                        Text(widget.doc!['is_online'].toString(),
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ))
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        body: Container(
-          height: double.infinity,
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 11),
-            child: Column(
-              children: [
-                Expanded(
-                  child: StreamBuilder(
-                    stream: api.getMessages(widget.doc!["id"]),
+                  const SizedBox(height: 3),
+                  StreamBuilder<DocumentSnapshot>(
+                    stream: _usersCollection.doc(userId).snapshots(),
                     builder: (context, snapshot) {
-                      var data = snapshot.data;
-                      data != null ? _list = data as List<Message> : _list = [];
-                      // _list = snapshot.data as List<Message>;
-                      // print("The list is $_list");
-                      // print("THe first values is: ${_list[0].msg}");
-                      return _list.isNotEmpty
-                          ? ListView.builder(
-                              reverse: true,
-                              itemCount: _list.length,
-                              itemBuilder: (context, index) {
-                                if (_list[index].type == Type.image &&
-                                    image_list.contains(_list[index].msg) ==
-                                        false) {
-                                  image_list.add(_list[index].msg);
-                                }
-                                return messageWidget(
-                                  message: _list[index],
-                                  image_list: image_list,
-                                  index: index,
-                                );
-                              },
-                            )
-                          : const Center(
-                              child: Text(
-                                "Say Hii 👋",
-                                style: TextStyle(fontSize: 25),
-                              ),
-                            );
+                      if (!snapshot.hasData) {
+                        return Text('Loading...');
+                      }
+                      return Text(
+                        snapshot.data!['is_online'] == true
+                            ? "Online"
+                            : "Offline",
+                        style: const TextStyle(
+                            fontSize: 15,
+                            color: Color.fromARGB(204, 255, 255, 255)),
+                      );
                     },
                   ),
-                ),
-                Container(
-                  // height: 52,
-                  alignment: Alignment.center,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(50)),
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxHeight: 150,
+                ],
+              ),
+            ],
+          ),
+        ),
+        body: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/chat_bg.jpg"),
+                      fit: BoxFit.cover),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30))),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 103),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: StreamBuilder(
+                        stream: api.getMessages(widget.doc!["id"]),
+                        builder: (context, snapshot) {
+                          var data = snapshot.data;
+                          data != null
+                              ? _list = data as List<Message2>
+                              : _list = [];
+                          return _list.isNotEmpty
+                              ? ListView.builder(
+                                  reverse: true,
+                                  itemCount: _list.length,
+                                  itemBuilder: (context, index) {
+                                    if (_list[index].type == Type.image &&
+                                        image_list.contains(_list[index].msg) ==
+                                            false) {
+                                      image_index[index] = currentImageIndex;
+                                      currentImageIndex++;
+                                      image_list.add(_list[index].msg);
+                                    }
+                                    // bool isMe = _list[index].fromId == api.user.uid;
+
+                                    bool showDate = false;
+                                    print("THe index is $index");
+                                    print("THe list length is ${_list.length}");
+                                    if (index != _list.length - 1 &&
+                                        api.messageDate(
+                                                _list[index + 1].sendingTime) !=
+                                            api.messageDate(
+                                                _list[index].sendingTime)) {
+                                      showDate = true;
+                                    }
+                                    if (index == _list.length - 1) {
+                                      showDate = true;
+                                    }
+                                    return showDate
+                                        ? Column(
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 10),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 10),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Text(
+                                                  // api.messageTime(
+                                                  //     _list[index].sendingTime),
+                                                  api.messageDate(
+                                                      _list[index].sendingTime),
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                              messageStatus(
+                                                message: _list[index],
+                                                image_list: image_list,
+                                                index: index,
+                                                imageIndex: image_index,
+                                              )
+                                            ],
+                                          )
+                                        : messageStatus(
+                                            message: _list[index],
+                                            image_list: image_list,
+                                            index: index,
+                                            imageIndex: image_index,
+                                          );
+                                  },
+                                )
+                              : const Center(
+                                  child: Text(
+                                    "Say Hii 👋",
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.white),
+                                  ),
+                                );
+                        },
+                      ),
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.emoji_emotions_outlined,
-                                color: Colors.black)),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: TextField(
-                              controller: msgController,
-                              enableSuggestions: true,
-                              maxLines: null,
-                              // expands: true,
-                              keyboardType: TextInputType.multiline,
-                              decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Type a message"),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  // width: 200,
+                                  color: const Color.fromARGB(255, 65, 65, 65),
+                                ),
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(maxHeight: 150),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            FocusScope.of(context).unfocus();
+                                          },
+                                          icon: const Icon(
+                                              Icons.emoji_emotions_outlined,
+                                              color: Color.fromARGB(
+                                                  255, 218, 216, 216))),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: TextField(
+                                            onChanged: (String value) {
+                                              print("The value is $value");
+
+                                              if (api.isOnlyWhiteSpaces(
+                                                      value) ||
+                                                  value.isEmpty) {
+                                                controller
+                                                    .changeRecordButton(false);
+                                              }
+
+                                              if (value.isNotEmpty &&
+                                                  !api.isOnlyWhiteSpaces(
+                                                      value)) {
+                                                controller
+                                                    .changeRecordButton(true);
+                                              }
+
+                                              msgController.text =
+                                                  value.replaceFirst(
+                                                      RegExp(r'^\s+'), '');
+                                              print(
+                                                  "The value is ${msgController.text}");
+                                            },
+                                            controller: msgController,
+                                            enableSuggestions: true,
+                                            maxLines: null,
+                                            // expands: true,
+                                            cursorColor: Colors.white,
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                            decoration: const InputDecoration(
+                                                labelStyle: TextStyle(
+                                                    color: Colors.white),
+                                                hoverColor: Colors.white,
+                                                border: InputBorder.none,
+                                                focusColor: Colors.white,
+                                                fillColor: Colors.white,
+                                                hintStyle: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        241, 255, 255, 255)),
+                                                hintText: "Type a message"),
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                          onPressed: () async {
+                                            // ImagePicker()
+                                            //     .pickMultipleMedia()
+                                            //     .then((value) {
+                                            //   if (value != null &&
+                                            //       value.isNotEmpty) {
+                                            //     List<XFile> filteredMedia =
+                                            //         value.where((file) {
+                                            //       return file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.jpg') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.jpeg') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.png') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.mp3') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.wav') ||
+                                            //           file.path
+                                            //               .toLowerCase()
+                                            //               .endsWith('.aac');
+                                            //     }).toList();
+                                            //     for (var value
+                                            //         in filteredMedia) {
+                                            //       print("The value is $value");
+                                            //       print(
+                                            //           "The value path is ${value.path}");
+                                            //       api.sendFile(
+                                            //           widget.doc!["id"],
+                                            //           File(value.path));
+                                            //     }
+                                            //   }
+                                            // });
+                                            try {
+                                              await FilePicker.platform
+                                                  .pickFiles(
+                                                type: FileType.custom,
+                                                allowedExtensions: [
+                                                  'jpg',
+                                                  'jpeg',
+                                                  'png',
+                                                  'mp3',
+                                                  'wav',
+                                                  'aac'
+                                                ],
+                                              ).then((value) {
+                                                if (value != null) {
+                                                  for (var file
+                                                      in value.files) {
+                                                    api.sendFile(
+                                                        widget.doc!["id"],
+                                                        File(file.path!));
+                                                    print(
+                                                        'Picked file: ${file.name}');
+                                                  }
+                                                } else {
+                                                  // User canceled the picker
+                                                }
+                                              });
+                                            } catch (e) {
+                                              print("The error is $e");
+                                            }
+                                          },
+                                          icon: const Icon(Icons.attach_file,
+                                              color: Color.fromARGB(
+                                                  255, 231, 231, 231))),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                        IconButton(
-                            onPressed: () {
-                              ImagePicker().pickMedia().then((value) {
-                                if (value != null) {
-                                  api.sendImage(
-                                      widget.doc!["id"], File(value!.path));
-                                }
-                              });
-                            },
-                            icon: const Icon(Icons.attach_file,
-                                color: Colors.black)),
-                        IconButton(
-                            onPressed: () {
-                              api.sendMessage(widget.doc?["id"],
-                                  msgController.text, Type.text);
-                              msgController.clear();
-                              print("The message is ${msgController.text}");
-                              print(
-                                  "the getmessages are :${api.getMessages(widget.doc!["id"])}");
-                            },
-                            icon: const Icon(Icons.send, color: Colors.black)),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 53, 49, 49),
+                                borderRadius: BorderRadius.circular(25)),
+                            child: IconButton(
+                                color: Colors.white,
+                                onPressed: () {
+                                  String checkSpaces =
+                                      msgController.text.trim();
+                                  if (checkSpaces.isEmpty ||
+                                      checkSpaces == "") {
+                                    return;
+                                  }
+                                  if (api
+                                      .isOnlyWhiteSpaces(msgController.text)) {
+                                    return;
+                                  }
+                                  controller.changeRecordButton(false);
+                                  api.sendMessage(widget.doc?["id"],
+                                      checkSpaces, Type.text);
+                                  msgController.clear();
+                                },
+                                icon: const Icon(Icons.send,
+                                    color: Color.fromARGB(255, 235, 235, 235))),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
-          ),
+            Obx(() => !controller.getRecordButton
+                ? recordAudio(toReceiverId)
+                : const SizedBox()),
+          ],
         ),
       ),
     );

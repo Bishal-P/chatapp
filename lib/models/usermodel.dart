@@ -45,4 +45,18 @@ class ChatUser {
     data['email'] = email;
     return data;
   }
+
+   static Map<String, dynamic> ConvertToJson(String image, String name, String about, String createdAt, String lastActive, String id, bool isOnline, String pushToken, String email) {
+    final data = <String, dynamic>{};
+    data['image'] = image;
+    data['name'] = name;
+    data['about'] = about;
+    data['created_at'] = createdAt;
+    data['last_active'] = lastActive;
+    data['id'] = id;
+    data['is_online'] = isOnline;
+    data['push_token'] = pushToken;
+    data['email'] = email;
+    return data;
+  }
 }

@@ -17,7 +17,7 @@ class _RecentChatsState extends State<RecentChats> {
   Widget build(BuildContext context) {
     return Expanded(
         child: Container(
-      color: const Color.fromARGB(242, 255, 255, 255),
+      color: const Color.fromARGB(244, 99, 99, 99),
       child: StreamBuilder(
           stream: api.firestore.collection("users").snapshots(),
           builder: (context, snapshot) {
@@ -26,15 +26,30 @@ class _RecentChatsState extends State<RecentChats> {
                 child: Text("No chats"),
               );
             }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
-                  if (snapshot.data?.docs[index].id == api.user.uid) {
-                    return const SizedBox();
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: Text("Error"),
+                    );
                   }
-                  return contactCard(snapshot: snapshot, index: index);
+
+                  try {
+                    if (snapshot.data?.docs[index].id == api.user.uid) {
+                      return const SizedBox();
+                    }
+                    return contactCard(snapshot: snapshot, index: index);
+                  } catch (e) {
+                    Null;
+                  }
                 });
           }),
     ));

@@ -46,6 +46,19 @@ dependencies:
   photo_view: ^0.14.0
   video_player: ^2.8.2
   get: ^4.6.6
+  intl: ^0.18.1
+  firebase_app_check: ^0.2.1+12
+  record: ^4.4.4
+  social_media_recorder: ^1.0.0
+  audioplayers: ^5.2.1
+  dio: ^5.4.0
+  path_provider: ^2.1.2
+  permission_handler: ^11.2.0
+  http: ^1.2.0
+  voice_message_package: ^2.1.4
+  audio_video_progress_bar: ^2.0.1
+  file_picker: ^6.1.1
+  emoji_picker_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:

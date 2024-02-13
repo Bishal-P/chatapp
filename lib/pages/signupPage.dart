@@ -43,21 +43,6 @@ class _SignupPageState extends State<SignupPage> {
     } catch (e) {
       uiHelper.CustomAlertBox(context, "Error", e.toString());
     }
-
-    // userCredential =await FirebaseAuth.instance
-    //     .createUserWithEmailAndPassword(
-    //         email: emialController.text, password: passwordController.text)
-    //     .then((signedUser) {
-    //   // FirebaseFire.instance.collection('users').doc(signedUser.user.uid).set({
-    //   //   'email': signedUser.user.email,
-    //   //   'uid': signedUser.user.uid,
-    //   });
-
-    //   Navigator.pushReplacement(
-    //       context, MaterialPageRoute(builder: (context) => loginPage()));
-    // }).catchError((e) {
-    //   uiHelper.CustomAlertBox(context, "Error", e.message);
-    // });
   }
 
   @override
@@ -100,16 +85,6 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   Column(
                     children: <Widget>[
-                      // TextField(
-                      //   decoration: InputDecoration(
-                      //       hintText: "Username",
-                      //       border: OutlineInputBorder(
-                      //           borderRadius: BorderRadius.circular(18),
-                      //           borderSide: BorderSide.none),
-                      //       fillColor: Colors.purple.withOpacity(0.1),
-                      //       filled: true,
-                      //       prefixIcon: const Icon(Icons.person)),
-                      // ),
                       const SizedBox(height: 20),
                       TextField(
                         controller: emialController,
@@ -158,64 +133,17 @@ class _SignupPageState extends State<SignupPage> {
                         onPressed: () {
                           signUp();
                         },
-                        child: const Text(
-                          "Sign up",
-                          style: TextStyle(fontSize: 20),
-                        ),
+                        
                         style: ElevatedButton.styleFrom(
                           shape: const StadiumBorder(),
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           backgroundColor: Colors.purple,
                         ),
+                        child:const  Text(
+                          "Sign up",
+                          style: TextStyle(fontSize: 20),
+                        ),
                       )),
-
-                  // const Center(child: Text("Or")),
-
-                  // Container(
-                  //   height: 45,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(25),
-                  //     border: Border.all(
-                  //       color: Colors.purple,
-                  //     ),
-                  //     boxShadow: [
-                  //       BoxShadow(
-                  //         color: Colors.white.withOpacity(0.5),
-                  //         spreadRadius: 1,
-                  //         blurRadius: 1,
-                  //         offset: const Offset(0, 1), // changes position of shadow
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   child: TextButton(
-                  //     onPressed: () {},
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: [
-                  //         Container(
-                  //           height: 30.0,
-                  //           width: 30.0,
-                  //           decoration: const BoxDecoration(
-                  //             image: DecorationImage(
-                  //                 image:   AssetImage('assets/images/login_signup/google.png'),
-                  //                 fit: BoxFit.cover),
-                  //             shape: BoxShape.circle,
-                  //           ),
-                  //         ),
-
-                  //         const SizedBox(width: 18),
-
-                  //         const Text("Sign In with Google",
-                  //           style: TextStyle(
-                  //             fontSize: 16,
-                  //             color: Colors.purple,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -225,7 +153,7 @@ class _SignupPageState extends State<SignupPage> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => loginPage()));
+                                    builder: (context) =>const loginPage()));
                           },
                           child: const Text(
                             "Login",

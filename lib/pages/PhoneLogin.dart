@@ -57,7 +57,7 @@ class _PhoneLoginState extends State<PhoneLogin> {
                     fit: BoxFit.fill,
                   ),
                 ),
-                Padding(
+              const  Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -70,7 +70,7 @@ class _PhoneLoginState extends State<PhoneLogin> {
                     ],
                   ),
                 ),
-                SizedBox(
+             const   SizedBox(
                   height: 30.0,
                 ),
                 TextField(
@@ -83,7 +83,7 @@ class _PhoneLoginState extends State<PhoneLogin> {
                     ),
                   ),
                 ),
-                SizedBox(
+              const  SizedBox(
                   height: 60.0,
                 ),
                 ElevatedButton(

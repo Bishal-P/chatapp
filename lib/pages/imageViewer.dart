@@ -6,8 +6,8 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class image_viewer extends StatefulWidget {
-  List<String> imageList;
-  int index;
+  final List<String> imageList;
+  final int index;
   image_viewer({super.key, required this.imageList, required this.index});
   @override
   _image_viewerState createState() => _image_viewerState();
@@ -20,19 +20,24 @@ class _image_viewerState extends State<image_viewer> {
   @override
   Widget build(BuildContext context) {
     _controller = PageController(initialPage: widget.index);
+    print("Entered the image viewer");
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
         ),
       ),
+      // !?
       // add this body tag with container and photoview widget
       body: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
+        child: SizedBox(
           // height: MediaQuery.of(context).size.height,
           // margin: EdgeInsets.only(left: 15, right: 15),
           width: MediaQuery.of(context).size.width,
@@ -41,20 +46,21 @@ class _image_viewerState extends State<image_viewer> {
             itemCount: widget.imageList.length,
             builder: (context, index) {
               return PhotoViewGalleryPageOptions(
-                imageProvider: NetworkImage(widget.imageList[index]),
+                imageProvider:
+                    NetworkImage(widget.imageList[index], scale: 1.0),
                 minScale: PhotoViewComputedScale.contained * 0.8,
                 maxScale: PhotoViewComputedScale.covered * 2,
               );
             },
-            scrollPhysics: BouncingScrollPhysics(),
-            backgroundDecoration: BoxDecoration(
+            scrollPhysics: const BouncingScrollPhysics(),
+            backgroundDecoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               // color: Theme.of(context).canvasColor,
               color: Colors.transparent,
             ),
             // enableRotation: true,
             loadingBuilder: (context, event) => Center(
-              child: Container(
+              child: SizedBox(
                 width: 30.0,
                 height: 30.0,
                 child: CircularProgressIndicator(
